@@ -55,42 +55,20 @@ function tryInject() {
     });
   });
 
-  // BETA: "Flat labels" — lay labels flat on terrain, oriented along the feature (Civ VI style).
-  const flatRow = document.createElement("div");
-  flatRow.id = MY_ID + "-flat";
-  flatRow.className = row.className || "flex flex-row items-center";
-  const flatCb = document.createElement("fxs-checkbox");
-  flatCb.classList.add("mr-2");
-  flatCb.setAttribute("selected", "false");
-  flatCb.setAttribute("data-audio-group-ref", "audio-panel-mini-map");
-  const flatLabel = document.createElement("div");
-  flatLabel.role = "paragraph";
-  flatLabel.className = "text-accent-2 text-base font-body pointer-events-auto shrink font-fit-shrink";
-  flatLabel.dataset.l10nId = "LOC_GEO_LABELS_FLAT";
-  flatRow.appendChild(flatCb); flatRow.appendChild(flatLabel);
-  container.appendChild(flatRow);
-  flatCb.addEventListener(CHANGE_EVENT, (event) => {
-    const on = event && event.detail ? event.detail.value : undefined;
-    safe(() => { const g = window.__geoLabels; if (g && g.setFlat) g.setFlat(!!on); });
-  });
-
-  log("checkboxes injected next to Yields");
+  log("checkbox injected next to Yields");
   return true;
 }
 
+// The mini-map panel REBUILDS (leaving/returning to the window, closing the panel, etc.), which drops our
+// injected checkbox. So keep watching FOREVER and re-inject whenever it's missing. tryInject is idempotent.
 function start() {
-  if (tryInject()) return;
-  if (typeof MutationObserver === "undefined" || !document.body) {
-    // Fallback: retry on a timer if observers/body aren't ready.
-    let tries = 0;
-    const id = setInterval(() => { if (tryInject() || ++tries > 60) clearInterval(id); }, 1000);
-    return;
+  tryInject();
+  let pending = false;
+  const schedule = () => { if (pending) return; pending = true; setTimeout(() => { pending = false; tryInject(); }, 400); };
+  if (typeof MutationObserver !== "undefined" && document.body) {
+    new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true });
   }
-  const obs = new MutationObserver(() => { if (tryInject()) obs.disconnect(); });
-  obs.observe(document.body, { childList: true, subtree: true });
-  // Also retry periodically — the mini-map panel can rebuild.
-  let tries = 0;
-  const id = setInterval(() => { tryInject(); if (++tries > 120) clearInterval(id); }, 2000);
+  setInterval(tryInject, 3000); // belt-and-suspenders: catches rebuilds the observer might miss
 }
 
 start();

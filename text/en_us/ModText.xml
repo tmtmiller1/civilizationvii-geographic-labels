@@ -13,8 +13,11 @@
         <Row Tag="LOC_GEO_LABELS_RENAME">
             <Text>Rename Places…</Text>
         </Row>
-        <Row Tag="LOC_GEO_LABELS_FLAT">
-            <Text>Flat labels (beta)</Text>
+        <Row Tag="LOC_GEO_LABELS_OPT_FLAT">
+            <Text>Geographic Labels: follow the terrain</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_OPT_FLAT_DESC">
+            <Text>Lay geographic names flat on the map and rotate them to run along the land — following mountain ranges, coastlines, and deserts the way Civilization VI did — instead of upright labels that always face the camera. Turn the labels themselves on or off with the "Geographic Names" checkbox in the mini-map's Decorations list.</Text>
         </Row>
     </EnglishText>
 </Database>

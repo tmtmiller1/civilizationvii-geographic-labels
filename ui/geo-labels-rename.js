@@ -120,14 +120,16 @@ function tryInject() {
   return true;
 }
 
+// The mini-map panel rebuilds (leaving/returning to the window, etc.), dropping our button. Keep watching
+// forever and re-inject when missing. tryInject is idempotent.
 function start() {
-  if (tryInject()) return;
+  tryInject();
+  let pending = false;
+  const schedule = () => { if (pending) return; pending = true; setTimeout(() => { pending = false; tryInject(); }, 400); };
   if (typeof MutationObserver !== "undefined" && document.body) {
-    const obs = new MutationObserver(() => { if (tryInject()) obs.disconnect(); });
-    obs.observe(document.body, { childList: true, subtree: true });
+    new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true });
   }
-  let tries = 0;
-  const id = setInterval(() => { tryInject(); if (++tries > 120) clearInterval(id); }, 2000);
+  setInterval(tryInject, 3000);
 }
 
 start();

@@ -116,6 +116,9 @@ function saveGame(state) {
   safe(() => { const raw = localStorage.getItem(STORE_KEY); const all = raw ? JSON.parse(raw) : {}; all[String(gameSeed())] = { custom: state.custom || {}, auto: state.auto || {} }; localStorage.setItem(STORE_KEY, JSON.stringify(all)); });
 }
 function setCustom(key, name) { const s = loadGame(); const v = (name || "").trim(); if (v) s.custom[key] = v; else delete s.custom[key]; saveGame(s); }
+// Global (not per-game) mod settings live under "_settings" in the same store.
+function getFlatSetting() { return safe(() => { const raw = localStorage.getItem(STORE_KEY); const all = raw ? JSON.parse(raw) : {}; return !!(all._settings && all._settings.flat); }) || false; }
+function setFlatSetting(v) { safe(() => { const raw = localStorage.getItem(STORE_KEY); const all = raw ? JSON.parse(raw) : {}; if (!all._settings) all._settings = {}; all._settings.flat = !!v; localStorage.setItem(STORE_KEY, JSON.stringify(all)); }); }
 
 // ---- nearest civ: precomputed once per render via multi-source BFS from owned tiles -------------
 // (Replaces a per-feature ring scan that was O(features * R^2 * R). This is O(mapTiles).)
@@ -269,7 +272,7 @@ function computeLabels() {
 }
 
 // ---- lens layer ---------------------------------------------------------------------------------
-let FLAT = false; // beta: lay labels flat on terrain, oriented along the feature's axis (Civ VI style)
+let FLAT = getFlatSetting(); // lay labels flat on terrain, oriented along the feature's axis (Civ VI style)
 class GeoLabelsLayer {
   constructor() { this._group = null; this._grid = null; this._gridFlat = false; this._drawn = false; this._visible = false; this._labels = null; this._lastAge = safe(() => Game.age); }
   _ensure() {
@@ -312,7 +315,7 @@ try {
     recompute: () => instance._redraw(),
     getLabels: () => instance.labels().map((l) => ({ key: l.key, text: l.text, type: l.key.slice(0, l.key.indexOf(":")) })),
     setName: (key, name) => { setCustom(key, name); instance._redraw(); },
-    setFlat: (b) => { FLAT = !!b; instance._redraw(); log("FLAT =", FLAT); },
+    setFlat: (b) => { FLAT = !!b; setFlatSetting(FLAT); instance._redraw(); log("FLAT =", FLAT); },
     isFlat: () => FLAT,
   };
 } catch (_e) {}

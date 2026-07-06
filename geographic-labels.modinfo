@@ -31,11 +31,30 @@
                     <Item>ui/geo-labels-layer.js</Item>
                     <Item>ui/geo-labels-toggle.js</Item>
                     <Item>ui/geo-labels-rename.js</Item>
+                    <Item>ui/geo-labels-options.js</Item>
                 </UIScripts>
                 <ImportFiles>
                     <Item>ui/geo-labels-layer.js</Item>
                     <Item>ui/geo-labels-toggle.js</Item>
                     <Item>ui/geo-labels-rename.js</Item>
+                    <Item>ui/geo-labels-options.js</Item>
+                </ImportFiles>
+            </Actions>
+        </ActionGroup>
+        <!-- Shell scope: register the Options-screen entry for the main menu too. -->
+        <ActionGroup id="geo-labels-shell" scope="shell" criteria="always">
+            <Properties>
+                <LoadOrder>1000</LoadOrder>
+            </Properties>
+            <Actions>
+                <UpdateText>
+                    <Item>text/en_us/ModText.xml</Item>
+                </UpdateText>
+                <UIScripts>
+                    <Item>ui/geo-labels-options.js</Item>
+                </UIScripts>
+                <ImportFiles>
+                    <Item>ui/geo-labels-options.js</Item>
                 </ImportFiles>
             </Actions>
         </ActionGroup>
