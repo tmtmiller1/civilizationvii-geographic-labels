@@ -10,5 +10,8 @@
         <Row Tag="LOC_GEO_LABELS_TOGGLE">
             <Text>Geographic Names</Text>
         </Row>
+        <Row Tag="LOC_GEO_LABELS_RENAME">
+            <Text>Rename Places…</Text>
+        </Row>
     </EnglishText>
 </Database>
