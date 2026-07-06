@@ -31,13 +31,11 @@
                 <UIScripts>
                     <Item>ui/geo-labels-layer.js</Item>
                     <Item>ui/geo-labels-toggle.js</Item>
-                    <Item>ui/geo-labels-rename.js</Item>
                     <Item>ui/geo-labels-options.js</Item>
                 </UIScripts>
                 <ImportFiles>
                     <Item>ui/geo-labels-layer.js</Item>
                     <Item>ui/geo-labels-toggle.js</Item>
-                    <Item>ui/geo-labels-rename.js</Item>
                     <Item>ui/geo-labels-options.js</Item>
                     <Item>images/geo-labels-icon.svg</Item>
                     <Item>images/geo-labels-icon.png</Item>
