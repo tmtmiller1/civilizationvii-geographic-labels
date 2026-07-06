@@ -104,17 +104,23 @@ function tryInject() {
   const container = row && row.parentElement;
   if (!container) return false;
 
+  // Lightweight clickable text (fxs-activatable = bare, no button chrome) sized to match the checkbox rows,
+  // instead of the big framed fxs-button.
   const btnRow = document.createElement("div");
   btnRow.id = BTN_ID;
   btnRow.className = row.className || "flex flex-row items-center";
-  const btn = document.createElement("fxs-button");
-  safe(() => btn.setAttribute("caption", "LOC_GEO_LABELS_RENAME"));
-  btn.classList.add("mr-2");
+  const act = document.createElement("fxs-activatable");
+  act.className = "pointer-events-auto flex flex-row items-center cursor-pointer";
+  const lbl = document.createElement("div");
+  lbl.role = "button";
+  lbl.className = "text-accent-3 text-xs font-body pointer-events-auto shrink font-fit-shrink underline";
+  lbl.dataset.l10nId = "LOC_GEO_LABELS_RENAME";
+  act.appendChild(lbl);
   let firing = false;
   const run = () => { if (firing) return; firing = true; try { openPanel(); } finally { try { setTimeout(() => { firing = false; }, 0); } catch (_e) { firing = false; } } };
-  safe(() => btn.addEventListener("action-activate", run));
-  safe(() => btn.addEventListener("click", run));
-  btnRow.appendChild(btn);
+  safe(() => act.addEventListener("action-activate", run));
+  safe(() => act.addEventListener("click", run));
+  btnRow.appendChild(act);
   container.appendChild(btnRow);
   log("rename button injected");
   return true;
