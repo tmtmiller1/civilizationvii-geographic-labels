@@ -104,19 +104,26 @@ function tryInject() {
   const container = row && row.parentElement;
   if (!container) return false;
 
-  // Match the checkbox rows exactly (same text), minus the checkbox, wrapped in a gold box so it reads as
-  // a button. fxs-activatable = bare clickable element (no default button chrome).
+  // Checkbox-row text (same class), no checkbox, sitting in the game's OWN gold button background
+  // (fxs-button__bg--base) with a hover glow — so it matches the native button aesthetic, not a flat border.
   const btnRow = document.createElement("div");
   btnRow.id = BTN_ID;
   btnRow.className = row.className || "flex flex-row items-center";
   const act = document.createElement("fxs-activatable");
-  act.className = "pointer-events-auto cursor-pointer";
-  act.style.cssText = "display:inline-flex;align-items:center;border:1px solid #caa64f;border-radius:4px;padding:1px 8px;background:#caa64f22;";
+  act.className = "relative flex items-center justify-center px-3 cursor-pointer pointer-events-auto";
+  act.style.cssText = "min-height:0;padding-top:2px;padding-bottom:2px;";
+  const bg = document.createElement("div");
+  bg.className = "-z-1 absolute inset-0";
+  bg.innerHTML = '<div class="absolute inset-0 fxs-button__bg fxs-button__bg--base"></div>'
+    + '<div class="absolute inset-0 opacity-0 fxs-button__bg fxs-button__bg--focus" data-geo-focus></div>';
   const lbl = document.createElement("div");
   lbl.role = "button";
-  lbl.className = "text-accent-2 text-base font-body pointer-events-auto shrink font-fit-shrink"; // same as the checkbox labels
+  lbl.className = "relative text-accent-2 text-base font-body pointer-events-auto"; // same as the checkbox labels
   lbl.dataset.l10nId = "LOC_GEO_LABELS_RENAME";
-  act.appendChild(lbl);
+  act.appendChild(bg); act.appendChild(lbl);
+  const focusEl = safe(() => bg.querySelector("[data-geo-focus]"));
+  safe(() => act.addEventListener("mouseenter", () => { if (focusEl) focusEl.style.opacity = "1"; }));
+  safe(() => act.addEventListener("mouseleave", () => { if (focusEl) focusEl.style.opacity = "0"; }));
   let firing = false;
   const run = () => { if (firing) return; firing = true; try { openPanel(); } finally { try { setTimeout(() => { firing = false; }, 0); } catch (_e) { firing = false; } } };
   safe(() => act.addEventListener("action-activate", run));
