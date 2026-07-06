@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod id="tmt-geographic-labels" version="1" xmlns="ModInfo">
+    <Properties>
+        <Name>LOC_MOD_GEO_LABELS_NAME</Name>
+        <Description>LOC_MOD_GEO_LABELS_DESCRIPTION</Description>
+        <Authors>Tower</Authors>
+        <Package>GeographicLabels</Package>
+        <PackageSortIndex>1000</PackageSortIndex>
+        <Version>1.0.0</Version>
+    </Properties>
+    <Dependencies>
+        <Mod id="base-standard" title="LOC_MODULE_BASE_STANDARD_NAME" />
+    </Dependencies>
+    <ActionCriteria>
+        <Criteria id="always">
+            <AlwaysMet></AlwaysMet>
+        </Criteria>
+    </ActionCriteria>
+    <ActionGroups>
+        <!-- Game scope: the labels + the mini-map menu checkbox. High LoadOrder so the mini-map panel
+             (which we inject the checkbox into) already exists. -->
+        <ActionGroup id="geo-labels-game" scope="game" criteria="always">
+            <Properties>
+                <LoadOrder>1000</LoadOrder>
+            </Properties>
+            <Actions>
+                <UpdateText>
+                    <Item>text/en_us/ModText.xml</Item>
+                </UpdateText>
+                <UIScripts>
+                    <Item>ui/geo-labels-layer.js</Item>
+                    <Item>ui/geo-labels-toggle.js</Item>
+                </UIScripts>
+                <ImportFiles>
+                    <Item>ui/geo-labels-layer.js</Item>
+                    <Item>ui/geo-labels-toggle.js</Item>
+                </ImportFiles>
+            </Actions>
+        </ActionGroup>
+    </ActionGroups>
+    <LocalizedText>
+        <File>text/en_us/ModText.xml</File>
+    </LocalizedText>
+</Mod>
