@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database>
+    <EnglishText>
+        <Row Tag="LOC_MOD_GEO_LABELS_NAME">
+            <Text>Geographic Labels</Text>
+        </Row>
+        <Row Tag="LOC_MOD_GEO_LABELS_DESCRIPTION">
+            <Text>Paints Civ VI-style names on the map: continents, islands, and natural wonders. Toggle it with the "Geographic Names" checkbox next to Yields in the mini-map lens menu.</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TOGGLE">
+            <Text>Geographic Names</Text>
+        </Row>
+    </EnglishText>
+</Database>
