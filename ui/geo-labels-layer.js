@@ -16,6 +16,7 @@
 import LensManager from "/core/ui/lenses/lens-manager.js";
 
 const TAG = "[GeoLabels]";
+const BUILD = "b4-quota-fix"; // bump each deploy so the boot log shows whether the newest code loaded
 const LAYER_TYPE = "tmt-geo-labels-layer";
 const STORE_KEY = "tmt-geo-labels"; // localStorage: { "<seed>": { custom:{key:name}, auto:{key:{n,c}} } }
 
@@ -114,7 +115,24 @@ function loadGame() {
   return safe(() => { const raw = localStorage.getItem(STORE_KEY); const all = raw ? JSON.parse(raw) : {}; const g = all[String(gameSeed())] || {}; return { custom: g.custom || {}, auto: g.auto || {} }; }) || { custom: {}, auto: {} };
 }
 function saveGame(state) {
-  safe(() => { const raw = localStorage.getItem(STORE_KEY); const all = raw ? JSON.parse(raw) : {}; all[String(gameSeed())] = { custom: state.custom || {}, auto: state.auto || {} }; localStorage.setItem(STORE_KEY, JSON.stringify(all)); });
+  safe(() => {
+    const g = String(gameSeed());
+    // Keep ONLY the current game + global settings — the Gameface localStorage is small, and hoarding every
+    // past game's generated names fills it, which silently fails the write (renames then never persist).
+    let settings = null;
+    safe(() => { const raw = localStorage.getItem(STORE_KEY); if (raw) settings = (JSON.parse(raw) || {})._settings; });
+    const all = {};
+    if (settings) all._settings = settings;
+    all[g] = { custom: state.custom || {}, auto: state.auto || {} };
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify(all));
+    } catch (_e) {
+      // Over quota even for one game: drop `auto` (it's regenerated deterministically each render) and keep
+      // the player's custom names, which are tiny and must never be lost.
+      all[g] = { custom: state.custom || {}, auto: {} };
+      safe(() => localStorage.setItem(STORE_KEY, JSON.stringify(all)));
+    }
+  });
 }
 function setCustom(key, name) { const s = loadGame(); const v = (name || "").trim(); if (v) s.custom[key] = v; else delete s.custom[key]; saveGame(s); }
 // Global (not per-game) mod settings live under "_settings" in the same store.
@@ -229,14 +247,14 @@ function computeLabels() {
   for (const a of areas) {
     if (a.plots.length < CONTINENT_MIN_TILES) continue;
     let nm = null; if (typeof a.continent === "number" && a.continent !== -1) { const d = safe(() => GameInfo.Continents.lookup(a.continent)); if (d && d.Description) nm = safe(() => Locale.compose(d.Description)); }
-    const key = "cont:" + a.id, text = custom[key] || nm; if (text) labels.push({ key, plot: centroid(a.plots), text, fontSize: scaledFont(a.plots.length), angle: axisAngleDeg(a.plots) });
+    const key = "cont:" + a.id, text = custom[key] || nm; if (text) labels.push({ key, plot: centroid(a.plots), text, fontSize: scaledFont(a.plots.length), angle: axisAngleDeg(a.plots), cust: !!custom[key] });
   }
-  for (const [ft, wr] of wonders) { const key = "wonder:" + ft; labels.push({ key, plot: centroid(wr.plots), text: custom[key] || wr.name, fontSize: scaledFont(wr.plots.length), offset: { x: 0, y: WONDER_OFFSET, z: 8 + WONDER_OFFSET } }); }
+  for (const [ft, wr] of wonders) { const key = "wonder:" + ft; labels.push({ key, plot: centroid(wr.plots), text: custom[key] || wr.name, fontSize: scaledFont(wr.plots.length), offset: { x: 0, y: WONDER_OFFSET, z: 8 + WONDER_OFFSET }, cust: !!custom[key] }); }
 
   // islands + regions — persistent names with heartland re-flavor
   for (const f of feats) {
     let toponym;
-    if (custom[f.key]) { labels.push({ key: f.key, plot: centroid(f.plots), text: custom[f.key], fontSize: scaledFont(f.plots.length), angle: axisAngleDeg(f.plots) }); continue; }
+    if (custom[f.key]) { labels.push({ key: f.key, plot: centroid(f.plots), text: custom[f.key], fontSize: scaledFont(f.plots.length), angle: axisAngleDeg(f.plots), cust: true }); continue; }
     const prev = auto[f.key];
     const near = nearestCiv(f.plots);
     if (!prev) { toponym = nextName(near.civ, f.typeKey); auto[f.key] = { n: toponym, c: near.civ || "" }; }
@@ -258,17 +276,25 @@ function computeLabels() {
   const PRI = { wonder: 6, cont: 5, isle: 4, mountains: 3, desert: 2, taiga: 2, jungle: 2 };
   const typeOf = (l) => l.key.slice(0, l.key.indexOf(":"));
   const reachOf = (l) => Math.max(2, Math.min(10, Math.round(String(l.text).replace(/\s+/g, "").length * l.fontSize * 0.05)));
-  labels.sort((a, b) => (PRI[typeOf(b)] || 0) - (PRI[typeOf(a)] || 0) || (b.fontSize - a.fontSize));
+  // Player-renamed labels always win: sort them first and never suppress them.
+  labels.sort((a, b) => ((b.cust ? 1 : 0) - (a.cust ? 1 : 0)) || (PRI[typeOf(b)] || 0) - (PRI[typeOf(a)] || 0) || (b.fontSize - a.fontSize));
   const placed = [], shown = [];
   for (const l of labels) {
     const rl = reachOf(l);
     let hit = false;
-    for (const p of placed) { const d = safe(() => GameplayMap.getPlotDistance(l.plot.x, l.plot.y, p.plot.x, p.plot.y)); if (typeof d === "number" && d < Math.max(rl, p._r)) { hit = true; break; } }
+    if (!l.cust) { for (const p of placed) { const d = safe(() => GameplayMap.getPlotDistance(l.plot.x, l.plot.y, p.plot.x, p.plot.y)); if (typeof d === "number" && d < Math.max(rl, p._r)) { hit = true; break; } } }
     if (hit) continue;
     l._r = rl; placed.push(l); shown.push(l);
   }
 
   log("computed", labels.length, "labels ->", shown.length, "shown (", islands.length, "islands,", feats.length - islands.length, "regions,", wonders.size, "wonders,", nFlip, "re-flavored,", labels.length - shown.length, "hidden by overlap)");
+  // Diagnostic: for every player-set custom name, is there a live feature with that key, and is it shown?
+  const shownKeys = new Set(shown.map((s) => s.key));
+  for (const k of Object.keys(custom)) {
+    const l = labels.find((x) => x.key === k);
+    if (!l) log("CUSTOM", k, "=", custom[k], "-> NO LIVE FEATURE with this key (orphaned; nothing to render)");
+    else log("CUSTOM", k, "=", custom[k], "-> @" + l.plot.x + "," + l.plot.y, shownKeys.has(k) ? "SHOWN" : "HIDDEN");
+  }
   return shown;
 }
 
@@ -315,7 +341,7 @@ try {
     type: LAYER_TYPE,
     recompute: () => instance._redraw(),
     getLabels: () => instance.labels().map((l) => ({ key: l.key, text: l.text, type: l.key.slice(0, l.key.indexOf(":")) })),
-    setName: (key, name) => { setCustom(key, name); instance._redraw(); },
+    setName: (key, name) => { log("setName", key, "=", name); setCustom(key, name); const chk = loadGame(); log("setName readback: custom keys =", JSON.stringify(Object.keys(chk.custom)), "| raw len =", safe(() => (localStorage.getItem(STORE_KEY) || "").length)); instance._redraw(); },
     setFlat: (b) => { FLAT = !!b; setFlatSetting(FLAT); instance._redraw(); log("FLAT =", FLAT); },
     isFlat: () => FLAT,
   };
@@ -323,6 +349,6 @@ try {
 try { if (typeof window !== "undefined") window.addEventListener("tmt-geo-labels-changed", () => instance._redraw()); } catch (_e) {}
 // Re-flavor at age transitions (cheap age check per turn; full recompute only when the age actually changes).
 try { if (typeof engine !== "undefined" && engine.on) engine.on("PlayerTurnActivated", () => instance.onAgeMaybeChanged()); } catch (_e) {}
-log("layer registered:", LAYER_TYPE);
+log("layer registered:", LAYER_TYPE, "| BUILD", BUILD);
 
 export { LAYER_TYPE };

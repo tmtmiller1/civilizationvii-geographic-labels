@@ -25,8 +25,8 @@ function api() { return (typeof window !== "undefined" && window.__geoLabels) ||
 let _worldInputWas = null;
 function gateInput(off) {
   safe(() => {
-    if (off) { _worldInputWas = ViewManager.isWorldInputAllowed; ViewManager.isWorldInputAllowed = false; }
-    else if (_worldInputWas !== null) { ViewManager.isWorldInputAllowed = _worldInputWas; _worldInputWas = null; }
+    if (off) { _worldInputWas = ViewManager.isWorldInputAllowed; ViewManager.isWorldInputAllowed = false; log("gateInput OFF (world input was", _worldInputWas + ")"); }
+    else if (_worldInputWas !== null) { ViewManager.isWorldInputAllowed = _worldInputWas; log("gateInput restored to", _worldInputWas); _worldInputWas = null; }
   });
 }
 
@@ -84,24 +84,18 @@ function openPanel() {
     input.style.cssText = "flex:1;background:#0d1016;border:1px solid #2a3340;border-radius:5px;color:#f0f0f0;font:13px sans-serif;padding:5px 8px;pointer-events:auto;";
     // Belt-and-suspenders: don't let key events bubble out to the game's global handlers.
     ["keydown", "keyup", "keypress"].forEach((ev) => input.addEventListener(ev, (e) => { safe(() => e.stopPropagation()); }));
-    const commit = () => { const g = api(); if (g) safe(() => g.setName(l.key, input.value)); };
-    // Explicit Apply button — the reliable trigger (Enter/keydown can be swallowed by consume-keyboard-input).
-    input.addEventListener("change", commit);              // also apply on click-away
+    const commit = () => { const v = input.value; log("commit", l.key, "->", v); const g = api(); if (g && g.setName) safe(() => g.setName(l.key, v)); else log("commit: no api/setName!"); };
+    input.addEventListener("change", () => { log("input change"); commit(); });   // apply on click-away
     input.addEventListener("keydown", (e) => { if (e && (e.key === "Enter" || e.keyCode === 13)) { commit(); safe(() => input.blur()); } });
     input.addEventListener("click", () => safe(() => input.focus()));
 
-    const apply = document.createElement("fxs-activatable");
-    apply.className = "relative flex items-center justify-center cursor-pointer pointer-events-auto";
-    apply.style.cssText = "flex:0 0 auto;border:1px solid #caa64f;border-radius:4px;padding:3px 10px;background:#caa64f22;";
-    const applyLbl = document.createElement("div");
-    applyLbl.role = "button";
-    applyLbl.textContent = "Apply";
-    applyLbl.style.cssText = "color:#f2e6c8;font:12px sans-serif;pointer-events:auto;";
-    apply.appendChild(applyLbl);
-    let firing = false;
-    const doApply = () => { if (firing) return; firing = true; try { commit(); } finally { try { setTimeout(() => { firing = false; }, 0); } catch (_e) { firing = false; } } };
-    safe(() => apply.addEventListener("action-activate", doApply));
-    safe(() => apply.addEventListener("click", doApply));
+    // Plain clickable div (the modal turns world input off via gateInput, so DOM clicks reach it).
+    const apply = document.createElement("div");
+    apply.setAttribute("role", "button");
+    apply.textContent = "Apply";
+    apply.style.cssText = "flex:0 0 auto;cursor:pointer;pointer-events:auto;border:1px solid #caa64f;border-radius:4px;padding:4px 12px;background:#caa64f33;color:#f2e6c8;font:12px sans-serif;user-select:none;";
+    apply.addEventListener("click", (e) => { safe(() => { e.stopPropagation(); }); log("apply click", l.key); commit(); });
+    apply.addEventListener("mousedown", (e) => { safe(() => e.stopPropagation()); }); // don't let the backdrop see it
 
     row.appendChild(badge); row.appendChild(input); row.appendChild(apply); list.appendChild(row);
   }
