@@ -107,23 +107,29 @@ function saveGame(state) {
 }
 function setCustom(key, name) { const s = loadGame(); const v = (name || "").trim(); if (v) s.custom[key] = v; else delete s.custom[key]; saveGame(s); }
 
-// ---- nearest civ (string CivilizationType + tile distance) --------------------------------------
-function nearestCiv(plots, w, h) {
-  const c = centroid(plots), R = 12;
-  for (let r = 0; r <= R; r++) {
-    for (let dx = -r; dx <= r; dx++) for (let dy = -r; dy <= r; dy++) {
-      const x = c.x + dx, y = c.y + dy;
-      if (x < 0 || y < 0 || x >= w || y >= h) continue;
-      if (safe(() => GameplayMap.getPlotDistance(c.x, c.y, x, y)) !== r) continue;
-      const owner = safe(() => GameplayMap.getOwner(x, y));
-      if (typeof owner !== "number" || owner < 0) continue;
-      const pl = safe(() => Players.get(owner));
-      const def = pl && pl.civilizationType != null ? safe(() => GameInfo.Civilizations.lookup(pl.civilizationType)) : null;
-      const ct = def && def.CivilizationType;
-      if (ct && ct !== "CIVILIZATION_INDEPENDENT" && ct !== "CIVILIZATION_NONE") return { civ: ct, dist: r };
+// ---- nearest civ: precomputed once per render via multi-source BFS from owned tiles -------------
+// (Replaces a per-feature ring scan that was O(features * R^2 * R). This is O(mapTiles).)
+function civForOwner(owner, cache) {
+  if (cache.has(owner)) return cache.get(owner);
+  let ct = null;
+  const pl = safe(() => Players.get(owner));
+  if (pl && pl.civilizationType != null) { const def = safe(() => GameInfo.Civilizations.lookup(pl.civilizationType)); const s = def && def.CivilizationType; if (s && s !== "CIVILIZATION_INDEPENDENT" && s !== "CIVILIZATION_NONE") ct = s; }
+  cache.set(owner, ct); return ct;
+}
+// seeds: [{x,y,civ}] of owned tiles. Returns Map "x,y" -> { civ, dist } for the whole map.
+function buildNearField(seeds, w, h) {
+  const field = new Map();
+  let frontier = [];
+  for (const s of seeds) { const k = s.x + "," + s.y; if (!field.has(k)) { field.set(k, { civ: s.civ, dist: 0 }); frontier.push({ x: s.x, y: s.y }); } }
+  while (frontier.length) {
+    const next = [];
+    for (const p of frontier) {
+      const base = field.get(p.x + "," + p.y);
+      for (const n of neighbors(p, w, h)) { const k = n.x + "," + n.y; if (!field.has(k)) { field.set(k, { civ: base.civ, dist: base.dist + 1 }); next.push(n); } }
     }
+    frontier = next;
   }
-  return { civ: null, dist: 999 };
+  return field;
 }
 
 function frame(typeKey, name) {
@@ -153,9 +159,12 @@ function computeLabels() {
     cursors.set(k, i + 1); return s[i % s.length];
   }
 
-  // ---- read the whole map: land areas, wonders, biome/mountain tiles ----
+  // ---- read the whole map: land areas, wonders, biome/mountain tiles, owned tiles (for nearest-civ) ----
   const land = new Map(), wonders = new Map(), biomeTiles = new Map(), mountainTiles = new Set(), biomeStr = new Map();
+  const seeds = [], ownerCache = new Map();
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    const owner = safe(() => GameplayMap.getOwner(x, y));
+    if (typeof owner === "number" && owner >= 0) { const ct = civForOwner(owner, ownerCache); if (ct) seeds.push({ x, y, civ: ct }); }
     const water = safe(() => GameplayMap.isWater(x, y)) === true;
     if (!water) {
       const a = safe(() => GameplayMap.getAreaId(x, y));
@@ -170,6 +179,10 @@ function computeLabels() {
     }
   }
   const areas = [...land.values()];
+
+  // nearest-civ field (one BFS for the whole map) + fast per-feature lookup at its centroid
+  const nearField = buildNearField(seeds, w, h);
+  const nearestCiv = (plots) => { const c = centroid(plots); const f = nearField.get(c.x + "," + c.y); return f ? { civ: f.civ, dist: f.dist } : { civ: null, dist: 999 }; };
 
   // ocean-crossing flood-fill from large landmasses -> islands are what it can't reach
   const reached = new Set(), q = [];
@@ -211,7 +224,7 @@ function computeLabels() {
     let toponym;
     if (custom[f.key]) { labels.push({ key: f.key, plot: centroid(f.plots), text: custom[f.key], fontSize: scaledFont(f.plots.length) }); continue; }
     const prev = auto[f.key];
-    const near = nearestCiv(f.plots, w, h);
+    const near = nearestCiv(f.plots);
     if (!prev) { toponym = nextName(near.civ, f.typeKey); auto[f.key] = { n: toponym, c: near.civ || "" }; }
     else if ((prev.c || "") === (near.civ || "")) { toponym = prev.n; }
     else if (near.civ && near.dist <= HEARTLAND_RADIUS && hash01(f.key) < Math.max(0, 1 - near.dist / (HEARTLAND_RADIUS + 1))) {
