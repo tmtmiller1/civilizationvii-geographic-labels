@@ -89,6 +89,16 @@ function centroid(plots) {
   return best;
 }
 function scaledFont(size) { const f = (3 + 1.15 * Math.log(Math.max(2, size))) * FONT_SCALE; return Math.max(5, Math.min(16, Math.round(f * 10) / 10)); }
+// Principal-axis orientation of a region (degrees), for laying a label ALONG a range/desert (flat mode).
+function axisAngleDeg(plots) {
+  if (!plots || plots.length < 4) return 0;
+  let mx = 0, my = 0; for (const p of plots) { mx += p.x; my += p.y; } mx /= plots.length; my /= plots.length;
+  let sxx = 0, syy = 0, sxy = 0;
+  for (const p of plots) { const dx = p.x - mx, dy = p.y - my; sxx += dx * dx; syy += dy * dy; sxy += dx * dy; }
+  let deg = 0.5 * Math.atan2(2 * sxy, sxx - syy) * 180 / Math.PI; // hex-grid space; may need calibration in-game
+  if (deg > 90) deg -= 180; else if (deg < -90) deg += 180; // keep text upright-ish
+  return Math.round(deg);
+}
 function styleText(s) {
   const up = String(s).toUpperCase(), wg = NBSP + NBSP + NBSP + NBSP;
   return up.split(/\s+/).filter(Boolean).map((w) => w.replace(/([A-Z0-9])(?=[A-Z0-9])/g, "$1" + NBSP)).join(wg);
@@ -215,14 +225,14 @@ function computeLabels() {
   for (const a of areas) {
     if (a.plots.length < CONTINENT_MIN_TILES) continue;
     let nm = null; if (typeof a.continent === "number" && a.continent !== -1) { const d = safe(() => GameInfo.Continents.lookup(a.continent)); if (d && d.Description) nm = safe(() => Locale.compose(d.Description)); }
-    const key = "cont:" + a.id, text = custom[key] || nm; if (text) labels.push({ key, plot: centroid(a.plots), text, fontSize: scaledFont(a.plots.length) });
+    const key = "cont:" + a.id, text = custom[key] || nm; if (text) labels.push({ key, plot: centroid(a.plots), text, fontSize: scaledFont(a.plots.length), angle: axisAngleDeg(a.plots) });
   }
   for (const [ft, wr] of wonders) { const key = "wonder:" + ft; labels.push({ key, plot: centroid(wr.plots), text: custom[key] || wr.name, fontSize: scaledFont(wr.plots.length), offset: { x: 0, y: WONDER_OFFSET, z: 8 + WONDER_OFFSET } }); }
 
   // islands + regions — persistent names with heartland re-flavor
   for (const f of feats) {
     let toponym;
-    if (custom[f.key]) { labels.push({ key: f.key, plot: centroid(f.plots), text: custom[f.key], fontSize: scaledFont(f.plots.length) }); continue; }
+    if (custom[f.key]) { labels.push({ key: f.key, plot: centroid(f.plots), text: custom[f.key], fontSize: scaledFont(f.plots.length), angle: axisAngleDeg(f.plots) }); continue; }
     const prev = auto[f.key];
     const near = nearestCiv(f.plots);
     if (!prev) { toponym = nextName(near.civ, f.typeKey); auto[f.key] = { n: toponym, c: near.civ || "" }; }
@@ -230,7 +240,7 @@ function computeLabels() {
     else if (near.civ && near.dist <= HEARTLAND_RADIUS && hash01(f.key) < Math.max(0, 1 - near.dist / (HEARTLAND_RADIUS + 1))) {
       used.delete(prev.n); toponym = nextName(near.civ, f.typeKey); auto[f.key] = { n: toponym, c: near.civ }; nFlip++;
     } else { toponym = prev.n; }
-    labels.push({ key: f.key, plot: centroid(f.plots), text: frame(f.typeKey, toponym), fontSize: scaledFont(f.plots.length) });
+    labels.push({ key: f.key, plot: centroid(f.plots), text: frame(f.typeKey, toponym), fontSize: scaledFont(f.plots.length), angle: axisAngleDeg(f.plots) });
   }
 
   // prune auto entries for features that no longer exist, then persist
@@ -243,14 +253,31 @@ function computeLabels() {
 }
 
 // ---- lens layer ---------------------------------------------------------------------------------
+let FLAT = false; // beta: lay labels flat on terrain, oriented along the feature's axis (Civ VI style)
 class GeoLabelsLayer {
-  constructor() { this._group = null; this._grid = null; this._drawn = false; this._visible = false; this._labels = null; this._lastAge = safe(() => Game.age); }
-  _ensure() { if (this._grid) return true; return safe(() => { this._group = WorldUI.createOverlayGroup("GeoLabelsOverlay", 10); this._grid = WorldUI.createSpriteGrid("GeoLabelsGrid", true); return true; }) === true; }
+  constructor() { this._group = null; this._grid = null; this._gridFlat = false; this._drawn = false; this._visible = false; this._labels = null; this._lastAge = safe(() => Game.age); }
+  _ensure() {
+    if (this._grid && this._gridFlat === FLAT) return true;
+    safe(() => { if (this._grid && this._grid.destroy) this._grid.destroy(); });
+    this._grid = null;
+    const mode = FLAT ? ((typeof SpriteMode !== "undefined" && SpriteMode.Default != null) ? SpriteMode.Default : false) : true;
+    const ok = safe(() => { if (!this._group) this._group = WorldUI.createOverlayGroup("GeoLabelsOverlay", 10); this._grid = WorldUI.createSpriteGrid("GeoLabelsGrid_" + (FLAT ? "flat" : "bb"), mode); return true; }) === true;
+    this._gridFlat = FLAT;
+    return ok;
+  }
   _draw() {
     if (this._drawn || !this._ensure()) return;
     const fill = (LABEL_ALPHA & 0xff) * 0x1000000 + 0xffffff;
     this._labels = computeLabels();
-    for (const l of this._labels) { const idx = safe(() => GameplayMap.getIndexFromXY(l.plot.x, l.plot.y)); const ref = (typeof idx === "number") ? idx : l.plot; const off = l.offset || { x: 0, y: 0, z: 8 }; safe(() => this._grid.addText(ref, styleText(l.text), off, { fonts: FONTS, fontSize: l.fontSize, stroke: LABEL_STROKE, fill, faceCamera: FACE_CAMERA })); }
+    for (const l of this._labels) {
+      const idx = safe(() => GameplayMap.getIndexFromXY(l.plot.x, l.plot.y));
+      const ref = (typeof idx === "number") ? idx : l.plot;
+      const off = l.offset || { x: 0, y: 0, z: 8 };
+      const params = { fonts: FONTS, fontSize: l.fontSize, stroke: LABEL_STROKE, fill };
+      if (FLAT) { params.followTerrain = true; params.angle = l.angle || 0; }
+      else { params.faceCamera = FACE_CAMERA; }
+      safe(() => this._grid.addText(ref, styleText(l.text), off, params));
+    }
     this._drawn = true;
   }
   _redraw() { safe(() => this._grid && this._grid.clear()); this._drawn = false; this._labels = null; this._draw(); }
@@ -269,6 +296,8 @@ try {
     recompute: () => instance._redraw(),
     getLabels: () => instance.labels().map((l) => ({ key: l.key, text: l.text, type: l.key.slice(0, l.key.indexOf(":")) })),
     setName: (key, name) => { setCustom(key, name); instance._redraw(); },
+    setFlat: (b) => { FLAT = !!b; instance._redraw(); log("FLAT =", FLAT); },
+    isFlat: () => FLAT,
   };
 } catch (_e) {}
 try { if (typeof window !== "undefined") window.addEventListener("tmt-geo-labels-changed", () => instance._redraw()); } catch (_e) {}

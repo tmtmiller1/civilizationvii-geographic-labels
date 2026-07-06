@@ -13,5 +13,8 @@
         <Row Tag="LOC_GEO_LABELS_RENAME">
             <Text>Rename Places…</Text>
         </Row>
+        <Row Tag="LOC_GEO_LABELS_FLAT">
+            <Text>Flat labels (beta)</Text>
+        </Row>
     </EnglishText>
 </Database>
