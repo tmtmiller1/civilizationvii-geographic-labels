@@ -104,16 +104,17 @@ function tryInject() {
   const container = row && row.parentElement;
   if (!container) return false;
 
-  // Lightweight clickable text (fxs-activatable = bare, no button chrome) sized to match the checkbox rows,
-  // instead of the big framed fxs-button.
+  // Match the checkbox rows exactly (same text), minus the checkbox, wrapped in a gold box so it reads as
+  // a button. fxs-activatable = bare clickable element (no default button chrome).
   const btnRow = document.createElement("div");
   btnRow.id = BTN_ID;
   btnRow.className = row.className || "flex flex-row items-center";
   const act = document.createElement("fxs-activatable");
-  act.className = "pointer-events-auto flex flex-row items-center cursor-pointer";
+  act.className = "pointer-events-auto cursor-pointer";
+  act.style.cssText = "display:inline-flex;align-items:center;border:1px solid #caa64f;border-radius:4px;padding:1px 8px;background:#caa64f22;";
   const lbl = document.createElement("div");
   lbl.role = "button";
-  lbl.className = "text-accent-3 text-xs font-body pointer-events-auto shrink font-fit-shrink underline";
+  lbl.className = "text-accent-2 text-base font-body pointer-events-auto shrink font-fit-shrink"; // same as the checkbox labels
   lbl.dataset.l10nId = "LOC_GEO_LABELS_RENAME";
   act.appendChild(lbl);
   let firing = false;
