@@ -248,8 +248,24 @@ function computeLabels() {
   for (const k of Object.keys(auto)) if (!liveKeys.has(k)) delete auto[k];
   saveGame({ custom, auto });
 
-  log("computed", labels.length, "labels:", islands.length, "islands,", feats.length - islands.length, "regions,", wonders.size, "wonders,", nFlip, "re-flavored");
-  return labels;
+  // priority-based collision suppression: the "main" label wins, overlapping smaller ones are hidden.
+  // wonder > continent > island > mountains > biome-region. Placed high-first; a lower label whose
+  // center falls within a higher placed label's reach is dropped (fixes island-name-over-taiga pileups).
+  const PRI = { wonder: 6, cont: 5, isle: 4, mountains: 3, desert: 2, taiga: 2, jungle: 2 };
+  const typeOf = (l) => l.key.slice(0, l.key.indexOf(":"));
+  const reachOf = (l) => Math.max(2, Math.min(10, Math.round(String(l.text).replace(/\s+/g, "").length * l.fontSize * 0.05)));
+  labels.sort((a, b) => (PRI[typeOf(b)] || 0) - (PRI[typeOf(a)] || 0) || (b.fontSize - a.fontSize));
+  const placed = [], shown = [];
+  for (const l of labels) {
+    const rl = reachOf(l);
+    let hit = false;
+    for (const p of placed) { const d = safe(() => GameplayMap.getPlotDistance(l.plot.x, l.plot.y, p.plot.x, p.plot.y)); if (typeof d === "number" && d < Math.max(rl, p._r)) { hit = true; break; } }
+    if (hit) continue;
+    l._r = rl; placed.push(l); shown.push(l);
+  }
+
+  log("computed", labels.length, "labels ->", shown.length, "shown (", islands.length, "islands,", feats.length - islands.length, "regions,", wonders.size, "wonders,", nFlip, "re-flavored,", labels.length - shown.length, "hidden by overlap)");
+  return shown;
 }
 
 // ---- lens layer ---------------------------------------------------------------------------------
