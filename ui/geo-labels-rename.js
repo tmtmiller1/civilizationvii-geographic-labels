@@ -17,7 +17,8 @@ const PANEL_ID = "geo-labels-rename-panel";
 const YIELDS_SELECTOR = '[data-l10n-id="LOC_UI_MINI_MAP_YIELDS"]';
 const TYPE_LABEL = { cont: "Continent", isle: "Island", desert: "Desert", taiga: "Taiga", jungle: "Jungle", plains: "Plains", steppe: "Steppe", mountains: "Mountains", wonder: "Wonder" };
 
-function log() { try { console.error.apply(console, [TAG].concat([].slice.call(arguments))); } catch (_e) {} }
+const DBG = true; // release.sh flips this to false to silence logs in shipped builds
+function log() { if (!DBG) return; try { console.error.apply(console, [TAG].concat([].slice.call(arguments))); } catch (_e) {} }
 function safe(fn) { try { return fn(); } catch (_e) { return undefined; } }
 function api() { return (typeof window !== "undefined" && window.__geoLabels) || null; }
 
@@ -77,12 +78,32 @@ function openPanel() {
     input.type = "text";
     input.value = l.text;
     input.setAttribute("data-geo-key", l.key);
+    // CRITICAL: without this the engine also treats each keystroke as a hotkey (opening menus while you type).
+    // This is the same attribute the game's own fxs-textbox sets on its input.
+    input.setAttribute("consume-keyboard-input", "true");
     input.style.cssText = "flex:1;background:#0d1016;border:1px solid #2a3340;border-radius:5px;color:#f0f0f0;font:13px sans-serif;padding:5px 8px;pointer-events:auto;";
+    // Belt-and-suspenders: don't let key events bubble out to the game's global handlers.
+    ["keydown", "keyup", "keypress"].forEach((ev) => input.addEventListener(ev, (e) => { safe(() => e.stopPropagation()); }));
     const commit = () => { const g = api(); if (g) safe(() => g.setName(l.key, input.value)); };
-    input.addEventListener("change", commit);
-    input.addEventListener("keydown", (e) => { if (e && (e.key === "Enter")) { commit(); safe(() => input.blur()); } });
+    // Explicit Apply button — the reliable trigger (Enter/keydown can be swallowed by consume-keyboard-input).
+    input.addEventListener("change", commit);              // also apply on click-away
+    input.addEventListener("keydown", (e) => { if (e && (e.key === "Enter" || e.keyCode === 13)) { commit(); safe(() => input.blur()); } });
     input.addEventListener("click", () => safe(() => input.focus()));
-    row.appendChild(badge); row.appendChild(input); list.appendChild(row);
+
+    const apply = document.createElement("fxs-activatable");
+    apply.className = "relative flex items-center justify-center cursor-pointer pointer-events-auto";
+    apply.style.cssText = "flex:0 0 auto;border:1px solid #caa64f;border-radius:4px;padding:3px 10px;background:#caa64f22;";
+    const applyLbl = document.createElement("div");
+    applyLbl.role = "button";
+    applyLbl.textContent = "Apply";
+    applyLbl.style.cssText = "color:#f2e6c8;font:12px sans-serif;pointer-events:auto;";
+    apply.appendChild(applyLbl);
+    let firing = false;
+    const doApply = () => { if (firing) return; firing = true; try { commit(); } finally { try { setTimeout(() => { firing = false; }, 0); } catch (_e) { firing = false; } } };
+    safe(() => apply.addEventListener("action-activate", doApply));
+    safe(() => apply.addEventListener("click", doApply));
+
+    row.appendChild(badge); row.appendChild(input); row.appendChild(apply); list.appendChild(row);
   }
 
   panel.appendChild(header); panel.appendChild(hint); panel.appendChild(list);

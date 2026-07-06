@@ -13,7 +13,8 @@ const CHANGE_EVENT = "component-value-changed";            // ComponentValueChan
 const YIELDS_SELECTOR = '[data-l10n-id="LOC_UI_MINI_MAP_YIELDS"]';
 const MY_ID = "geo-labels-toggle-row";
 
-function log() { try { console.error.apply(console, [TAG].concat([].slice.call(arguments))); } catch (_e) {} }
+const DBG = true; // release.sh flips this to false to silence logs in shipped builds
+function log() { if (!DBG) return; try { console.error.apply(console, [TAG].concat([].slice.call(arguments))); } catch (_e) {} }
 function safe(fn) { try { return fn(); } catch (_e) { return undefined; } }
 
 function tryInject() {

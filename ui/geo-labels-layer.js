@@ -77,7 +77,8 @@ const GENERIC = {
 const NEUTRAL = GENERIC.islands;
 
 // ---- helpers ------------------------------------------------------------------------------------
-function log() { try { console.error.apply(console, [TAG].concat([].slice.call(arguments))); } catch (_e) {} }
+const DBG = true; // release.sh flips this to false to silence logs in shipped builds
+function log() { if (!DBG) return; try { console.error.apply(console, [TAG].concat([].slice.call(arguments))); } catch (_e) {} }
 function safe(fn) { try { return fn(); } catch (_e) { return undefined; } }
 function dims() { return { w: GameplayMap.getGridWidth(), h: GameplayMap.getGridHeight() }; }
 function gameSeed() { return (safe(() => Configuration.getGame().gameSeed) || 1) >>> 0; }

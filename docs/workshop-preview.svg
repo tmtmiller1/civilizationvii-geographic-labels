@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" font-family="Georgia, 'Times New Roman', serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#161b24"/><stop offset="1" stop-color="#0d1015"/>
+    </linearGradient>
+    <clipPath id="globe"><circle cx="512" cy="392" r="270"/></clipPath>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect x="24" y="24" width="976" height="976" rx="28" fill="none" stroke="#caa64f" stroke-width="4" stroke-opacity="0.6"/>
+
+  <!-- globe -->
+  <circle cx="512" cy="392" r="270" fill="#12384f"/>
+  <g clip-path="url(#globe)">
+    <g fill="none" stroke="#9fd0e6" stroke-opacity="0.32" stroke-width="2">
+      <ellipse cx="512" cy="392" rx="90" ry="270"/>
+      <ellipse cx="512" cy="392" rx="185" ry="270"/>
+      <line x1="242" y1="392" x2="782" y2="392"/>
+      <path d="M300 250 H724 M300 534 H724"/>
+    </g>
+    <g fill="#e6c65a" fill-opacity="0.92">
+      <path d="M330 300 c 60 -30 130 -16 160 26 c 28 42 -12 88 -74 92 c -70 6 -128 -20 -128 -60 c 0 -26 20 -46 42 -58 z"/>
+      <path d="M520 470 c 70 -14 140 14 156 58 c 16 44 -40 86 -112 74 c -58 -10 -100 -42 -88 -84 c 6 -22 24 -38 44 -48 z"/>
+      <path d="M360 500 c 44 -6 78 22 66 56 c -12 30 -60 34 -90 14 c -26 -18 -22 -60 24 -70 z"/>
+    </g>
+  </g>
+  <circle cx="512" cy="392" r="270" fill="none" stroke="#caa64f" stroke-width="5"/>
+
+  <!-- place labels -->
+  <g fill="#f2e6c8">
+    <circle cx="430" cy="320" r="7" fill="#fff"/>
+    <line x1="430" y1="320" x2="300" y2="210" stroke="#f2e6c8" stroke-width="2.5"/>
+    <rect x="150" y="184" width="180" height="52" rx="8" fill="#12161d" stroke="#caa64f" stroke-width="2"/>
+    <text x="240" y="221" text-anchor="middle" font-size="34" letter-spacing="3">THULE</text>
+
+    <circle cx="588" cy="470" r="7" fill="#fff"/>
+    <line x1="588" y1="470" x2="740" y2="560" stroke="#f2e6c8" stroke-width="2.5"/>
+    <rect x="700" y="534" width="196" height="52" rx="8" fill="#12161d" stroke="#caa64f" stroke-width="2"/>
+    <text x="798" y="571" text-anchor="middle" font-size="34" letter-spacing="3">AVALON</text>
+  </g>
+
+  <!-- wordmark (textLength pins it inside the frame so it always fits) -->
+  <text x="512" y="812" text-anchor="middle" font-size="80" fill="#f2e6c8"
+        textLength="820" lengthAdjust="spacingAndGlyphs">GEOGRAPHIC LABELS</text>
+  <text x="512" y="872" text-anchor="middle" font-size="38" letter-spacing="12" fill="#caa64f"
+        textLength="520" lengthAdjust="spacingAndGlyphs">CIVILIZATION VII</text>
+</svg>
