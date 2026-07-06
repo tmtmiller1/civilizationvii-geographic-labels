@@ -55,7 +55,26 @@ function tryInject() {
     });
   });
 
-  log("checkbox injected next to Yields");
+  // BETA: "Flat labels" — lay labels flat on terrain, oriented along the feature (Civ VI style).
+  const flatRow = document.createElement("div");
+  flatRow.id = MY_ID + "-flat";
+  flatRow.className = row.className || "flex flex-row items-center";
+  const flatCb = document.createElement("fxs-checkbox");
+  flatCb.classList.add("mr-2");
+  flatCb.setAttribute("selected", "false");
+  flatCb.setAttribute("data-audio-group-ref", "audio-panel-mini-map");
+  const flatLabel = document.createElement("div");
+  flatLabel.role = "paragraph";
+  flatLabel.className = "text-accent-2 text-base font-body pointer-events-auto shrink font-fit-shrink";
+  flatLabel.dataset.l10nId = "LOC_GEO_LABELS_FLAT";
+  flatRow.appendChild(flatCb); flatRow.appendChild(flatLabel);
+  container.appendChild(flatRow);
+  flatCb.addEventListener(CHANGE_EVENT, (event) => {
+    const on = event && event.detail ? event.detail.value : undefined;
+    safe(() => { const g = window.__geoLabels; if (g && g.setFlat) g.setFlat(!!on); });
+  });
+
+  log("checkboxes injected next to Yields");
   return true;
 }
 
