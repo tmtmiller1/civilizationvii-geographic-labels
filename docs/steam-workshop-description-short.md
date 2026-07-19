@@ -2,11 +2,11 @@
 
 [b]Civilization VI–style geographic names, painted across the Civilization VII map.[/b]
 
-Geographic Labels writes the names of the land back onto the map — continents, islands, deserts, mountain ranges, taiga, jungle, and natural wonders. The names are period-accurate and drawn per civilization: the nearest civilization lends its own real, era-appropriate toponyms to nearby land, and as new civilizations rise the map re-flavors organically, leaving layers of history visible. Off by default; toggle it with the [b]Geographic Names[/b] checkbox next to [i]Yields[/i] in the mini-map's Decorations list. Inspired by the map labeling of Civilization VI.
+Geographic Labels writes the names of the land back onto the map — continents, islands, deserts, mountain ranges, taiga, jungle, and natural wonders. The names are period-accurate and drawn per civilization: the nearest civilization lends its own real, era-appropriate toponyms to nearby land, and as new civilizations rise, nearby land picks up their names while other areas keep the older ones. Off by default; toggle it with the [b]Geographic Names[/b] checkbox next to [i]Yields[/i] in the mini-map's Decorations list. Inspired by the map labeling of Civilization VI.
 
 [b]The Mod Includes:[/b]
 [list]
-[*]Names for continents, islands, deserts, mountain ranges, taiga, and jungle, plus natural wonders — soft translucent labels tuned to sit quietly on the map.
+[*]Names for continents, islands, deserts, mountain ranges, taiga, and jungle, plus natural wonders — soft, translucent, low-contrast labels.
 [*]Period-accurate, per-civilization names from a curated pool of roughly 1,200 real toponyms across all 30 civilizations (Latin for Rome, Ancient Greek for Greece, Quechua for the Inca, and so on), with a neutral pool for unclaimed land, de-duplication, and clarifiers like [i]Isle of Creta[/i] and [i]Zagrus Mountains[/i].
 [*]Organic re-flavoring across the ages: names persist per game and shift as a new civilization's heartland reaches a place, while the frontier keeps its older names.
 [*]Terrain-following labels (Options → Mods): lay names flat and rotate them to run along ranges, coastlines, and deserts, the way Civilization VI did.
@@ -15,9 +15,9 @@ Geographic Labels writes the names of the land back onto the map — continents,
 
 [b]What The Mod Does Not Do:[/b]
 [list]
-[*]It does not change gameplay balance.
-[*]It does not alter opponent behavior.
-[*]It does not overwrite base-game files.
+[*]Base-game files are never overwritten.
+[*]Opponent behavior is unchanged.
+[*]Gameplay balance is unaffected.
 [/list]
 
 [b]Compatibility:[/b]

@@ -23,7 +23,7 @@ First release — Civilization VI-style geographic names painted on the Civiliza
   clarifier: *Isle of Creta*, *Zagrus Mountains*, *Libyca Desert*.
 - **Organic re-flavoring across the ages.** Names persist per game; when a new
   civilization's heartland reaches a place it may take on that civ's names, while the
-  frontier and distant lands keep their old names — so layers of history stay visible.
+  frontier and distant lands keep their old names, so you can still tell which civ named each area.
 - **Terrain-following labels** (Options → Mods): lay names flat on the map and rotate
   them to run along ranges, coastlines, and deserts, the way Civilization VI did.
 - Priority-based collision handling, so a larger label (an island) overrides a smaller
