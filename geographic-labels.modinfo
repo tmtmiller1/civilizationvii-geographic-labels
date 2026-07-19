@@ -7,9 +7,10 @@
         <SpecialThanks>Firaxis and the Civ modding community for the game, documentation, and sample mods; the many real-world atlases and gazetteers behind the period-accurate place names.</SpecialThanks>
         <Package>GeographicLabels</Package>
         <PackageSortIndex>1000</PackageSortIndex>
-        <Version>1.0.0</Version>
+        <Version>1.2.0</Version>
     </Properties>
     <Dependencies>
+        <!-- title is a base-game LOC (engine-owned; NOT defined in this mod's ModText.xml) -->
         <Mod id="base-standard" title="LOC_MODULE_BASE_STANDARD_NAME" />
     </Dependencies>
     <ActionCriteria>
@@ -37,6 +38,14 @@
                     <Item>ui/geo-labels-layer.js</Item>
                     <Item>ui/geo-labels-toggle.js</Item>
                     <Item>ui/geo-labels-options.js</Item>
+                    <Item>ui/geo-labels-utils.js</Item>
+                    <Item>ui/geo-labels-format.js</Item>
+                    <Item>ui/geo-labels-toponyms.js</Item>
+                    <Item>ui/geo-labels-map.js</Item>
+                    <Item>ui/geo-labels-water.js</Item>
+                    <Item>ui/geo-labels-rivers.js</Item>
+                    <Item>ui/geo-labels-categories.js</Item>
+                    <Item>ui/geo-labels-compute.js</Item>
                     <Item>images/geo-labels-icon.svg</Item>
                     <Item>images/geo-labels-icon.png</Item>
                 </ImportFiles>
@@ -56,6 +65,8 @@
                 </UIScripts>
                 <ImportFiles>
                     <Item>ui/geo-labels-options.js</Item>
+                    <Item>ui/geo-labels-utils.js</Item>
+                    <Item>ui/geo-labels-categories.js</Item>
                 </ImportFiles>
             </Actions>
         </ActionGroup>

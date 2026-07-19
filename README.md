@@ -10,7 +10,23 @@ mini-map lens menu.
 | --- | --- |
 | Continents | The game's own continent names (e.g. *Euramerica*, *Nena*) |
 | Islands | Generated from a name pool, deterministic per game (seeded by the game seed, stable across save/reload) |
+| Deserts | Region labels generated from nearest-civilization and neutral toponym pools |
+| Mountain ranges | Region labels generated from nearest-civilization and neutral toponym pools |
+| Taiga | Region labels generated from nearest-civilization and neutral toponym pools |
+| Jungle | Region labels generated from nearest-civilization and neutral toponym pools |
+| Rivers | The game's own river names (`getRiverName`), for both navigable rivers and minor rivers, laid along the river's course |
 | Natural wonders | The game's own feature names (e.g. *Great Barrier Reef*, *Uluru*), floated just above the wonder |
+
+Water and coastal features (lakes, seas, gulfs, bays, sounds, inlets, fjords, reefs, atolls,
+estuaries, archipelagos, keys) are labeled too — see `docs/water-labels-design.md`.
+
+## Choosing what you see
+
+Every category above is an individual checkbox in the game's **Options** screen, under
+**Geographic Labels** (reachable from the main menu and in-game). Untick any you don't want —
+say, keep continents and rivers but hide the coastal-water flavor labels. Changes apply live
+while the map layer is on. The master on/off is still the **Geographic Names** checkbox in the
+mini-map's Decorations list.
 
 ## What counts as an "island"
 
@@ -27,7 +43,7 @@ low-contrast so they don't obscure the terrain underneath. Small specks (< 3 til
 
 ## Install
 
-1. Copy the `tmt-geographic-labels` folder into your Civ VII **Mods** directory:
+1. Copy the `geographic-labels` folder into your Civ VII **Mods** directory:
    - **macOS**: `~/Library/Application Support/Civilization VII/Mods/`
    - **Windows**: `%LOCALAPPDATA%\Firaxis Games\Sid Meier's Civilization VII\Mods\`
    (macOS users can run `./install.sh`.)
@@ -46,6 +62,13 @@ low-contrast so they don't obscure the terrain underneath. Small specks (< 3 til
 ## Compatibility
 
 Additive and observer-based — no base UI files are replaced. Should coexist with other mods.
+
+## Development Quality Gate
+
+For this mod, quality is intentionally kept lightweight and practical:
+- `npm run verify` (syntax + focused tests)
+- release packaging checks in `release.sh`
+- no-preview Steam upload fallback for reliable publishing
 
 ## License
 

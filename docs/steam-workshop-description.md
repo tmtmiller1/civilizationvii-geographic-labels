@@ -2,16 +2,19 @@
 
 [b]Civilization VI–style geographic names, painted across the Civilization VII map.[/b]
 
-Geographic Labels writes the names of the land back onto the map: continents, islands, deserts, mountain ranges, taiga, jungle, and natural wonders. The names are [b]period-accurate and drawn per civilization[/b] — the nearest civilization lends its own real, era-appropriate toponyms to nearby land, so a range beside Rome reads [i]Zagrus Mountains[/i], a desert near it [i]Libyca Desert[/i], and an island off Greece [i]Isle of Creta[/i]. As new civilizations rise across the ages, nearby land takes on their names, so newer and older names sit together on the map.
+Geographic Labels writes the names of the land — and the water — back onto the map: continents, islands, deserts, mountain ranges, taiga, jungle, and natural wonders, plus the seas, gulfs, bays, lakes, and rivers between them. The names are [b]period-accurate and drawn per civilization[/b] — the nearest civilization lends its own real, era-appropriate toponyms to nearby land, so a range beside Rome reads [i]Zagrus Mountains[/i], a desert near it [i]Libyca Desert[/i], and an island off Greece [i]Isle of Creta[/i]. As new civilizations rise across the ages, nearby land takes on their names, so newer and older names sit together on the map.
 
 It is off by default and toggles with a single [b]Geographic Names[/b] checkbox in the mini-map's Decorations list, right next to [i]Yields[/i]. Inspired by the map labeling of Civilization VI.
 
 [b]The Mod Includes:[/b]
 [list]
 [*]Names on the map for continents, islands, deserts, mountain ranges, taiga, and jungle, plus natural wonders — soft, translucent labels that stay faint enough to read the map through them.
+[*]Water and coast, named too: lakes, seas, gulfs, bays, sounds, inlets, fjords, reefs, atolls, river estuaries, and archipelagos and keys. A water basin's size, shape, and how far land wraps around it decide whether it reads as a sea, a gulf, a bay, a sound, an inlet, or a fjord — fjords only in the polar latitudes, beside mountains.
+[*]Named rivers: the game's own river names, painted along the river's course — both the great navigable rivers and the smaller minor rivers.
 [*]Period-accurate, per-civilization names: islands and regions draw from the nearest civilization's own curated pool of roughly 1,200 real, era-appropriate toponyms across all 30 civilizations — Latin for Rome, romanized Ancient Greek for Greece, Quechua for the Inca, Han-era Chinese for the Han, and so on.
 [*]A neutral pool for unclaimed land and de-duplication so names never repeat, with each region carrying a natural clarifier: [i]Isle of Creta[/i], [i]Zagrus Mountains[/i], [i]Libyca Desert[/i].
 [*]Organic re-flavoring across the ages: names persist per game, and when a new civilization's heartland reaches a place it may take on that civ's names, while the frontier and distant lands keep their older names, so both the current and earlier namings stay on the map.
+[*]Fine-grained control (Options → Mods → Geographic Labels): every category is its own checkbox — continents, mountain ranges, deserts, taiga, jungle, islands, archipelagos, keys, natural wonders, lakes, seas, gulfs, bays, sounds, inlets, fjords, reefs, atolls, estuaries, and both river kinds — so you can show exactly what you want and hide the rest. Changes apply live while the map layer is on.
 [*]Terrain-following labels (Options → Mods): lay the names flat on the map and rotate them to run along ranges, coastlines, and deserts, the way Civilization VI did, instead of upright labels that always face the camera.
 [*]Priority-based collision handling, so a larger label (an island) overrides a smaller one (a desert or taiga) that would otherwise overlap it.
 [*]Readable, un-minified source (plain JavaScript, no obfuscation).
@@ -38,7 +41,7 @@ It is off by default and toggles with a single [b]Geographic Names[/b] checkbox 
 [b]Installation:[/b]
 [list=1]
 [*]Download or subscribe to the mod.
-[*]Place the [b]tmt-geographic-labels[/b] folder in the Civilization VII Mods directory.
+[*]Place the [b]geographic-labels[/b] folder in the Civilization VII Mods directory.
 [*]Enable [b]Geographic Labels[/b] from Additional Content in-game.
 [*]Open the mini-map lens menu and tick [b]Geographic Names[/b], next to Yields.
 [/list]

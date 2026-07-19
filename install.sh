@@ -3,7 +3,7 @@
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 MODS="$HOME/Library/Application Support/Civilization VII/Mods"
-DEST="$MODS/tmt-geographic-labels"
+DEST="$MODS/geographic-labels"
 [ -d "$MODS" ] || { echo "Civ VII Mods dir not found: $MODS" >&2; exit 1; }
 rm -rf "$DEST"
 mkdir -p "$DEST"
