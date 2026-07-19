@@ -15,15 +15,15 @@ mini-map lens menu.
 ## What counts as an "island"
 
 An island is a landmass you **cannot reach from a large landmass without crossing open ocean**. The mod
-flood-fills from every continent-scale landmass across land, lakes, and navigable rivers — but never ocean —
+flood-fills from every continent-scale landmass across land, lakes, and navigable rivers (but never ocean),
 and labels only what that flood can't reach. So a peninsula split off by a river, or a chunk across a
 strait of lake water, is treated as part of the continent (and takes the continent's name), while a true
 sea-girt island gets its own name.
 
 ## Look
 
-Soft translucent white, no outline, uppercase with airy letter-spacing, sized to the landmass — tuned to sit
-quietly on the map rather than shout over it. Small specks (< 3 tiles) are skipped to avoid clutter.
+Soft translucent white, no outline, uppercase with airy letter-spacing, sized to the landmass, and kept
+low-contrast so they don't obscure the terrain underneath. Small specks (< 3 tiles) are skipped to avoid clutter.
 
 ## Install
 
