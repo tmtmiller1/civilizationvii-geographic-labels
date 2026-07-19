@@ -6,71 +6,144 @@
  */
 
 import LensManager from "/core/ui/lenses/lens-manager.js";
+import { createLogger, safe } from "./geo-labels-utils.js";
 
 const TAG = "[GeoLabels]";
 const LAYER_TYPE = "tmt-geo-labels-layer";                 // must match geo-labels-layer.js
 const CHANGE_EVENT = "component-value-changed";            // ComponentValueChangeEventName
+// base-game LOC (engine-owned; NOT defined in this mod's ModText.xml) — used here
+// as a DOM selector to locate the base game's "Yields" mini-map row, not as our text.
 const YIELDS_SELECTOR = '[data-l10n-id="LOC_UI_MINI_MAP_YIELDS"]';
 const MY_ID = "geo-labels-toggle-row";
 
 const DBG = true; // release.sh flips this to false to silence logs in shipped builds
-function log() { if (!DBG) return; try { console.error.apply(console, [TAG].concat([].slice.call(arguments))); } catch (_e) {} }
-function safe(fn) { try { return fn(); } catch (_e) { return undefined; } }
+const log = createLogger(TAG, () => DBG);
+let toggleObserver = null;
+let toggleIntervalId = null;
+let started = false;
 
-function tryInject() {
-  if (typeof document === "undefined" || !document.body) return false;
-  if (document.getElementById(MY_ID)) return true;              // already injected
+function getContainer() {
+  if (typeof document === "undefined" || !document.body) return null;
+  if (document.getElementById(MY_ID)) return true;
   const yieldsLabel = document.querySelector(YIELDS_SELECTOR);
-  if (!yieldsLabel) return false;                               // menu not built yet
+  if (!yieldsLabel) return null;
   // Walk up from the Yields label to the shared checkbox container (fxs-spatial-slot).
-  const row = yieldsLabel.parentElement;                        // the w-1/2 flex row
-  const container = row && row.parentElement;                   // layerCheckboxContainer
-  if (!container) return false;
+  const row = yieldsLabel.parentElement;
+  return row && row.parentElement;
+}
 
-  const enabled = safe(() => LensManager.isLayerEnabled(LAYER_TYPE)) === true;
-
+function createToggleRow(container, enabled) {
+  const baseClass =
+    "flex flex-row items-center";
+  const yieldsLabel = document.querySelector(YIELDS_SELECTOR);
+  const row = yieldsLabel && yieldsLabel.parentElement;
   const myRow = document.createElement("div");
   myRow.id = MY_ID;
-  myRow.className = row.className || "flex flex-row items-center";
+  myRow.className = (row && row.className) || baseClass;
 
   const checkbox = document.createElement("fxs-checkbox");
   checkbox.classList.add("mr-2");
   checkbox.setAttribute("selected", enabled ? "true" : "false");
-  checkbox.setAttribute("data-audio-group-ref", "audio-panel-mini-map");
-  checkbox.setAttribute("data-audio-focus-ref", "data-audio-checkbox-focus");
+  checkbox.setAttribute(
+    "data-audio-group-ref",
+    "audio-panel-mini-map",
+  );
+  checkbox.setAttribute(
+    "data-audio-focus-ref",
+    "data-audio-checkbox-focus",
+  );
 
-  const label = document.createElement("div");
-  label.role = "paragraph";
-  label.className = "text-accent-2 text-base font-body pointer-events-auto shrink font-fit-shrink";
-  label.dataset.l10nId = "LOC_GEO_LABELS_TOGGLE";
+  const label = buildToggleLabel();
 
   myRow.appendChild(checkbox);
   myRow.appendChild(label);
   container.appendChild(myRow);
+  return checkbox;
+}
 
+function buildToggleLabel() {
+  const label = document.createElement("div");
+  label.role = "paragraph";
+  label.className =
+    "text-accent-2 text-base font-body " +
+    "pointer-events-auto shrink font-fit-shrink";
+  label.dataset.l10nId = "LOC_GEO_LABELS_TOGGLE";
+  return label;
+}
+
+function bindCheckbox(checkbox) {
   checkbox.addEventListener(CHANGE_EVENT, (event) => {
     const on = event && event.detail ? event.detail.value : undefined;
     safe(() => {
       const cur = LensManager.isLayerEnabled(LAYER_TYPE);
-      if (cur !== on) LensManager.toggleLayer(LAYER_TYPE, { force: !!on, serialize: true });
+      if (cur !== on) {
+        LensManager.toggleLayer(LAYER_TYPE, {
+          force: !!on,
+          serialize: true,
+        });
+      }
     });
   });
+}
 
-  log("checkbox injected next to Yields");
+function tryInject() {
+  const container = getContainer();
+  if (container === true) return true;
+  if (!container) return false;
+
+  const enabled = safe(() => LensManager.isLayerEnabled(LAYER_TYPE)) === true;
+  const checkbox = createToggleRow(container, enabled);
+  bindCheckbox(checkbox);
+
+  log(
+    "checkbox injected next to Yields",
+  );
   return true;
 }
 
 // The mini-map panel REBUILDS (leaving/returning to the window, closing the panel, etc.), which drops our
 // injected checkbox. So keep watching FOREVER and re-inject whenever it's missing. tryInject is idempotent.
 function start() {
+  if (started) return;
+  started = true;
   tryInject();
   let pending = false;
-  const schedule = () => { if (pending) return; pending = true; setTimeout(() => { pending = false; tryInject(); }, 400); };
+  const schedule = () => {
+    if (pending) return;
+    pending = true;
+    setTimeout(() => {
+      pending = false;
+      tryInject();
+    }, 400);
+  };
   if (typeof MutationObserver !== "undefined" && document.body) {
-    new MutationObserver(schedule).observe(document.body, { childList: true, subtree: true });
+    toggleObserver = new MutationObserver(schedule);
+    toggleObserver.observe(document.body, { childList: true, subtree: true });
   }
-  setInterval(tryInject, 3000); // belt-and-suspenders: catches rebuilds the observer might miss
+  // Belt-and-suspenders: catches rebuilds the observer might miss.
+  toggleIntervalId = setInterval(tryInject, 3000);
+}
+
+function stop() {
+  if (toggleObserver) {
+    safe(() => toggleObserver.disconnect());
+    toggleObserver = null;
+  }
+  if (toggleIntervalId != null) {
+    clearInterval(toggleIntervalId);
+    toggleIntervalId = null;
+  }
+  started = false;
 }
 
 start();
+safe(() => {
+  if (typeof window !== "undefined") {
+    window.__geoLabelsToggle = {
+      start,
+      stop,
+      reinject: tryInject,
+    };
+  }
+});
 export {};

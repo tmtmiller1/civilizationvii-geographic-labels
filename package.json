@@ -1,0 +1,13 @@
+{
+  "name": "geographic-labels",
+  "version": "1.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "npx --yes eslint \"ui/**/*.js\" --no-error-on-unmatched-pattern",
+    "check": "node --check ui/*.js",
+    "test": "node --test tests/*.test.mjs",
+    "coverage": "npx --yes c8 --reporter=json-summary --reporter=text-summary npm run test",
+    "verify": "npm run lint && npm run check && npm run test"
+  }
+}

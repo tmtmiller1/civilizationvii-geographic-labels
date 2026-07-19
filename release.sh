@@ -2,19 +2,19 @@
 # release.sh: produce a clean, debug-disabled zip + Steam Workshop manifest for Geographic Labels.
 #
 # Usage:  ./release.sh
-# Output: dist/tmt-geographic-labels-vX.Y.Z.zip   (X.Y.Z from geographic-labels.modinfo <Version>)
+# Output: dist/geographic-labels-vX.Y.Z.zip       (X.Y.Z from geographic-labels.modinfo <Version>)
 #         dist/preview.png                         (1024x1024 Workshop thumbnail, from docs/workshop-preview.svg)
 #         dist/workshop_item.vdf                   (steamcmd manifest; publishedfileid from steam_workshop_id.txt)
 #
-# What it does: mirror the mod into dist/tmt-geographic-labels/ (dev cruft excluded), flip `const DBG = true`
-# -> false so shipped builds are quiet, syntax-check, zip with the modinfo at the zip root, render the preview,
-# and write the workshop manifest. No build/test toolchain — this mod is plain, readable JS.
+# What it does: run lightweight quality gate (`npm run verify`, if package.json exists), mirror the mod into
+# dist/geographic-labels/ (dev cruft excluded), flip `const DBG = true` -> false so shipped builds are
+# quiet, syntax-check, zip with the modinfo at the zip root, render the preview, and write the workshop manifest.
 
 set -euo pipefail
 cd "$(dirname "$0")"
 
 MODINFO="geographic-labels.modinfo"
-MOD_DIR="tmt-geographic-labels"   # zip-root / content folder name (matches the mod id / deployed folder)
+MOD_DIR="geographic-labels"   # zip-root / content folder name (matches the mod id / deployed folder)
 TITLE="Geographic Labels"
 APPID="1295660"
 DIST_DIR="dist"
@@ -26,6 +26,11 @@ VERSION="$(grep -oE '<Version>[^<]+</Version>' "$MODINFO" | head -1 | sed -E 's|
 AUTHORS="$(grep -oE '<Authors>[^<]+</Authors>' "$MODINFO" | head -1 | sed -E 's|</?Authors>||g')"
 case "$AUTHORS" in ""|"Your Name"|"TODO") echo "error: set <Authors> in $MODINFO before packaging."; exit 1;; esac
 case "$VERSION" in *-dev|*-smoke|0.0.*) echo "error: <Version> '$VERSION' looks like a dev tag."; exit 1;; esac
+
+if [ -f package.json ]; then
+    echo "==> Running verify gate (npm run verify)"
+    npm run verify
+fi
 
 # Steam publishedfileid (persisted outside dist/ so it survives `rm -rf dist`).
 WORKSHOP_ID_FILE="steam_workshop_id.txt"
@@ -44,6 +49,8 @@ echo "==> Mirroring → $TARGET_DIR/ (excluding dev cruft)"
 rsync -a --exclude='.git' --exclude='.gitignore' --exclude='.DS_Store' --exclude='dist' \
     --exclude='release.sh' --exclude='install.sh' --exclude='*.bak' --exclude='node_modules' \
     --exclude='docs' --exclude='README.pdf' --exclude='steam_workshop_id.txt' \
+    --exclude='tests' --exclude='coverage' --exclude='package.json' --exclude='package-lock.json' \
+    --exclude='eslint.config.js' --exclude='reports' \
     ./ "$TARGET_DIR"/
 
 echo "==> Disabling debug logging (const DBG = true -> false) in dist JS"
