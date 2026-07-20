@@ -67,8 +67,9 @@ export function scanMap(w, h) {
     lakeTiles: new Set(),
     seaTiles: new Set(), // water && !lake (coast + ocean), for basin detection
     landSet: new Set(), // non-water tiles, for enclosure scoring
-    navRiverTiles: new Set(), // navigable-river tiles, for estuaries + river labels
-    minorRiverTiles: new Set(), // land tiles on a minor river, for river labels
+    navRiverTiles: new Set(), // navigable-river water tiles, for estuaries
+    namedRiverTiles: new Map(), // "x,y" -> raw river-name LOC key, ANY tile the
+    // engine reports a river name on (source of truth for river labels)
     featureTiles: new Map(), // water typeKey ("reefs"/"atolls") -> Set of "x,y"
     featureTypeName: new Map(),
     biomeTypeName: new Map(),
@@ -91,7 +92,7 @@ export function scanMap(w, h) {
     seaTiles: ctx.seaTiles,
     landSet: ctx.landSet,
     navRiverTiles: ctx.navRiverTiles,
-    minorRiverTiles: ctx.minorRiverTiles,
+    namedRiverTiles: ctx.namedRiverTiles,
     featureTiles: ctx.featureTiles,
     seeds: ctx.seeds,
   };
@@ -111,14 +112,24 @@ function scanTile(x, y, ctx) {
       biomeTiles: ctx.biomeTiles,
       biomeTypeName: ctx.biomeTypeName,
     });
-    if (isMinorRiver(x, y)) ctx.minorRiverTiles.add(key);
   }
+  // River names live on ANY tile the engine attaches one to (land bank tiles for
+  // both minor and navigable rivers, water tiles, etc.) — not just tiles a river
+  // type flag classifies. Query every tile so we don't miss named rivers.
+  collectRiverNameTile(x, y, key, ctx);
   collectWaterFeatureTile({
     x, y,
     featureTiles: ctx.featureTiles,
     featureTypeName: ctx.featureTypeName,
   });
   collectWonderTile(x, y, ctx.wonders);
+}
+
+function collectRiverNameTile(x, y, key, ctx) {
+  const raw = safe(() => GameplayMap.getRiverName(x, y));
+  if (raw && typeof raw === "string" && raw.trim().length > 1) {
+    ctx.namedRiverTiles.set(key, raw.trim());
+  }
 }
 
 function addSeed(x, y, ctx) {
@@ -139,20 +150,6 @@ function collectWaterTile(x, y, key, ctx) {
   } else {
     ctx.seaTiles.add(key);
   }
-}
-
-// Minor rivers run along the edges of LAND tiles (navigable rivers are their own
-// water tiles, handled in collectWaterTile). getRiverType flags a land plot that
-// borders one; the engine names it via getRiverName (read later, in the river
-// collector). RiverTypes.RIVER_MINOR is 1 when the enum isn't in scope.
-function isMinorRiver(x, y) {
-  const t = safe(() => GameplayMap.getRiverType(x, y));
-  if (typeof t !== "number") return false;
-  const minor =
-    typeof RiverTypes !== "undefined" && RiverTypes.RIVER_MINOR != null
-      ? RiverTypes.RIVER_MINOR
-      : 1;
-  return t === minor;
 }
 
 // Reefs and atolls are engine features (FEATURE_REEF/FEATURE_COLD_REEF/

@@ -2,7 +2,7 @@ import {
   axisAngleDeg,
   circularMeanX,
   frame,
-  scaledFont,
+  typeFont,
   wrapDeltaX,
 } from "./geo-labels-format.js";
 import { CIV_NAMES, GENERIC, NEUTRAL } from "./geo-labels-toponyms.js";
@@ -17,7 +17,6 @@ import {
 import { collectWaterFeatures } from "./geo-labels-water.js";
 import { collectRivers } from "./geo-labels-rivers.js";
 
-const FONT_SCALE = 1.0;
 const WONDER_OFFSET = 8;
 const CONTINENT_MIN_TILES = 80;
 
@@ -241,7 +240,7 @@ function addContinentLabels(areas, custom, labels, w) {
       key,
       plot: centroid(area.plots),
       text,
-      fontSize: scaledFont(area.plots.length, FONT_SCALE),
+      fontSize: typeFont(key, area.plots.length),
       angle: axisAngleDeg(area.plots, w),
       cust: !!custom[key],
     });
@@ -261,7 +260,7 @@ function addWonderLabels(wonders, custom, labels) {
       key: "wonder:" + featureType,
       plot: centroid(wonder.plots),
       text: custom["wonder:" + featureType] || wonder.name,
-      fontSize: scaledFont(wonder.plots.length, FONT_SCALE),
+      fontSize: typeFont("wonder:", wonder.plots.length),
       offset: { x: 0, y: WONDER_OFFSET, z: 8 + WONDER_OFFSET },
       cust: !!custom["wonder:" + featureType],
     });
@@ -325,7 +324,7 @@ function addFeatureLabels(ctx) {
         key: feature.key,
         plot: centroid(feature.plots),
         text: frame(feature.typeKey, feature.fixedName),
-        fontSize: scaledFont(feature.plots.length, FONT_SCALE),
+        fontSize: typeFont(feature.key, feature.plots.length),
         angle: axisAngleDeg(feature.plots, w),
       });
       continue;
@@ -339,7 +338,7 @@ function addFeatureLabels(ctx) {
       key: feature.key,
       plot: centroid(feature.plots),
       text: frame(feature.typeKey, chosen.toponym),
-      fontSize: scaledFont(feature.plots.length, FONT_SCALE),
+      fontSize: typeFont(feature.key, feature.plots.length),
       angle: axisAngleDeg(feature.plots, w),
     });
   }
@@ -351,7 +350,7 @@ function customLabel(feature, name, w) {
     key: feature.key,
     plot: centroid(feature.plots),
     text: name,
-    fontSize: scaledFont(feature.plots.length, FONT_SCALE),
+    fontSize: typeFont(feature.key, feature.plots.length),
     angle: axisAngleDeg(feature.plots, w),
     cust: true,
   };
@@ -404,12 +403,26 @@ function suppressOverlaps(labels) {
   const shown = [];
   for (const label of labels) {
     const radius = labelReach(label);
+    // Rivers are linear features whose centroid almost always lands inside some
+    // area label (a desert/continent), so ordinary overlap suppression hides
+    // them every time. Let them bypass it — always shown, and NOT added to
+    // `placed`, so they neither get suppressed nor suppress area labels. The
+    // per-category toggle and the glyph budget still gate them.
+    if (isRiverLabel(label)) {
+      label._r = radius;
+      shown.push(label);
+      continue;
+    }
     if (!label.cust && overlaps(label, radius, placed)) continue;
     label._r = radius;
     placed.push(label);
     shown.push(label);
   }
   return shown;
+}
+
+function isRiverLabel(label) {
+  return label.key.startsWith("rivernav:") || label.key.startsWith("riverminor:");
 }
 
 function labelType(label) {
@@ -543,8 +556,7 @@ function prepareComputation() {
   // Named rivers (navigable water channels + minor land-edge rivers). Like
   // estuaries they carry an engine name, so they ride the same fixedName path.
   const riverFeats = collectRivers({
-    navRiverTiles: scanned.navRiverTiles,
-    minorRiverTiles: scanned.minorRiverTiles,
+    namedRiverTiles: scanned.namedRiverTiles,
     w,
     h,
   });
@@ -564,35 +576,10 @@ function prepareComputation() {
 }
 
 function logSummary(ctx) {
-  const {
-    log,
-    labels,
-    shown,
-    features,
-    scanned,
-    flips,
-  } = ctx;
-  const navRivers = features.feats.filter((f) => f.key.startsWith("rivernav:")).length;
-  const minorRivers = features.feats.filter((f) => f.key.startsWith("riverminor:")).length;
-  log(
-    "computed",
-    labels.length,
-    "labels ->",
-    shown.length,
-    "shown (",
-    features.islands.length,
-    "islands,",
-    features.feats.length - features.islands.length,
-    "regions,",
-    scanned.wonders.size,
-    "wonders,",
-    navRivers,
-    "navigable rivers,",
-    minorRivers,
-    "minor rivers,",
-    flips,
-    "re-flavored,",
-    labels.length - shown.length,
-    "hidden by overlap)",
-  );
+  const { log, labels, shown, features, scanned, flips } = ctx;
+  const rivers = features.feats.filter((f) => f.typeKey === "rivers").length;
+  const regions = features.feats.length - features.islands.length;
+  log(`computed ${labels.length} labels -> ${shown.length} shown (`
+    + `${features.islands.length} islands, ${regions} regions, ${scanned.wonders.size} wonders, `
+    + `${rivers} rivers, ${flips} re-flavored, ${labels.length - shown.length} hidden by overlap)`);
 }
