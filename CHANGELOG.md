@@ -10,19 +10,28 @@ section below by `release.sh`.
 ## [1.2.0] - 2026-07-19
 
 ### Added
-- **Named rivers.** The mod now labels rivers using the engine's own names (`getRiverName`),
-  both **navigable rivers** (their own water tiles) and **minor rivers** (edges between land
-  tiles, detected via `getRiverType == RIVER_MINOR`). A river's tiles are grouped by name and
-  split into connected components, so one contiguous river system gets one label placed at its
-  centroid and angled along its course — the same `fixedName` path estuaries already use.
-  Rivers the engine leaves unnamed produce no label. The debug summary in `UI.log` now reports
-  how many navigable and minor rivers were named, so the real per-map count is visible.
+- **Named rivers.** The mod now labels rivers using the engine's own names. Because a river in
+  Civ VII is an *edge*, its name (`getRiverName`) sits on any tile it touches, so the scan
+  queries every tile rather than a single river-type class — grouping tiles by name into
+  connected river systems and placing one label per system, angled along its course. Each
+  system is tagged **navigable** (if any tile is a navigable river) or **minor**, driving two
+  separate toggles. Names are composed through `Locale.compose` (the engine returns a
+  localization key, not display text). River labels always lie **flat along the terrain** even
+  when other labels face the camera, and they bypass overlap suppression so they aren't hidden
+  by the region labels their course runs through.
 - **Per-category show/hide.** Every label category is now an individual checkbox in the
   Options screen under **Geographic Labels** — continents, mountain ranges, deserts, taiga,
   jungle, islands, archipelagos, keys, natural wonders, lakes, seas, gulfs, bays, sounds,
   inlets, fjords, reefs, atolls, estuaries, and the two river kinds. All default to on;
   changes apply live while the map layer is enabled. Hidden categories are dropped before
   overlap resolution, so hiding one never crowds out a category you kept.
+
+### Changed
+- **Font size now follows a geographic-type hierarchy.** A label's size is tied to its feature
+  type, not just its tile count, so the map reads consistently: continents and seas grandest,
+  then gulfs/deserts/taiga/jungle, then islands/lakes/wonders, then mountains and coastal
+  waters, then navigable rivers (small) and minor rivers (very small). Each type scales mildly
+  within its own range, and all bounds live in one tunable table (`FONT_TIERS`).
 
 ## [1.1.1] - 2026-07-13
 

@@ -9,6 +9,46 @@ export function scaledFont(size, fontScale) {
   return Math.max(5, Math.min(16, Math.round(f * 10) / 10));
 }
 
+// Font size is tied to a feature's GEOGRAPHIC TYPE, not just its tile count, so
+// the map reads as a consistent hierarchy: continents and seas (oceans) grandest,
+// down through land regions, coastal waters, and finally rivers — navigable
+// small, minor very small. Each type has a [min, max] range; a label scales
+// mildly within its own range by tile count, so a big instance still reads a
+// touch larger than a small one of the same type. Keyed by the label's key
+// prefix. Every bound is a tunable.
+const FONT_TIERS = {
+  cont: [13, 16], // continents — grandest
+  seas: [12, 16], // seas / oceans
+  gulfs: [8, 11],
+  deserts: [8, 11],
+  taiga: [8, 11],
+  jungle: [8, 11],
+  isle: [7, 11], // islands
+  archipelagos: [7, 10],
+  lakes: [7, 10],
+  wonder: [7, 10],
+  mountains: [6, 9],
+  bays: [6, 9],
+  sounds: [6, 9],
+  fjords: [6, 9],
+  inlets: [5, 8],
+  reefs: [5, 8],
+  atolls: [5, 8],
+  estuaries: [5, 8],
+  keys: [5, 8],
+  rivernav: [5, 7], // navigable rivers — small
+  riverminor: [4, 5], // minor rivers — very small
+};
+const DEFAULT_TIER = [6, 10];
+
+export function typeFont(key, tiles) {
+  const i = key.indexOf(":");
+  const type = i < 0 ? key : key.slice(0, i);
+  const [lo, hi] = FONT_TIERS[type] || DEFAULT_TIER;
+  const frac = Math.min(1, Math.log(Math.max(2, tiles)) / Math.log(200));
+  return Math.round((lo + (hi - lo) * frac) * 10) / 10;
+}
+
 // Wrapped-map X helpers: the map wraps horizontally, so a region straddling the
 // x=0/x=w-1 seam must use circular statistics, not a raw arithmetic mean, or its
 // centroid/orientation lands on the wrong (numeric-middle) side of the map.

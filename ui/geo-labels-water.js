@@ -211,10 +211,13 @@ function adjacentToSea(x, y, seaTiles, w, h) {
 
 function riverNameAt(plots) {
   for (const p of plots) {
-    const nm = safe(() => GameplayMap.getRiverName(p.x, p.y));
-    if (nm && typeof nm === "string" && nm.trim().length > 1) {
-      // Drop a trailing "River" so frame() doesn't yield "Nile River Estuary".
-      return nm.trim().replace(/\s+River$/i, "").trim();
+    const raw = safe(() => GameplayMap.getRiverName(p.x, p.y));
+    if (raw && typeof raw === "string" && raw.trim().length > 1) {
+      // getRiverName returns a localization KEY (e.g. "LOC_RIVER_..._NAME"), so
+      // compose it; Locale.compose passes plain strings through. Drop a trailing
+      // "River" so frame() doesn't yield "Nile River Estuary".
+      const composed = safe(() => Locale.compose(raw.trim())) || raw.trim();
+      return composed.replace(/\s+River$/i, "").trim();
     }
   }
   return null;

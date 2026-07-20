@@ -42,6 +42,10 @@ function spriteModeForCurrentFlatSetting() {
   return false;
 }
 
+function isRiverLabel(label) {
+  return label.key.startsWith("rivernav:") || label.key.startsWith("riverminor:");
+}
+
 function textParams(fill, label) {
   const params = {
     fonts: FONTS,
@@ -49,7 +53,9 @@ function textParams(fill, label) {
     stroke: LABEL_STROKE,
     fill,
   };
-  if (FLAT) {
+  // River labels always lie flat along the water's course, even when the global
+  // "follow terrain" option is off and everything else billboards to the camera.
+  if (FLAT || isRiverLabel(label)) {
     params.followTerrain = true;
     params.angle = label.angle || 0;
   } else {
