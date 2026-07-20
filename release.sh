@@ -109,20 +109,27 @@ if [ -f CHANGELOG.md ]; then
     [ -n "$BULLETS" ] && CHANGENOTE="$(printf '[b]v%s[/b] [list]%s[/list]' "$VERSION" "$BULLETS" | sed -E 's/\\/\\\\/g; s/"/\\"/g')"
 fi
 
+# Workshop page description: the current long description, escaped for the VDF
+# quoted-string value (escape backslashes and double-quotes; newlines are kept
+# verbatim, which the KeyValues format accepts).
+DESC_SRC="docs/steam-workshop-description.md"
+DESCRIPTION=""
+[ -f "$DESC_SRC" ] && DESCRIPTION="$(sed -E 's/\\/\\\\/g; s/"/\\"/g' "$DESC_SRC")"
+
+# The VDF sets description + content + change note but NOT previewfile, so an
+# upload refreshes the Workshop page text without touching the preview image.
 write_vdf() {
-    local out="$1" include_preview="$2"
+    local out="$1"
     { echo '"workshopitem"'; echo '{'; echo "    \"appid\"          \"$APPID\""; } > "$out"
     [ -n "$PUBLISHED_FILE_ID" ] && echo "    \"publishedfileid\" \"$PUBLISHED_FILE_ID\"" >> "$out"
     echo "    \"contentfolder\"  \"$ABS_CONTENT\"" >> "$out"
-    [ "$include_preview" = "yes" ] && [ -n "$ABS_PREVIEW" ] && echo "    \"previewfile\"    \"$ABS_PREVIEW\"" >> "$out"
     echo "    \"visibility\"     \"0\"" >> "$out"
     echo "    \"title\"          \"$TITLE\"" >> "$out"
-    # "description" intentionally omitted so re-uploads preserve the Workshop page text.
+    [ -n "$DESCRIPTION" ] && printf '    "description"    "%s"\n' "$DESCRIPTION" >> "$out"
     echo "    \"changenote\"     \"${CHANGENOTE}\"" >> "$out"
     echo '}' >> "$out"
 }
-write_vdf "$DIST_DIR/workshop_item.vdf" yes
-write_vdf "$DIST_DIR/workshop_item_no_preview.vdf" no
+write_vdf "$DIST_DIR/workshop_item.vdf"
 
 echo ""
 echo "✓ Release built:  $ZIP_PATH  ($(du -h "$ZIP_PATH" | cut -f1))"
@@ -136,4 +143,4 @@ fi
 echo ""
 echo "── Upload (SteamCMD) ──"
 echo "  ~/steamcmd/steamcmd.sh +login <steamLogin> +workshop_build_item $(cd "$DIST_DIR" && pwd)/workshop_item.vdf +quit"
-echo "  (If the preview upload is denied: use workshop_item_no_preview.vdf instead.)"
+echo "  (Updates content + page description + change note; leaves the preview image untouched.)"
