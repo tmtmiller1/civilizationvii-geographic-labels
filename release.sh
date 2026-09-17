@@ -106,15 +106,17 @@ if [ -f CHANGELOG.md ]; then
         cur!=""{ line=$0; sub(/^[[:space:]]+/,"",line); cur=cur " " line }
         END{ flush() }
     ' CHANGELOG.md | sed -E 's/\*//g; s/`//g; s/^/[*]/' | tr '\n' ' ')"
-    [ -n "$BULLETS" ] && CHANGENOTE="$(printf '[b]v%s[/b] [list]%s[/list]' "$VERSION" "$BULLETS" | sed -E 's/\\/\\\\/g; s/"/\\"/g')"
+    [ -n "$BULLETS" ] && CHANGENOTE="$(printf '[b]v%s[/b] [list]%s[/list]' "$VERSION" "$BULLETS" | sed -E "s/\\\\/\\\\\\\\/g; s/'/’/g; s/\"([^\"]*)\"/“\\1”/g")"
 fi
 
 # Workshop page description: the current long description, escaped for the VDF
-# quoted-string value (escape backslashes and double-quotes; newlines are kept
-# verbatim, which the KeyValues format accepts).
+# quoted-string value. steamcmd's KeyValues parser has no backslash-quote
+# escape, so literal " would terminate the string early — swap straight quotes
+# for curly ones instead of escaping them (newlines are kept verbatim, which
+# the KeyValues format accepts).
 DESC_SRC="docs/steam-workshop-description.md"
 DESCRIPTION=""
-[ -f "$DESC_SRC" ] && DESCRIPTION="$(sed -E 's/\\/\\\\/g; s/"/\\"/g' "$DESC_SRC")"
+[ -f "$DESC_SRC" ] && DESCRIPTION="$(sed -E "s/\\\\/\\\\\\\\/g; s/'/’/g; s/\"([^\"]*)\"/“\\1”/g" "$DESC_SRC")"
 
 # The VDF sets description + content + change note but NOT previewfile, so an
 # upload refreshes the Workshop page text without touching the preview image.
