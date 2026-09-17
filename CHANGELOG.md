@@ -7,7 +7,58 @@ section below by `release.sh`.
 
 ## [Unreleased]
 
-## [1.2.0] - 2026-07-19
+## [1.4.0] - 2026-09-17
+
+### Changed
+- **Tidier Options tab.** The per-category show/hide checkboxes now sit under their own "Geographic Labels
+  to Show" heading, in four collapsible sections — Land, Island, Sea and Coast, and River and Lake Labels.
+  Click a section's title to open it; its checkboxes are listed alphabetically.
+
+### Fixed
+- **Settings are no longer written into another mod's storage.** This game's storage returns the wrong
+  entry's contents on a read, so the mod could be handed a blob belonging to a different mod; writing it
+  back copied that blob into the shared settings and grew it every time. The mod now checks that what it
+  read is really the settings before saving, and declines to write otherwise. It never deletes or rewrites
+  another mod's data.
+
+## [1.3.0] - 2026-09-11
+
+### Added
+- **Rename Places.** A "Rename Places…" button under the Geographic Names checkbox in the mini-map's
+  Decorations list opens an alphabetical list of every label on the current map — including ones the map
+  is hiding for lack of room — with an editable field. Press Enter or Apply to rename; leave a field blank
+  to restore the generated name. Your names are marked with a star, always win a collision with a
+  generated label, and are saved with the game. Natural wonders, rivers, seas, and continents can be
+  renamed too, not just the generated regions.
+
+### Changed
+- **Names are now saved inside the game itself.** Generated names and your renames are stored in the
+  game's own per-save configuration, so they travel with the save, survive quit/reload and the age
+  transition, and no longer compete for the small storage space every mod shares. Names from an existing
+  game are carried over once on its next load. (This shared storage is what made the original 1.0
+  rename attempt silently fail to save.)
+- **Settings are stored the way other options mods store theirs.** The terrain-following toggle and the
+  per-category show/hide checkboxes now live in the shared mod-settings store under this mod's own
+  entry, written carefully so other mods' settings are never touched. The mod's old private storage
+  key is removed after its contents are carried over.
+
+### Fixed
+- **Two enabled copies of the mod no longer paint two sets of labels.** If the game loads the mod
+  twice (for example a Workshop copy beside a local copy), only the first registers, so a rename no
+  longer appears to add a name while leaving the old one on the map.
+
+## [1.2.1] - 2026-07-23
+
+### Fixed
+- **Generated names now stay put across save/reload.** The per-game name store was keyed on
+  `Configuration.getGame().gameSeed`, falling back to a shared constant when that field read
+  empty. If the seed ever resolved empty on a load — which could happen depending on load
+  timing — every game collapsed into the same bucket and the auto-generated names (islands,
+  deserts, ranges, taiga, jungle, water) re-rolled. The seed is now read through a fallback
+  chain (`gameSeed`, then `startSeed`, then `mapSeed`) and the last good value is remembered
+  for the session, so an intermittent empty read can no longer switch buckets and re-roll the
+  names mid-game. Existing saves keep their current names: `gameSeed` is still tried first, so
+  the store key is unchanged wherever it already resolved.
 
 ### Added
 - **Named rivers.** The mod now labels rivers using the engine's own names. Because a river in

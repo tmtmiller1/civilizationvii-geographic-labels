@@ -1,8 +1,8 @@
 # Geographic Labels — Civilization VII
 
-Brings back **Civ VI–style geographic names on the map**. Paints translucent labels for **continents**,
-**islands**, and **natural wonders**, toggled with a **"Geographic Names"** checkbox next to *Yields* in the
-mini-map lens menu.
+Brings back **Civ VI–style geographic names on the map**. Paints translucent labels for continents,
+islands, regions, water, rivers, and natural wonders, toggled with a **"Geographic Names"** checkbox next
+to *Yields* in the mini-map lens menu — and lets you **rename any of them**.
 
 ## What it labels
 
@@ -23,10 +23,19 @@ estuaries, archipelagos, keys) are labeled too — see `docs/water-labels-design
 ## Choosing what you see
 
 Every category above is an individual checkbox in the game's **Options** screen, under
-**Geographic Labels** (reachable from the main menu and in-game). Untick any you don't want —
+**Geographic Labels to Show** (reachable from the main menu and in-game). The checkboxes are grouped
+into four sections — Land, Island, Sea and Coast, and River and Lake Labels — that you open by clicking
+the section title. Untick any you don't want —
 say, keep continents and rivers but hide the coastal-water flavor labels. Changes apply live
 while the map layer is on. The master on/off is still the **Geographic Names** checkbox in the
 mini-map's Decorations list.
+
+## Renaming places
+
+Click **Rename Places…** under the Geographic Names checkbox. Every label on the current map is listed
+alphabetically — including ones the map is hiding for lack of room — with an editable field. Press Enter
+or Apply to rename; leave the field blank to restore the generated name. Your names are marked with a
+star, always win a collision with a generated label, and are saved with the game.
 
 ## What counts as an "island"
 
@@ -58,6 +67,11 @@ low-contrast so they don't obscure the terrain underneath. Small specks (< 3 til
   `LensManager` lens layer.
 - **`ui/geo-labels-toggle.js`** — injects the mini-map checkbox with a `MutationObserver` (no
   `ReplaceUIScript`), so it coexists with other UI mods.
+- **`ui/geo-labels-rename.js`** — the Rename Places button and panel.
+- **`ui/geo-labels-store.js`** — per-game names (generated + renamed) in the game's own per-save
+  configuration (`Configuration.editGame().setValue`), which survives reload and the age transition.
+  Player-wide settings live in the shared `modSettings` localStorage blob under this mod's slice
+  (`ui/geo-labels-utils.js`), written so sibling mods' slices are never disturbed.
 
 ## Compatibility
 

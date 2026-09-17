@@ -7,8 +7,17 @@
         <Row Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS">
             <Text>Geographic Labels</Text>
         </Row>
+        <Row Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS_SHOW">
+            <Text>Geographic Labels to Show</Text>
+        </Row>
         <Row Tag="LOC_MOD_GEO_LABELS_DESCRIPTION">
-            <Text>Paints Civ VI-style names on the map: continents, islands, and natural wonders. Toggle it with the "Geographic Names" checkbox next to Yields in the mini-map lens menu.</Text>
+            <Text>Paints Civ VI-style names on the map: continents, islands, regions, water, rivers, and natural wonders, and lets you rename any of them. Toggle it with the "Geographic Names" checkbox next to Yields in the mini-map lens menu.</Text>
+        </Row>
+        <Row Tag="LOC_MOD_GEO_LABELS_DEV_NAME">
+            <Text>Geographic Labels (DEV: rename test)</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_RENAME">
+            <Text>Rename Places…</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_TOGGLE">
             <Text>Geographic Names</Text>
@@ -22,68 +31,89 @@
         <Row Tag="LOC_GEO_LABELS_VIS_DESC">
             <Text>Show or hide this category of geographic label. Applies live while the "Geographic Names" map layer is on.</Text>
         </Row>
+        <Row Tag="LOC_GEO_LABELS_GROUP_DESC">
+            <Text>Open or close this group of label types.</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_EXPAND">
+            <Text>+</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_COLLAPSE">
+            <Text>-</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_GROUP_LAND">
+            <Text>Land Labels</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_GROUP_ISLANDS">
+            <Text>Island Labels</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_GROUP_SEA">
+            <Text>Sea and Coast Labels</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_GROUP_FRESHWATER">
+            <Text>River and Lake Labels</Text>
+        </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_CONT">
-            <Text>Geographic Labels: Continents</Text>
+            <Text>Continents</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_MOUNTAINS">
-            <Text>Geographic Labels: Mountain ranges</Text>
+            <Text>Mountain ranges</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_DESERTS">
-            <Text>Geographic Labels: Deserts</Text>
+            <Text>Deserts</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_TAIGA">
-            <Text>Geographic Labels: Taiga</Text>
+            <Text>Taiga</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_JUNGLE">
-            <Text>Geographic Labels: Jungle</Text>
+            <Text>Jungle</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_ISLE">
-            <Text>Geographic Labels: Islands</Text>
+            <Text>Islands</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_ARCHIPELAGOS">
-            <Text>Geographic Labels: Archipelagos</Text>
+            <Text>Archipelagos</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_KEYS">
-            <Text>Geographic Labels: Keys</Text>
+            <Text>Keys</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_WONDER">
-            <Text>Geographic Labels: Natural wonders</Text>
+            <Text>Natural wonders</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_LAKES">
-            <Text>Geographic Labels: Lakes</Text>
+            <Text>Lakes</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_SEAS">
-            <Text>Geographic Labels: Seas</Text>
+            <Text>Seas</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_GULFS">
-            <Text>Geographic Labels: Gulfs</Text>
+            <Text>Gulfs</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_BAYS">
-            <Text>Geographic Labels: Bays</Text>
+            <Text>Bays</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_SOUNDS">
-            <Text>Geographic Labels: Sounds</Text>
+            <Text>Sounds</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_INLETS">
-            <Text>Geographic Labels: Inlets</Text>
+            <Text>Inlets</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_FJORDS">
-            <Text>Geographic Labels: Fjords</Text>
+            <Text>Fjords</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_REEFS">
-            <Text>Geographic Labels: Reefs</Text>
+            <Text>Reefs</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_ATOLLS">
-            <Text>Geographic Labels: Atolls</Text>
+            <Text>Atolls</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_ESTUARIES">
-            <Text>Geographic Labels: Estuaries</Text>
+            <Text>Estuaries</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_RIVERNAV">
-            <Text>Geographic Labels: Rivers (navigable)</Text>
+            <Text>Rivers (navigable)</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_RIVERMINOR">
-            <Text>Geographic Labels: Rivers (minor)</Text>
+            <Text>Rivers (minor)</Text>
         </Row>
     </EnglishText>
 </Database>

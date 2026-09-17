@@ -7,14 +7,17 @@ import { styleText } from "./geo-labels-format.js";
 import {
   computeLabels,
   getFlatSetting,
+  getLastComputedLabels,
+  setCustomLabelName,
   setFlatSetting,
   budgetLabels,
   LABEL_BUDGET,
 } from "./geo-labels-compute.js";
+import { getLastWriteError } from "./geo-labels-store.js";
 import { createLogger, safe } from "./geo-labels-utils.js";
 
 const TAG = "[GeoLabels]";
-const BUILD = "b6-no-overlay-group";
+const BUILD = "b8-single-instance";
 const LAYER_TYPE = "tmt-geo-labels-layer";
 
 const FONTS = [
@@ -176,11 +179,54 @@ class GeoLabelsLayer {
   }
 }
 
-const instance = new GeoLabelsLayer();
-safe(() => LensManager.registerLensLayer(LAYER_TYPE, instance));
+// One layer instance per UI context, even if two copies of the mod are enabled
+// (e.g. a Workshop copy beside a local dev copy: the engine runs this module
+// once per copy). The lens manager only ever drives the FIRST registered
+// instance, so a second one would paint a second, stale set of labels into its
+// own sprite grid — renames then appear to add a name without removing the old.
+const priorInstance = safe(() => window.__geoLabelsLayerInstance);
+const instance = priorInstance || new GeoLabelsLayer();
+if (!priorInstance) {
+  safe(() => LensManager.registerLensLayer(LAYER_TYPE, instance));
+  safe(() => { window.__geoLabelsLayerInstance = instance; });
+} else {
+  log("layer already registered in this context; second copy of the mod skipped");
+}
+
+// Labels for the Rename Places panel: every label that passed the category
+// filter on the last compute (including ones hidden by overlap), or a fresh
+// compute if the layer has not drawn yet this session.
+function listLabels() {
+  if (!getLastComputedLabels()) safe(() => computeLabels(log));
+  const all = getLastComputedLabels() || [];
+  const out = all.map((l) => ({
+    key: l.key,
+    text: String(l.text == null ? "" : l.text),
+    type: l.key.slice(0, l.key.indexOf(":")),
+    cust: !!l.cust,
+  }));
+  logListDiagnostics(out);
+  return out;
+}
+
+function logListDiagnostics(list) {
+  const counts = {};
+  for (const l of list) counts[l.type] = (counts[l.type] || 0) + 1;
+  log("rename list:", list.length, "entries by type", JSON.stringify(counts));
+  const wonders = list.filter((l) => l.type === "wonder").map((l) => l.key + "=" + l.text);
+  log("rename list wonders:", wonders.length ? wonders.join(" | ") : "(none)");
+}
+
+function renameLabel(key, name) {
+  const ok = setCustomLabelName(key, name);
+  if (!ok) log("rename write FAILED (kept in-session only):", getLastWriteError());
+  else log("rename saved:", key, "=", JSON.stringify(name));
+  instance._redraw();
+  return ok;
+}
 
 try {
-  if (typeof window !== "undefined") {
+  if (typeof window !== "undefined" && !priorInstance) {
     window.__geoLabels = {
       type: LAYER_TYPE,
       recompute: () => instance._redraw(),
@@ -191,12 +237,14 @@ try {
         log("FLAT =", FLAT);
       },
       isFlat: () => FLAT,
+      getLabels: listLabels,
+      setName: renameLabel,
     };
   }
 } catch (_e) {}
 
 try {
-  if (typeof engine !== "undefined" && engine.on) {
+  if (typeof engine !== "undefined" && engine.on && !priorInstance) {
     engine.on("PlayerTurnActivated", () => instance.onAgeMaybeChanged());
   }
 } catch (_e) {}

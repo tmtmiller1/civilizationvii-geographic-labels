@@ -8,6 +8,8 @@
 
 import { CategoryType, OptionType, Options } from "/core/ui/options/model-options.js";
 import { CategoryData } from "/core/ui/options/options-helpers.js";
+// Defines <fxs-minus-plus>, the disclosure icon on the collapsible section rows.
+import "/core/ui/components/fxs-minus-plus.js";
 import {
   getGlobalSettings,
   isCategoryVisible,
@@ -15,7 +17,7 @@ import {
   setCategoryVisible,
   setGlobalSettings,
 } from "./geo-labels-utils.js";
-import { CATEGORIES } from "./geo-labels-categories.js";
+import { groupedCategories } from "./geo-labels-categories.js";
 
 function getFlat() { return !!getGlobalSettings().flat; }
 function setFlat(v) { setGlobalSettings({ flat: !!v }); }
@@ -59,22 +61,113 @@ safe(() => Options.addOption({
   },
 }));
 
-// One show/hide checkbox per label category, so players can fine-tune exactly
-// which names appear. All default to visible (see isCategoryVisible).
-for (const cat of CATEGORIES) {
-  safe(() => Options.addOption({
-    category: CategoryType.Mods,
-    group: "geographic_labels",
-    type: OptionType.Checkbox,
-    id: "geo-labels-vis-" + cat.id,
-    label: cat.loc,
-    description: "LOC_GEO_LABELS_VIS_DESC",
-    initListener: (info) => { info.currentValue = isCategoryVisible(cat.id); },
-    updateListener: (_info, value) => {
-      setCategoryVisible(cat.id, !!value);
-      refreshLayer();
-    },
+// Show/hide checkboxes for the label categories, under their own "Geographic Labels
+// to Show" heading and grouped into collapsible sections so twenty-odd rows don't
+// flood the shared Mods tab. A section's title row ("Land Labels") is the toggle:
+// clicking the title or its plus/minus icon opens or closes it. Members are sorted
+// by displayed label. Sections start collapsed every time the Options screen opens.
+// All categories default to visible (see isCategoryVisible).
+//
+// Underscore token: the heading's LOC key is LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS_SHOW.
+const SHOW_GROUP = "geographic_labels_show";
+
+function localized(loc) {
+  try { return Locale.compose(loc); } catch (_) { return loc; }
+}
+
+// The screen gives Editor rows a plain text button and no render hook. Once the
+// row exists (polled for a few frames after the screen initializes the option),
+// swap that button for the game's plus/minus disclosure icon and make the title
+// clickable. If this never finds the row, the fallback +/- button still works.
+function decorateSection(optionId, toggle, isExpanded, framesLeft = 20) {
+  if (typeof requestAnimationFrame !== "function") return;
+  requestAnimationFrame(() => safe(() => {
+    const btn = document.querySelector(`fxs-button[optionID="${optionId}"]`);
+    if (!btn || !btn.isConnected) {
+      if (framesLeft > 0) decorateSection(optionId, toggle, isExpanded, framesLeft - 1);
+      return;
+    }
+    const row = btn.closest(".highlight-row");
+    if (!row || row.querySelector("fxs-minus-plus")) return;
+    const icon = document.createElement("fxs-minus-plus");
+    icon.setAttribute("type", isExpanded() ? "minus" : "plus");
+    icon.setAttribute("data-audio-group-ref", "options");
+    icon.addEventListener("action-activate", toggle);
+    btn.classList.add("hidden");
+    btn.insertAdjacentElement("afterend", icon);
+    const title = row.firstElementChild;
+    if (title) {
+      title.classList.add("cursor-pointer", "pointer-events-auto");
+      title.addEventListener("click", toggle);
+    }
   }));
+}
+
+for (const group of groupedCategories(localized)) {
+  const members = [];
+  let expanded = false;
+
+  const header = {
+    category: CategoryType.Mods,
+    group: SHOW_GROUP,
+    type: OptionType.Editor,
+    id: "geo-labels-section-" + group.id,
+    label: group.loc,
+    description: "LOC_GEO_LABELS_GROUP_DESC",
+    caption: "LOC_GEO_LABELS_EXPAND",
+  };
+
+  function setExpanded(value) {
+    expanded = value;
+    safe(() => {
+      const icon = document.querySelector(`fxs-button[optionID="${header.id}"]`)
+        ?.closest(".highlight-row")?.querySelector("fxs-minus-plus");
+      if (icon) icon.setAttribute("type", expanded ? "minus" : "plus");
+      const btn = document.querySelector(`fxs-button[optionID="${header.id}"]`);
+      if (btn) btn.setAttribute("caption", expanded ? "LOC_GEO_LABELS_COLLAPSE" : "LOC_GEO_LABELS_EXPAND");
+    });
+    for (const info of members) {
+      info.isHidden = !expanded;
+      safe(() => info.forceRender?.());
+    }
+  }
+  const toggle = () => setExpanded(!expanded);
+
+  header.initListener = () => {
+    expanded = false;
+    decorateSection(header.id, toggle, () => expanded);
+  };
+  header.activateListener = () => {
+    toggle();
+    // The screen counts every Editor press as a pending change, which would make
+    // Cancel ask to revert. Opening a section changes nothing, so pre-cancel it.
+    Options.changeRefCount--;
+    return true; // handled: don't push an editor screen
+  };
+  safe(() => Options.addOption(header));
+
+  for (const cat of group.members) {
+    const info = {
+      category: CategoryType.Mods,
+      group: SHOW_GROUP,
+      type: OptionType.Checkbox,
+      id: "geo-labels-vis-" + cat.id,
+      label: cat.loc,
+      description: "LOC_GEO_LABELS_VIS_DESC",
+      initListener: (i) => {
+        i.currentValue = isCategoryVisible(cat.id);
+        i.isHidden = true;
+      },
+      updateListener: (i, value) => {
+        // Keep currentValue in step: forceRender (expand/collapse) re-applies it.
+        i.currentValue = !!value;
+        setCategoryVisible(cat.id, !!value);
+        refreshLayer();
+      },
+    };
+    members.push(info);
+    safe(() => Options.addOption(info));
+  }
 }
 
 export {};

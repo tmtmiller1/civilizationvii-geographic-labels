@@ -6,7 +6,17 @@ import {
   wrapDeltaX,
 } from "./geo-labels-format.js";
 import { CIV_NAMES, GENERIC, NEUTRAL } from "./geo-labels-toponyms.js";
-import { isCategoryVisible, safe, STORE_KEY } from "./geo-labels-utils.js";
+import {
+  getGlobalSettings,
+  isCategoryVisible,
+  safe,
+  setGlobalSettings,
+} from "./geo-labels-utils.js";
+import {
+  readGameState,
+  setCustomName,
+  writeGameState,
+} from "./geo-labels-store.js";
 import {
   anchorIndex,
   buildNearField,
@@ -20,11 +30,6 @@ import { collectRivers } from "./geo-labels-rivers.js";
 const WONDER_OFFSET = 8;
 const CONTINENT_MIN_TILES = 80;
 
-// Bump when a change makes previously-stored label keys unmappable, so
-// migrateStore() can reset stale per-game state exactly once.
-//   1 -> 2: label keys moved from volatile engine area ids to stable geometry
-//           anchors (v1.0.3). Old auto/custom entries can't be remapped.
-const SCHEMA_VERSION = 2;
 const HEARTLAND_RADIUS = 4;
 
 function dims() {
@@ -34,8 +39,32 @@ function dims() {
   };
 }
 
+// Per-game seed: seeds name generation (mulberry32/hash01) AND keys the
+// persisted name store. It must resolve to the SAME value on every compute of a
+// given game — otherwise the store key changes and every auto name re-rolls,
+// which is the "labels change between loads" report.
+//
+// Two hardenings over the old `Configuration.getGame().gameSeed || 1`:
+//  1. Read via a fallback chain — a single field can come back null depending on
+//     load timing/context; sibling mods (demographics, history_and_rankings) hit
+//     the same and chain fields for this reason. `gameSeed` stays first so
+//     already-persisted buckets keep their existing key (no one-time re-roll).
+//  2. Remember the last good value. An intermittent null read on a later compute
+//     no longer flips us into the shared `1` bucket mid-session (which silently
+//     re-rolled every name); we reuse the last real seed instead. A real read
+//     always refreshes it, so switching games in one session still re-keys
+//     correctly. Only a session that has NEVER seen a valid seed hits `1`.
+let lastGoodSeed = null;
 function gameSeed() {
-  return (safe(() => Configuration.getGame().gameSeed) || 1) >>> 0;
+  const raw = safe(() => {
+    const g = Configuration.getGame();
+    return g && (g.gameSeed ?? g.startSeed ?? g.mapSeed);
+  });
+  if (raw !== undefined && raw !== null) {
+    lastGoodSeed = raw >>> 0;
+    return lastGoodSeed;
+  }
+  return lastGoodSeed !== null ? lastGoodSeed : 1 >>> 0;
 }
 
 function gridW() {
@@ -93,84 +122,37 @@ function hash01(value) {
   return (h >>> 0) / 4294967296;
 }
 
-function readStore() {
-  const raw = safe(() => localStorage.getItem(STORE_KEY));
-  const o = raw ? safe(() => JSON.parse(raw)) : null;
-  // Only ever return a plain object — a corrupted store that parses to a
-  // primitive/array would otherwise throw on `all._schema = …` / Object.keys.
-  return (o && typeof o === "object" && !Array.isArray(o)) ? o : {};
-}
-
-function writeStore(value) {
-  safe(() => localStorage.setItem(STORE_KEY, JSON.stringify(value)));
-}
-
-// Unguarded variant so saveGame's quota fallback can actually catch a throw;
-// writeStore swallows every error via safe(), which would defeat the retry.
-function writeStoreRaw(value) {
-  localStorage.setItem(STORE_KEY, JSON.stringify(value));
-}
-
+// Per-game names (auto + player renames) live in the GameConfiguration store
+// (see geo-labels-store.js); the seed keys the record. Global settings stay in
+// localStorage via geo-labels-utils.
 function loadGame() {
-  const all = readStore();
-  const key = String(gameSeed());
-  const game = all[key] || {};
-  return {
-    custom: game.custom || {},
-    auto: game.auto || {},
-  };
+  return readGameState(gameSeed());
 }
 
 function saveGame(state) {
-  const key = String(gameSeed());
-  // Merge into the existing store rather than rebuilding it, so saving one
-  // game never drops other games' labels (which caused names to re-roll when
-  // switching games) or the schema stamp.
-  const all = readStore();
-  all[key] = {
-    custom: state.custom || {},
-    auto: state.auto || {},
-  };
-  try {
-    writeStoreRaw(all);
-  } catch (_e) {
-    // Over quota: drop the regenerable auto names (they recompute next pass)
-    // and retry with only the user's custom renames preserved.
-    all[key] = {
-      custom: state.custom || {},
-      auto: {},
-    };
-    writeStore(all);
-  }
-}
-
-// One-time reset when the key scheme changes (see SCHEMA_VERSION). Old per-game
-// auto/custom entries were keyed on engine area ids that can't be mapped to the
-// new geometry anchors, and a stale key can even collide with a new one and
-// surface the wrong name — so clear them once. Auto names regenerate
-// deterministically; custom (manual) names revert to auto. Runs before any
-// state is read, and only until the schema stamp is written.
-function migrateStore() {
-  const all = readStore();
-  if ((all._schema || 1) >= SCHEMA_VERSION) return;
-  for (const key of Object.keys(all)) {
-    if (key === "_settings" || key === "_schema") continue;
-    all[key] = { custom: {}, auto: {} };
-  }
-  all._schema = SCHEMA_VERSION;
-  writeStore(all);
+  writeGameState(gameSeed(), state);
 }
 
 export function getFlatSetting() {
-  const all = readStore();
-  return !!(all._settings && all._settings.flat);
+  return !!getGlobalSettings().flat;
 }
 
 export function setFlatSetting(value) {
-  const all = readStore();
-  if (!all._settings) all._settings = {};
-  all._settings.flat = !!value;
-  writeStore(all);
+  setGlobalSettings({ flat: !!value });
+}
+
+// Player rename hook for the Rename Places panel. Blank clears the rename so
+// the generated name returns on the next compute.
+export function setCustomLabelName(key, name) {
+  return setCustomName(gameSeed(), key, name);
+}
+
+// Every label from the last compute that passed the category filter, BEFORE
+// overlap suppression — so the rename panel can list names the map is
+// currently hiding for lack of room.
+let lastComputed = null;
+export function getLastComputedLabels() {
+  return lastComputed;
 }
 
 function makeNamePicker(rand) {
@@ -512,6 +494,7 @@ export function computeLabels(log = () => {}) {
   // Drop player-hidden categories BEFORE overlap suppression so a hidden label
   // can't crowd out a visible one it happens to sit near.
   const visible = labels.filter((label) => isCategoryVisible(labelType(label)));
+  lastComputed = visible;
   const shown = suppressOverlaps(visible);
   logSummary({ log, labels: visible, shown, features, scanned, flips });
 
@@ -520,7 +503,6 @@ export function computeLabels(log = () => {}) {
 
 function prepareComputation() {
   const { w, h } = dims();
-  migrateStore();
   const state = loadGame();
   const custom = state.custom;
   const auto = state.auto;

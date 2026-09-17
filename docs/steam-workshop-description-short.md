@@ -11,7 +11,8 @@ Writes the names of the land and water back onto the map — continents, islands
 [*]Named rivers (navigable and minor), using the game's own names, laid flat along each course.
 [*]~1,200 real toponyms across all 30 civilizations, with clarifiers like [i]Isle of Creta[/i].
 [*]Font sized by feature type — continents and seas grandest, rivers smallest.
-[*]Per-category show/hide for every label type (Options → Mods), applied live; plus a terrain-following option.
+[*]Per-category show/hide for every label type, grouped into four sections (Options → Mods), applied live; plus a terrain-following option.
+[*]Rename Places: rename any label — wonders, rivers, seas, continents, regions — saved with your game.
 [/list]
 
 [b]Compatibility:[/b] additive and observer-based — no base-game file replacement. Per-save name storage.

@@ -47,7 +47,7 @@ mkdir -p "$TARGET_DIR"
 
 echo "==> Mirroring → $TARGET_DIR/ (excluding dev cruft)"
 rsync -a --exclude='.git' --exclude='.gitignore' --exclude='.DS_Store' --exclude='dist' \
-    --exclude='release.sh' --exclude='install.sh' --exclude='*.bak' --exclude='node_modules' \
+    --exclude='release.sh' --exclude='install.sh' --exclude='install-dev.sh' --exclude='*.bak' --exclude='node_modules' \
     --exclude='docs' --exclude='README.pdf' --exclude='steam_workshop_id.txt' \
     --exclude='tests' --exclude='coverage' --exclude='package.json' --exclude='package-lock.json' \
     --exclude='eslint.config.js' --exclude='reports' \
