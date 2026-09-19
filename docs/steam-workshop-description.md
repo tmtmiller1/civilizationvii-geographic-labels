@@ -18,7 +18,7 @@ Off by default; toggle with the [b]Geographic Names[/b] checkbox next to [i]Yiel
 [*]Rename Places: an alphabetical list of every label on the map — wonders, rivers, seas, continents, regions — each with an editable field. Your names are starred, always win a collision, and are saved with the game; blank restores the generated name.
 [/list]
 
-[b]Compatibility:[/b] additive and observer-based — no base UI files replaced (no ReplaceUIScript), so it coexists with other mods. Per-save name storage.
+[b]Compatibility:[/b] additive and observer-based — no base UI files replaced (no ReplaceUIScript), so it coexists with other mods. Works in new games and in games already in progress. Per-save name storage.
 
 [b]Languages:[/b] English.
 [b]Source:[/b] Open source (MIT): https://github.com/tmtmiller1/civilizationvii-geographic-labels

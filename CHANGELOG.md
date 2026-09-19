@@ -7,6 +7,13 @@ section below by `release.sh`.
 
 ## [Unreleased]
 
+## [1.4.1] - 2026-09-19
+
+### Fixed
+- **Works in games already in progress.** Loading a save that was started without the mod now shows the
+  labels. Before, the game left the mod off for any save it had not been part of from the start, even with
+  the mod enabled. Renamed places are still saved with the game.
+
 ## [1.4.0] - 2026-09-17
 
 ### Changed

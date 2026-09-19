@@ -15,7 +15,7 @@ Writes the names of the land and water back onto the map — continents, islands
 [*]Rename Places: rename any label — wonders, rivers, seas, continents, regions — saved with your game.
 [/list]
 
-[b]Compatibility:[/b] additive and observer-based — no base-game file replacement. Per-save name storage.
+[b]Compatibility:[/b] additive and observer-based — no base-game file replacement. Works in games already in progress. Per-save name storage.
 
 [b]Languages:[/b] English.
 [b]Source:[/b] Open source (MIT): https://github.com/tmtmiller1/civilizationvii-geographic-labels

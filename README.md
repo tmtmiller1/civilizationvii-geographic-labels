@@ -75,7 +75,8 @@ low-contrast so they don't obscure the terrain underneath. Small specks (< 3 til
 
 ## Compatibility
 
-Additive and observer-based — no base UI files are replaced. Should coexist with other mods.
+Additive and observer-based — no base UI files are replaced. Should coexist with other mods. Works in new games
+and in saves started without it.
 
 ## Development Quality Gate
 
