@@ -24,6 +24,7 @@ let RIVER_NAME = () => null; // only used by riverNameAt()
 
 const { collectRivers, composeRiverName, riverNameAt } =
   await import("../ui/geo-labels-rivers.js");
+const { frame } = await import("../ui/geo-labels-format.js");
 
 // Build a namedRiverTiles Map from [x,y] pairs, all sharing one raw name.
 function named(raw, ...pairs) {
@@ -32,9 +33,10 @@ function named(raw, ...pairs) {
   return m;
 }
 
-test("composeRiverName composes the engine LOC key and strips a trailing 'River'", () => {
+test("composeRiverName composes the engine LOC key and keeps the game's full name", () => {
   assert.equal(composeRiverName("LOC_RIVER_WADI_HANIFA_NAME"), "Wadi Hanifa");
-  assert.equal(composeRiverName("Nile River"), "Nile"); // unknown key passes through
+  assert.equal(composeRiverName("Nile River"), "Nile River"); // unknown key passes through
+  assert.equal(composeRiverName("  River Tay "), "River Tay");
   assert.equal(composeRiverName(""), null);
   assert.equal(composeRiverName(null), null);
 });
@@ -91,4 +93,16 @@ test("a single-tile river is below the minimum and earns no label", () => {
 
 test("an empty scan yields no river labels", () => {
   assert.deepEqual(collectRivers({ namedRiverTiles: new Map(), w: W, h: H }), []);
+});
+
+// Every form the game's river names take (from the shipped NamedPlacesText.xml):
+// a river label must read exactly as the game names the river, never doubled.
+test("river labels read exactly as the game names them", () => {
+  for (const name of [
+    "Nile River", "Amu Darya River", "River Tay", "River Great Ouse", "Wadi Hanifa",
+    "Kolekole Stream", "Sông Hong", "Rio Negro", "Río Grande de Loíza", "Harşit Çayı",
+    "Wallaqa Mayu", "Markarfljót", "Þjórsá", "Idiglat", "Black Volta",
+  ]) {
+    assert.equal(frame("rivers", composeRiverName(name)), name);
+  }
 });

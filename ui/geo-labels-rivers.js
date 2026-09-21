@@ -55,12 +55,14 @@ function componentIsNavigable(plots) {
 // getRiverName returns a localization KEY (e.g. "LOC_RIVER_WADI_HANIFA_NAME"),
 // NOT display text — verified live in UI.log — so it must be composed.
 // Locale.compose passes a plain string through unchanged, so this stays correct
-// if a build ever hands back an already-composed name. A trailing "River" is
-// stripped so frame() ("<name> River") doesn't double it.
+// if a build ever hands back an already-composed name. The composed text is the
+// game's full display name and is shown as-is: most end in "River", but many
+// carry their own form ("River Tay", "Wadi Hanifa", "Sông Hong", "Rio Negro",
+// "Kolekole Stream", "Þjórsá"), so appending a generic doubled or mangled them.
 export function composeRiverName(raw) {
   if (!raw || typeof raw !== "string" || raw.trim().length < 2) return null;
   const composed = safe(() => Locale.compose(raw.trim())) || raw.trim();
-  return composed.replace(/\s+River$/i, "").trim();
+  return composed.trim() || null;
 }
 
 // Composed river name at a plot (or null). Kept for the compute-side census.

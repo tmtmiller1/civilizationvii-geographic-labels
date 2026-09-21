@@ -80,7 +80,10 @@ function buildInput(label, commit) {
   // own fxs-textbox sets the same attribute on its input).
   input.setAttribute("consume-keyboard-input", "true");
   input.style.cssText = "flex:1;background:#0d1016;border:1px solid #2a3340;border-radius:5px;color:#f0f0f0;"
-    + "font:13px sans-serif;padding:5px 8px;pointer-events:auto;";
+    + "font-size:13px;padding:5px 8px;pointer-events:auto;";
+  // Inputs don't inherit the panel's font, and GameFace reads `font-family:inherit`
+  // as a font name (the text vanished), so the game's font class goes on directly.
+  input.classList.add("font-body");
   for (const ev of ["keydown", "keyup", "keypress"]) {
     input.addEventListener(ev, (e) => safe(() => e.stopPropagation()));
   }
@@ -98,7 +101,7 @@ function buildInput(label, commit) {
 function buildApply(onClick) {
   const apply = el("div",
     "flex:0 0 auto;cursor:pointer;pointer-events:auto;border:1px solid #caa64f;border-radius:4px;padding:4px 12px;"
-    + "background:#caa64f33;color:#f2e6c8;font:12px sans-serif;user-select:none;", "Apply");
+    + "background:#caa64f33;color:#f2e6c8;font-size:12px;user-select:none;", "Apply");
   apply.setAttribute("role", "button");
   apply.addEventListener("click", (e) => { safe(() => e.stopPropagation()); onClick(); });
   apply.addEventListener("mousedown", (e) => safe(() => e.stopPropagation()));
@@ -133,12 +136,18 @@ function openPanel() {
   labels.sort((a, b) => a.text.localeCompare(b.text, undefined, { sensitivity: "base" }));
 
   const backdrop = el("div",
-    "position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;"
+    // GameFace ignores the `inset` shorthand (the backdrop shrank to the panel and
+    // pinned top-left), so the full-screen box is spelled out.
+    "position:fixed;top:0;left:0;width:100%;height:100%;z-index:2147483647;display:flex;align-items:center;"
+    + "justify-content:center;"
     + "background:#0008;pointer-events:auto;");
   backdrop.id = PANEL_ID;
   const panel = el("div",
     "width:480px;max-height:70vh;display:flex;flex-direction:column;background:#141820;border:2px solid #42c5f5;"
-    + "border-radius:10px;box-shadow:0 8px 32px #000a;color:#f0f0f0;font:14px sans-serif;");
+    + "border-radius:10px;box-shadow:0 8px 32px #000a;color:#f0f0f0;font-size:14px;");
+  // The game's font stack (font-body): plain sans-serif has no ★, which drew as
+  // an empty box in the hint and the "your name" badges.
+  panel.classList.add("font-body");
   panel.appendChild(buildHeader());
   panel.appendChild(el("div", "font-size:11px;color:#8fd0ff;padding:8px 14px;", labels.length
     ? "Edit a name and press Enter or Apply. Leave blank to restore the generated name. ★ = your name."

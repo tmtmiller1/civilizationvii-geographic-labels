@@ -7,6 +7,15 @@ section below by `release.sh`.
 
 ## [Unreleased]
 
+### Fixed
+- **River names read the way the game names them.** Rivers whose names already say what they are came out
+  doubled or garbled: "River Severn River", "Kolekole Stream River", "Wadi Hanifa River". Every river label
+  now uses the game's own full name as-is: "River Severn", "Kolekole Stream", "Wadi Hanifa", "Nile River".
+- **The Rename Places panel opens in the middle of the screen.** It was stuck in the top-left corner with
+  the map undimmed behind it. It now sits centered over a darkened map.
+- **The star that marks your own names shows up.** It drew as an empty box, both in the panel's
+  instructions and next to each place you renamed. The panel now uses the game's own font, which has it.
+
 ## [1.4.2] - 2026-09-20
 
 ### Fixed

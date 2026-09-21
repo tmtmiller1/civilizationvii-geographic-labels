@@ -159,7 +159,6 @@ const GENERIC_SUFFIX = {
   sounds: " Sound",
   inlets: " Inlet",
   fjords: " Fjord",
-  rivers: " River",
   estuaries: " Estuary",
   archipelagos: " Archipelago",
   keys: " Keys",
