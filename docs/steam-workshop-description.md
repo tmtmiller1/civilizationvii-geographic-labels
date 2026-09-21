@@ -15,7 +15,7 @@ Off by default; toggle with the [b]Geographic Names[/b] checkbox next to [i]Yiel
 [*]Font sized by feature type — continents and seas grandest, rivers smallest — for a consistent map hierarchy.
 [*]Per-category show/hide: every label type is its own checkbox in Options → Mods → Geographic Labels to Show, grouped into Land, Island, Sea and Coast, and River and Lake sections, applied live.
 [*]Terrain-following option: lay names flat and rotate them along ranges, coasts, and rivers, the way Civilization VI did.
-[*]Rename Places: an alphabetical list of every label on the map — wonders, rivers, seas, continents, regions — each with an editable field. Your names are starred, always win a collision, and are saved with the game; blank restores the generated name.
+[*]Rename Places: every label on the map in one window — wonders, rivers, seas, continents, regions — each with an editable field. A search box finds a place by name or by kind, and the list sorts by type or name. Your names are starred, always win a collision, and are saved with the game; Restore (or a blank name) brings back the generated one.
 [/list]
 
 [b]Compatibility:[/b] additive and observer-based — no base UI files replaced (no ReplaceUIScript), so it coexists with other mods. Works in new games and in games already in progress. Per-save name storage.

@@ -5,7 +5,7 @@ follows [Keep a Changelog](https://keepachangelog.com/) and Semantic Versioning.
 The Steam Workshop change note for each release is generated from the matching
 section below by `release.sh`.
 
-## [Unreleased]
+## [1.5.0] - 2026-09-21
 
 ### Fixed
 - **River names read the way the game names them.** Rivers whose names already say what they are came out
@@ -23,6 +23,8 @@ section below by `release.sh`.
   title, the game's close button, its text fields and font, and the map dimmed behind it, centered on
   screen. It used to be a plain panel with a teal border stuck in the top-left corner.
 - **A search box** at the top finds a place by name or by kind ("reef", "sea").
+- **Sort by type or name.** Click the Type or Name column title to sort the list by it; click again to
+  reverse it.
 - **Renaming is Enter, or just leave the field.** The per-row Apply buttons are gone. Press Restore on a
   renamed place (or clear its name) to bring back the generated one. Escape puts back the name you were
   editing, and a controller opens the on-screen keyboard.
