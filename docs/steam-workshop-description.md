@@ -37,7 +37,13 @@ In [b]Options → Add-Ons → Geographic Labels[/b]:
 [b]Compatibility:[/b] additive and observer-based, with no base UI files replaced, so it coexists with other mods. Works in new games and in games already in progress. Names are stored per save.
 
 [b]Languages:[/b] English.
-[b]Source:[/b] Open source (MIT): https://github.com/tmtmiller1/civilizationvii-geographic-labels
+
+[h2]Links[/h2]
+[list]
+[*][b]Screenshots and release notes for 1.5.0:[/b] [url=https://github.com/tmtmiller1/civilizationvii-geographic-labels/releases/tag/v1.5.0]Geographic Labels 1.5.0 on GitHub[/url]
+[*][b]Latest release (notes, screenshots and a manual-install zip):[/b] [url=https://github.com/tmtmiller1/civilizationvii-geographic-labels/releases/latest]Latest Geographic Labels release[/url]
+[*][b]Source code (open source, MIT):[/b] [url=https://github.com/tmtmiller1/civilizationvii-geographic-labels]Geographic Labels on GitHub[/url]
+[/list]
 
 [h2]Credits[/h2]
 [list]
