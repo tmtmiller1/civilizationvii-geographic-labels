@@ -13,6 +13,10 @@ section below by `release.sh`.
   now uses the game's own full name as-is: "River Severn", "Kolekole Stream", "Wadi Hanifa", "Nile River".
 - **The star that marks your own names shows up.** It drew as an empty box, both in the panel's
   instructions and next to each place you renamed.
+- **The label settings stay in Options after you confirm.** Pressing Confirm Changes made the Geographic
+  Labels rows disappear from the Options screen until the game was restarted. They now stay.
+- **Cancel Changes undoes label settings too.** Turning a kind of label off (or follow the terrain on) and
+  then pressing Cancel Changes used to keep the change. It now puts things back the way they were.
 
 ### Changed
 - **Rename Places looks like part of the game.** It is now a proper game window: the gold-trimmed frame and
