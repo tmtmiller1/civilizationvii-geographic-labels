@@ -19,6 +19,24 @@
         <Row Tag="LOC_GEO_LABELS_RENAME">
             <Text>Rename Places…</Text>
         </Row>
+        <Row Tag="LOC_GEO_LABELS_RENAME_TITLE">
+            <Text>Rename Places</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_RENAME_HINT">
+            <Text>Type a new name and press Enter. Leave it blank, or press Restore, to bring back the generated name. ★ marks your names.</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_RENAME_EMPTY">
+            <Text>No labels yet. Turn on Geographic Names on a map first.</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_RENAME_SEARCH">
+            <Text>Find a place…</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_RENAME_RESTORE_BTN">
+            <Text>Restore</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_RENAME_RESTORE">
+            <Text>Restore the generated name</Text>
+        </Row>
         <Row Tag="LOC_GEO_LABELS_TOGGLE">
             <Text>Geographic Names</Text>
         </Row>

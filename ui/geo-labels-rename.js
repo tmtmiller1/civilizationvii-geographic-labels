@@ -1,21 +1,24 @@
 /**
- * Geographic Labels — "Rename Places" panel.
+ * Geographic Labels — "Rename Places" window.
  *
  * Injects a "Rename Places…" button into the mini-map lens menu (under the
- * Geographic Names checkbox). Opens a modal list of every current label with an
- * editable field; edits persist per game (geo-labels-store.js) and the map
- * updates live. A blank field restores the generated name.
- *
- * While the panel is open, ViewManager.isWorldInputAllowed is turned off so
- * the text inputs receive the keyboard; it is restored on close.
+ * Geographic Names checkbox). It opens a game-styled window (a Panel pushed by
+ * ContextManager, so the game supplies the dimmed backdrop, input routing, and
+ * Escape / controller-back) listing every current label in an fxs-textbox.
+ * Enter, or leaving the field, renames; a blank field or Restore brings back
+ * the generated name. Edits persist per game (geo-labels-store.js) and the map
+ * updates live. A search box filters the list.
  */
 
+import Panel from "/core/ui/panel-support.js";
+import ContextManager from "/core/ui/context-manager/context-manager.js";
+import { InputEngineEventName } from "/core/ui/input/input-support.js";
 import ViewManager from "/core/ui/views/view-manager.js";
 import { createLogger, safe } from "./geo-labels-utils.js";
 
 const TAG = "[GeoLabels]";
 const BTN_ID = "geo-labels-rename-btn";
-const PANEL_ID = "geo-labels-rename-panel";
+const SCREEN = "geo-labels-rename-screen";
 // base-game LOC (engine-owned) — used as a DOM selector to find the Yields row.
 const YIELDS_SELECTOR = '[data-l10n-id="LOC_UI_MINI_MAP_YIELDS"]';
 const TYPE_LABEL = {
@@ -25,6 +28,21 @@ const TYPE_LABEL = {
   sounds: "Sound", inlets: "Inlet", fjords: "Fjord", reefs: "Reef", atolls: "Atoll",
   estuaries: "Estuary", rivernav: "River", riverminor: "River (minor)",
 };
+// Colors sampled from the game's own window: EDGE is the thin khaki line on the
+// popup frame's rim, which the fields and row rules reuse so they read as part of
+// the frame; muted parchment for secondary text; gold for the "your name" star.
+const EDGE = "#716956";
+const EDGE_LIT = "#948a70";
+const MUTED = "#a99a7c";
+const GOLD = "#f3c34c";
+const RULE = "rgba(113,105,86,0.45)";
+// fxs-textbox draws a thicker grey-blue `border-primary-1` edge; this window's
+// fields use the frame's own 1px rim instead, lifting a little on hover/focus.
+// The selectors out-rank the component's single-class rules.
+const FIELD_CSS = `
+.geo-labels-rename-screen .geo-field input { border-width: 1px; border-color: ${EDGE}; }
+.geo-labels-rename-screen .geo-field input:hover,
+.geo-labels-rename-screen .geo-field input:focus { border-color: ${EDGE_LIT}; }`;
 
 const DBG = true; // release.sh flips this to false to silence logs in shipped builds
 const log = createLogger(TAG, () => DBG);
@@ -33,133 +51,208 @@ function api() {
   return (typeof window !== "undefined" && window.__geoLabels) || null;
 }
 
-let worldInputWas = null;
-function gateInput(off) {
-  safe(() => {
-    if (off) {
-      worldInputWas = ViewManager.isWorldInputAllowed;
-      ViewManager.isWorldInputAllowed = false;
-    } else if (worldInputWas !== null) {
-      ViewManager.isWorldInputAllowed = worldInputWas;
-      worldInputWas = null;
-    }
-  });
+function loc(key, fallback) {
+  const s = safe(() => Locale.compose(key));
+  return s && s !== key ? s : fallback;
 }
 
-function closePanel() {
-  const el = document.getElementById(PANEL_ID);
-  if (el) el.remove();
-  gateInput(false);
-}
-
-function el(tag, css, text) {
+function el(tag, cls, style, text) {
   const node = document.createElement(tag);
-  if (css) node.style.cssText = css;
+  if (cls) node.className = cls;
+  if (style) node.setAttribute("style", style);
   if (text != null) node.textContent = text;
   return node;
 }
 
-function buildHeader() {
-  const header = el("div",
-    "display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid #2a3340;");
-  header.appendChild(el("div", "font-weight:700;color:#42c5f5;font-size:16px;", "Rename Places"));
-  const close = document.createElement("fxs-button");
-  safe(() => close.setAttribute("caption", "Close"));
-  safe(() => close.addEventListener("action-activate", closePanel));
-  safe(() => close.addEventListener("click", closePanel));
-  header.appendChild(close);
-  return header;
+// fxs-textbox keeps its current text in the `value` attribute.
+function boxValue(box) {
+  return String(box.getAttribute("value") ?? "");
 }
 
-function buildInput(label, commit) {
-  const input = document.createElement("input");
-  input.type = "text";
-  input.value = label.text;
-  input.setAttribute("data-geo-key", label.key);
-  // Without this the engine also treats each keystroke as a hotkey (the game's
-  // own fxs-textbox sets the same attribute on its input).
-  input.setAttribute("consume-keyboard-input", "true");
-  input.style.cssText = "flex:1;background:#0d1016;border:1px solid #2a3340;border-radius:5px;color:#f0f0f0;"
-    + "font-size:13px;padding:5px 8px;pointer-events:auto;";
-  // Inputs don't inherit the panel's font, and GameFace reads `font-family:inherit`
-  // as a font name (the text vanished), so the game's font class goes on directly.
-  input.classList.add("font-body");
-  for (const ev of ["keydown", "keyup", "keypress"]) {
-    input.addEventListener(ev, (e) => safe(() => e.stopPropagation()));
+function injectFieldStyle() {
+  if (document.getElementById("geo-labels-rename-style")) return;
+  const style = document.createElement("style");
+  style.id = "geo-labels-rename-style";
+  style.textContent = FIELD_CSS;
+  document.head.appendChild(style);
+}
+
+// A game text field for this window. `enabled` is deliberately NOT set: on
+// fxs-textbox it means "start editing now" (it grabs focus and goes read-only),
+// so setting it on every row handed focus to the last one.
+function field(cls) {
+  const box = document.createElement("fxs-textbox");
+  box.className = "geo-field " + cls;
+  return box;
+}
+
+class GeoLabelsRenameScreen extends Panel {
+  rows = [];
+  worldInputWas = null;
+  engineInputListener = (event) => this.onEngineInput(event);
+
+  onInitialize() {
+    super.onInitialize();
+    this.enableOpenSound = true;
+    this.enableCloseSound = true;
+    this.Root.setAttribute("data-audio-group-ref", "audio-screen-unlocks");
+    safe(injectFieldStyle);
+    this.render();
   }
-  input.addEventListener("change", () => commit(input.value));
-  input.addEventListener("keydown", (e) => {
-    if (e && (e.key === "Enter" || e.keyCode === 13)) {
-      commit(input.value);
-      safe(() => input.blur());
+
+  onAttach() {
+    super.onAttach();
+    this.Root.addEventListener(InputEngineEventName, this.engineInputListener);
+    // Keep typed letters out of the map's hotkeys while the window is open.
+    safe(() => {
+      this.worldInputWas = ViewManager.isWorldInputAllowed;
+      ViewManager.isWorldInputAllowed = false;
+    });
+    log("rename window opened with", this.rows.length, "entries");
+  }
+
+  onDetach() {
+    this.Root.removeEventListener(InputEngineEventName, this.engineInputListener);
+    safe(() => {
+      if (this.worldInputWas !== null) ViewManager.isWorldInputAllowed = this.worldInputWas;
+    });
+    super.onDetach();
+  }
+
+  onEngineInput(event) {
+    if (event?.detail?.status !== InputActionStatuses.FINISH) return;
+    if (event.detail.name === "cancel" || event.detail.name === "keyboard-escape") {
+      this.close();
+      event.stopPropagation();
+      event.preventDefault();
     }
-  });
-  input.addEventListener("click", () => safe(() => input.focus()));
-  return input;
+  }
+
+  render() {
+    // add, don't assign: the screen's own class scopes FIELD_CSS.
+    this.Root.classList.add("absolute", "inset-0", "flex", "items-center", "justify-center", "pointer-events-auto");
+    this.Root.innerHTML = `
+      <fxs-frame frame-style="f2" class="flex flex-col" style="width:46rem;height:80vh;">
+        <fxs-header class="font-title text-xl uppercase text-secondary" filigree-style="h4"></fxs-header>
+        <div data-geo-hint class="font-body text-sm px-6 mt-2"></div>
+        <div data-geo-search class="flex flex-row items-center px-6 mt-3"></div>
+        <fxs-scrollable class="flex-auto mt-3" style="min-height:0;">
+          <fxs-vslot data-geo-list class="px-6 pb-4"></fxs-vslot>
+        </fxs-scrollable>
+        <div class="h-6"></div>
+        <fxs-close-button></fxs-close-button>
+      </fxs-frame>`;
+    this.Root.querySelector("fxs-header")
+      .setAttribute("title", loc("LOC_GEO_LABELS_RENAME_TITLE", "Rename Places"));
+    this.Root.querySelector("fxs-close-button")
+      .addEventListener("action-activate", () => this.close());
+
+    const geo = api();
+    const labels = (geo && safe(() => geo.getLabels())) || [];
+    // Alphabetical by the name as shown on the map, so a player can find a place
+    // mid-game without knowing which category the mod filed it under.
+    labels.sort((a, b) => a.text.localeCompare(b.text, undefined, { sensitivity: "base" }));
+
+    const hint = this.Root.querySelector("[data-geo-hint]");
+    hint.setAttribute("style", "color:" + MUTED + ";");
+    hint.textContent = labels.length
+      ? loc("LOC_GEO_LABELS_RENAME_HINT",
+        "Type a new name and press Enter. Leave it blank, or press Restore, to bring back the generated name. "
+        + "★ marks your names.")
+      : loc("LOC_GEO_LABELS_RENAME_EMPTY", "No labels yet. Turn on Geographic Names on a map first.");
+
+    if (labels.length) this.buildSearch(this.Root.querySelector("[data-geo-search]"));
+    const list = this.Root.querySelector("[data-geo-list]");
+    for (const label of labels) list.appendChild(this.buildRow(label));
+  }
+
+  buildSearch(host) {
+    const search = field("flex-auto");
+    search.setAttribute("placeholder", loc("LOC_GEO_LABELS_RENAME_SEARCH", "Find a place…"));
+    const filter = (text) => {
+      const q = String(text || "").trim().toLowerCase();
+      for (const r of this.rows) {
+        const hit = !q || r.search.includes(q) || boxValue(r.box).toLowerCase().includes(q);
+        r.row.style.display = hit ? "" : "none";
+      }
+    };
+    search.addEventListener("text-changed", (e) => filter(e.detail?.newStr));
+    host.appendChild(search);
+  }
+
+  buildRow(label) {
+    const c = rowControls(label);
+    const r = { row: c.row, box: c.box, search: (label.text + " " + c.type).toLowerCase(),
+      shown: label.text, cust: !!label.cust };
+    const paint = () => {
+      c.star.textContent = r.cust ? "★" : "";
+      c.restore.style.visibility = r.cust ? "visible" : "hidden";
+    };
+    const commit = (value) => {
+      const name = String(value).trim();
+      if (name === r.shown && (name !== "" || !r.cust)) return;
+      const g = api();
+      if (!g || !g.setName) { log("commit: no api/setName"); return; }
+      const ok = safe(() => g.setName(label.key, name));
+      // Read back what the map now shows: a blank name restores the generated one.
+      const now = safe(() => g.getLabels().find((l) => l.key === label.key));
+      r.cust = now ? !!now.cust : name !== "";
+      r.shown = now ? now.text : name;
+      c.box.setAttribute("value", r.shown);
+      c.badge.style.color = ok === false ? "#ff6b6b" : MUTED;
+      paint();
+    };
+    // Keyboard: Enter renames, Escape puts the shown name back. A controller's
+    // on-screen keyboard reports through text-edit-stop instead.
+    c.box.addEventListener("keyup", (e) => {
+      if (e.code === "Enter") commit(boxValue(c.box));
+      else if (e.code === "Escape") c.box.setAttribute("value", r.shown);
+    });
+    c.box.addEventListener("text-edit-stop", (e) => {
+      if (e.detail?.confirmed) commit(boxValue(c.box));
+      else c.box.setAttribute("value", r.shown);
+    });
+    c.box.addEventListener("focusout", () => commit(boxValue(c.box)));
+    c.restore.addEventListener("action-activate", () => commit(""));
+    paint();
+    this.rows.push(r);
+    return c.row;
+  }
 }
 
-function buildApply(onClick) {
-  const apply = el("div",
-    "flex:0 0 auto;cursor:pointer;pointer-events:auto;border:1px solid #caa64f;border-radius:4px;padding:4px 12px;"
-    + "background:#caa64f33;color:#f2e6c8;font-size:12px;user-select:none;", "Apply");
-  apply.setAttribute("role", "button");
-  apply.addEventListener("click", (e) => { safe(() => e.stopPropagation()); onClick(); });
-  apply.addEventListener("mousedown", (e) => safe(() => e.stopPropagation()));
-  return apply;
+// One list row: category, name field, "your name" star, and the restore button.
+function rowControls(label) {
+  const type = TYPE_LABEL[label.type] || label.type;
+  const row = el("div", "flex flex-row items-center py-1", "border-bottom:1px solid " + RULE + ";");
+  const badge = el("div", "font-body text-xs uppercase", "width:8rem;flex:0 0 auto;color:" + MUTED + ";", type);
+  const box = field("flex-auto");
+  box.setAttribute("max-length", "60");
+  box.setAttribute("value", label.text);
+  const star = el("div", "font-body text-base ml-3", "width:1.25rem;color:" + GOLD + ";");
+  const restore = document.createElement("fxs-activatable");
+  // A word, not an arrow: the game font has no ↺ (or any clear undo glyph).
+  restore.className = "font-body text-xs uppercase ml-2 cursor-pointer";
+  restore.setAttribute("style", "width:4.5rem;color:" + MUTED + ";");
+  restore.setAttribute("data-tooltip-content", loc("LOC_GEO_LABELS_RENAME_RESTORE", "Restore the generated name"));
+  restore.setAttribute("data-audio-group-ref", "options");
+  restore.textContent = loc("LOC_GEO_LABELS_RENAME_RESTORE_BTN", "Restore");
+  for (const part of [badge, box, star, restore]) row.appendChild(part);
+  return { type, row, badge, box, star, restore };
 }
 
-function buildRow(label) {
-  const row = el("div", "display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #202833;");
-  const badge = el("div",
-    "min-width:88px;font-size:10px;color:#8a8a92;text-transform:uppercase;letter-spacing:0.06em;",
-    (TYPE_LABEL[label.type] || label.type) + (label.cust ? " ★" : ""));
-  const commit = (value) => {
-    const g = api();
-    if (!g || !g.setName) { log("commit: no api/setName"); return; }
-    const ok = safe(() => g.setName(label.key, value));
-    badge.textContent = (TYPE_LABEL[label.type] || label.type) + (String(value).trim() ? " ★" : "");
-    badge.style.color = ok === false ? "#ff6b6b" : "#8a8a92";
-  };
-  const input = buildInput(label, commit);
-  row.appendChild(badge);
-  row.appendChild(input);
-  row.appendChild(buildApply(() => commit(input.value)));
-  return row;
-}
+Controls.define(SCREEN, {
+  createInstance: GeoLabelsRenameScreen,
+  description: "Geographic Labels: rename places.",
+  classNames: ["geo-labels-rename-screen"],
+  attributes: [],
+});
 
 function openPanel() {
-  if (document.getElementById(PANEL_ID)) return;
-  const geo = api();
-  const labels = (geo && safe(() => geo.getLabels())) || [];
-  // Alphabetical by the name as shown on the map, so a player can find a place
-  // mid-game without knowing which category the mod filed it under.
-  labels.sort((a, b) => a.text.localeCompare(b.text, undefined, { sensitivity: "base" }));
+  safe(() => ContextManager.push(SCREEN, { singleton: true, createMouseGuard: true }));
+}
 
-  const backdrop = el("div",
-    // GameFace ignores the `inset` shorthand (the backdrop shrank to the panel and
-    // pinned top-left), so the full-screen box is spelled out.
-    "position:fixed;top:0;left:0;width:100%;height:100%;z-index:2147483647;display:flex;align-items:center;"
-    + "justify-content:center;"
-    + "background:#0008;pointer-events:auto;");
-  backdrop.id = PANEL_ID;
-  const panel = el("div",
-    "width:480px;max-height:70vh;display:flex;flex-direction:column;background:#141820;border:2px solid #42c5f5;"
-    + "border-radius:10px;box-shadow:0 8px 32px #000a;color:#f0f0f0;font-size:14px;");
-  // The game's font stack (font-body): plain sans-serif has no ★, which drew as
-  // an empty box in the hint and the "your name" badges.
-  panel.classList.add("font-body");
-  panel.appendChild(buildHeader());
-  panel.appendChild(el("div", "font-size:11px;color:#8fd0ff;padding:8px 14px;", labels.length
-    ? "Edit a name and press Enter or Apply. Leave blank to restore the generated name. ★ = your name."
-    : "No labels yet — enable Geographic Names and load a map first."));
-  const list = el("div", "overflow-y:auto;padding:4px 14px 12px;flex:1;");
-  for (const label of labels) list.appendChild(buildRow(label));
-  panel.appendChild(list);
-  backdrop.appendChild(panel);
-  backdrop.addEventListener("click", (e) => { if (e.target === backdrop) closePanel(); });
-  document.body.appendChild(backdrop);
-  gateInput(true);
-  log("rename panel opened with", labels.length, "entries");
+function closePanel() {
+  safe(() => ContextManager.pop(SCREEN));
 }
 
 // ---- inject the "Rename Places…" button under the Geographic Names checkbox --

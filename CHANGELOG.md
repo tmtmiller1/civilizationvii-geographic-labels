@@ -11,10 +11,17 @@ section below by `release.sh`.
 - **River names read the way the game names them.** Rivers whose names already say what they are came out
   doubled or garbled: "River Severn River", "Kolekole Stream River", "Wadi Hanifa River". Every river label
   now uses the game's own full name as-is: "River Severn", "Kolekole Stream", "Wadi Hanifa", "Nile River".
-- **The Rename Places panel opens in the middle of the screen.** It was stuck in the top-left corner with
-  the map undimmed behind it. It now sits centered over a darkened map.
 - **The star that marks your own names shows up.** It drew as an empty box, both in the panel's
-  instructions and next to each place you renamed. The panel now uses the game's own font, which has it.
+  instructions and next to each place you renamed.
+
+### Changed
+- **Rename Places looks like part of the game.** It is now a proper game window: the gold-trimmed frame and
+  title, the game's close button, its text fields and font, and the map dimmed behind it, centered on
+  screen. It used to be a plain panel with a teal border stuck in the top-left corner.
+- **A search box** at the top finds a place by name or by kind ("reef", "sea").
+- **Renaming is Enter, or just leave the field.** The per-row Apply buttons are gone. Press Restore on a
+  renamed place (or clear its name) to bring back the generated one. Escape puts back the name you were
+  editing, and a controller opens the on-screen keyboard.
 
 ## [1.4.2] - 2026-09-20
 

@@ -74,9 +74,10 @@ mini-map's Decorations list.
 ## Renaming places
 
 Click **Rename Places…** under the Geographic Names checkbox. Every label on the current map is listed
-alphabetically — including ones the map is hiding for lack of room — with an editable field. Press Enter
-or Apply to rename; leave the field blank to restore the generated name. Your names are marked with a
-star, always win a collision with a generated label, and are saved with the game.
+alphabetically — including ones the map is hiding for lack of room — with an editable field, and a search
+box finds a place by name or kind. Type a name and press Enter to rename; leave the field blank, or press
+Restore, to bring back the generated name. Your names are marked with a star, always win a collision with
+a generated label, and are saved with the game.
 
 ## What counts as an "island"
 
