@@ -31,6 +31,12 @@
         <Row Tag="LOC_GEO_LABELS_RENAME_SEARCH">
             <Text>Find a place…</Text>
         </Row>
+        <Row Tag="LOC_GEO_LABELS_RENAME_COL_TYPE">
+            <Text>Type</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_RENAME_COL_NAME">
+            <Text>Name</Text>
+        </Row>
         <Row Tag="LOC_GEO_LABELS_RENAME_RESTORE_BTN">
             <Text>Restore</Text>
         </Row>

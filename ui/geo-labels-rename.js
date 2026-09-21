@@ -36,6 +36,7 @@ const EDGE_LIT = "#948a70";
 const MUTED = "#a99a7c";
 const GOLD = "#f3c34c";
 const RULE = "rgba(113,105,86,0.45)";
+const HEAD_ON = "#e5d2ac"; // the active sort column: the title's cream gold
 // fxs-textbox draws a thicker grey-blue `border-primary-1` edge; this window's
 // fields use the frame's own 1px rim instead, lifting a little on hover/focus.
 // The selectors out-rank the component's single-class rules.
@@ -67,6 +68,30 @@ function el(tag, cls, style, text) {
 // fxs-textbox keeps its current text in the `value` attribute.
 function boxValue(box) {
   return String(box.getAttribute("value") ?? "");
+}
+
+// Sort order for the list. Kept for the rest of the session, so the window
+// reopens the way the player last sorted it.
+let sortState = { key: "name", dir: 1 };
+
+function byName(a, b) {
+  return a.shown.localeCompare(b.shown, undefined, { sensitivity: "base" });
+}
+
+// Type sorts by kind, then alphabetically within each kind.
+function compareRows(a, b, key) {
+  if (key === "type") return a.type.localeCompare(b.type) || byName(a, b);
+  return byName(a, b);
+}
+
+function columnHead(label, style) {
+  const head = document.createElement("fxs-activatable");
+  head.className = "font-body text-xs uppercase cursor-pointer";
+  head.setAttribute("style", style + "color:" + MUTED + ";");
+  head.setAttribute("data-audio-group-ref", "options");
+  head.dataset.label = label;
+  head.textContent = label;
+  return head;
 }
 
 function injectFieldStyle() {
@@ -136,6 +161,7 @@ class GeoLabelsRenameScreen extends Panel {
         <fxs-header class="font-title text-xl uppercase text-secondary" filigree-style="h4"></fxs-header>
         <div data-geo-hint class="font-body text-sm px-6 mt-2"></div>
         <div data-geo-search class="flex flex-row items-center px-6 mt-3"></div>
+        <div data-geo-heads class="px-6 mt-3"></div>
         <fxs-scrollable class="flex-auto mt-3" style="min-height:0;">
           <fxs-vslot data-geo-list class="px-6 pb-4"></fxs-vslot>
         </fxs-scrollable>
@@ -149,9 +175,6 @@ class GeoLabelsRenameScreen extends Panel {
 
     const geo = api();
     const labels = (geo && safe(() => geo.getLabels())) || [];
-    // Alphabetical by the name as shown on the map, so a player can find a place
-    // mid-game without knowing which category the mod filed it under.
-    labels.sort((a, b) => a.text.localeCompare(b.text, undefined, { sensitivity: "base" }));
 
     const hint = this.Root.querySelector("[data-geo-hint]");
     hint.setAttribute("style", "color:" + MUTED + ";");
@@ -161,9 +184,44 @@ class GeoLabelsRenameScreen extends Panel {
         + "★ marks your names.")
       : loc("LOC_GEO_LABELS_RENAME_EMPTY", "No labels yet. Turn on Geographic Names on a map first.");
 
-    if (labels.length) this.buildSearch(this.Root.querySelector("[data-geo-search]"));
+    if (labels.length) {
+      this.buildSearch(this.Root.querySelector("[data-geo-search]"));
+      this.buildColumnHeads(this.Root.querySelector("[data-geo-heads]"));
+    }
     const list = this.Root.querySelector("[data-geo-list]");
     for (const label of labels) list.appendChild(this.buildRow(label));
+    if (labels.length) this.applySort();
+  }
+
+  // Clickable column titles over the list: a first click sorts by that column,
+  // another reverses it.
+  buildColumnHeads(host) {
+    const row = el("div", "flex flex-row items-center pb-1", "border-bottom:1px solid " + RULE + ";");
+    this.heads = {
+      type: columnHead(loc("LOC_GEO_LABELS_RENAME_COL_TYPE", "Type"), "width:8rem;flex:0 0 auto;"),
+      name: columnHead(loc("LOC_GEO_LABELS_RENAME_COL_NAME", "Name"), "flex:1 1 auto;"),
+    };
+    for (const [key, head] of Object.entries(this.heads)) {
+      head.addEventListener("action-activate", () => this.sortBy(key));
+      row.appendChild(head);
+    }
+    host.appendChild(row);
+  }
+
+  sortBy(key) {
+    sortState = { key, dir: sortState.key === key ? -sortState.dir : 1 };
+    this.applySort();
+  }
+
+  applySort() {
+    const { key, dir } = sortState;
+    const list = this.Root.querySelector("[data-geo-list]");
+    for (const r of [...this.rows].sort((a, b) => dir * compareRows(a, b, key))) list.appendChild(r.row);
+    for (const [k, head] of Object.entries(this.heads)) {
+      const on = k === key;
+      head.textContent = head.dataset.label + (on ? (dir > 0 ? " ↑" : " ↓") : "");
+      head.style.color = on ? HEAD_ON : MUTED;
+    }
   }
 
   buildSearch(host) {
@@ -182,7 +240,7 @@ class GeoLabelsRenameScreen extends Panel {
 
   buildRow(label) {
     const c = rowControls(label);
-    const r = { row: c.row, box: c.box, search: (label.text + " " + c.type).toLowerCase(),
+    const r = { row: c.row, box: c.box, type: c.type, search: (label.text + " " + c.type).toLowerCase(),
       shown: label.text, cust: !!label.cust };
     const paint = () => {
       c.star.textContent = r.cust ? "★" : "";
