@@ -8,6 +8,7 @@ import {
   computeLabels,
   getFlatSetting,
   getLastComputedLabels,
+  hasGameSeed,
   setCustomLabelName,
   setFlatSetting,
   budgetLabels,
@@ -17,6 +18,11 @@ import { getLastWriteError } from "./geo-labels-store.js";
 import { createLogger, safe } from "./geo-labels-utils.js";
 
 const TAG = "[GeoLabels]";
+// A draw attempted before the engine hands out a game seed generates nothing
+// (see hasGameSeed()). Poll for the seed rather than caching that empty draw:
+// ~30s is far past the worst load timing seen, and toggling the layer resets it.
+const SEED_RETRY_MS = 1000;
+const SEED_RETRY_LIMIT = 30;
 const BUILD = "b8-single-instance";
 const LAYER_TYPE = "tmt-geo-labels-layer";
 
@@ -75,6 +81,38 @@ class GeoLabelsLayer {
     this._visible = false;
     this._labels = null;
     this._lastAge = safe(() => Game.age);
+    this._seedRetries = 0;
+    this._seedRetryPending = false;
+    this._seedGaveUp = false;
+  }
+
+  // Retry a draw that was deferred for want of a game seed. Bounded, and never
+  // more than one timer in flight.
+  _scheduleSeedRetry() {
+    if (this._seedRetryPending) return;
+    if (this._seedRetries >= SEED_RETRY_LIMIT) {
+      if (!this._seedGaveUp) {
+        this._seedGaveUp = true;
+        log(
+          "no game seed after",
+          SEED_RETRY_LIMIT,
+          "retries - labels stay off rather than generate names other clients would not agree on;"
+            + " toggle the layer to retry",
+        );
+      }
+      return;
+    }
+    this._seedRetries += 1;
+    this._seedRetryPending = true;
+    const scheduled =
+      safe(() => {
+        setTimeout(() => {
+          this._seedRetryPending = false;
+          if (this._visible) this._draw();
+        }, SEED_RETRY_MS);
+        return true;
+      }) === true;
+    if (!scheduled) this._seedRetryPending = false;
   }
 
   _ensure() {
@@ -108,6 +146,13 @@ class GeoLabelsLayer {
 
   _draw() {
     if (this._drawn || !this._ensure()) return;
+
+    // No seed yet: computeLabels() would generate nothing anyway. Leave _drawn
+    // false so this is a deferral, not a cached empty map, and poll for the seed.
+    if (!hasGameSeed()) {
+      this._scheduleSeedRetry();
+      return;
+    }
 
     const fill = (LABEL_ALPHA & 0xff) * 0x1000000 + 0xffffff;
     // Hard-cap the glyphs painted into the sprite grid so this layer can never
@@ -150,6 +195,8 @@ class GeoLabelsLayer {
     safe(() => this._grid && this._grid.clear());
     this._drawn = false;
     this._labels = null;
+    this._seedRetries = 0;
+    this._seedGaveUp = false;
     this._draw();
   }
 
@@ -157,6 +204,8 @@ class GeoLabelsLayer {
 
   applyLayer() {
     this._visible = true;
+    this._seedRetries = 0;
+    this._seedGaveUp = false;
     this._draw();
     safe(() => this._grid && this._grid.setVisible(true));
   }
@@ -218,6 +267,13 @@ function logListDiagnostics(list) {
 }
 
 function renameLabel(key, name) {
+  // Distinct from a write failure: with no seed there is no per-game bucket to
+  // key the name to, so nothing was attempted. Unreachable in practice (with no
+  // seed there are no labels to rename), but keeps the log honest.
+  if (!hasGameSeed()) {
+    log("rename ignored:", key, "- no game seed yet, nothing to key the name to");
+    return false;
+  }
   const ok = setCustomLabelName(key, name);
   if (!ok) log("rename write FAILED (kept in-session only):", getLastWriteError());
   else log("rename saved:", key, "=", JSON.stringify(name));

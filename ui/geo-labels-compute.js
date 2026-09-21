@@ -44,7 +44,7 @@ function dims() {
 // given game — otherwise the store key changes and every auto name re-rolls,
 // which is the "labels change between loads" report.
 //
-// Two hardenings over the old `Configuration.getGame().gameSeed || 1`:
+// Three hardenings over the old `Configuration.getGame().gameSeed || 1`:
 //  1. Read via a fallback chain — a single field can come back null depending on
 //     load timing/context; sibling mods (demographics, history_and_rankings) hit
 //     the same and chain fields for this reason. `gameSeed` stays first so
@@ -53,7 +53,15 @@ function dims() {
 //     no longer flips us into the shared `1` bucket mid-session (which silently
 //     re-rolled every name); we reuse the last real seed instead. A real read
 //     always refreshes it, so switching games in one session still re-keys
-//     correctly. Only a session that has NEVER seen a valid seed hits `1`.
+//     correctly.
+//  3. A session that has NEVER read a valid seed returns null rather than
+//     falling back to a shared `1` bucket. That fallback generated — and stored
+//     — a whole name set off a seed no other client would agree on. In single
+//     player that is a cosmetic re-roll once the real seed arrives; in
+//     multiplayer every client derives names from the same seed and map, so one
+//     client dropping into bucket `1` leaves two players reading different
+//     names for the same mountain range. Callers defer instead of guessing —
+//     see hasGameSeed().
 let lastGoodSeed = null;
 function gameSeed() {
   const raw = safe(() => {
@@ -64,7 +72,20 @@ function gameSeed() {
     lastGoodSeed = raw >>> 0;
     return lastGoodSeed;
   }
-  return lastGoodSeed !== null ? lastGoodSeed : 1 >>> 0;
+  return lastGoodSeed; // null until a real seed has been read this session
+}
+
+/** False while the engine has not yet handed out a game seed. Generating names
+ *  without one is not safe: nothing derived from it would agree with any other
+ *  client, and the store would be keyed to a bucket the real seed never
+ *  matches. */
+export function hasGameSeed() {
+  return gameSeed() !== null;
+}
+
+/** Test hook: forget the remembered seed. */
+export function resetSeedCache() {
+  lastGoodSeed = null;
 }
 
 function gridW() {
@@ -144,7 +165,11 @@ export function setFlatSetting(value) {
 // Player rename hook for the Rename Places panel. Blank clears the rename so
 // the generated name returns on the next compute.
 export function setCustomLabelName(key, name) {
-  return setCustomName(gameSeed(), key, name);
+  const seed = gameSeed();
+  // No seed means no per-game bucket to write into: a rename stored now would
+  // be keyed to a record the real seed never reads back.
+  if (seed === null) return false;
+  return setCustomName(seed, key, name);
 }
 
 // Every label from the last compute that passed the category filter, BEFORE
@@ -463,6 +488,13 @@ export function budgetLabels(
 }
 
 export function computeLabels(log = () => {}) {
+  // Defer rather than generate off a fallback seed — see gameSeed(). Nothing is
+  // generated, nothing is written, and the caller retries.
+  if (!hasGameSeed()) {
+    log("no game seed yet — deferring label generation (nothing generated or stored)");
+    lastComputed = [];
+    return [];
+  }
   const prepared = prepareComputation();
   const {
     custom,

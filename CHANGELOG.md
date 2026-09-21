@@ -7,6 +7,17 @@ section below by `release.sh`.
 
 ## [Unreleased]
 
+## [1.4.2] - 2026-09-20
+
+### Fixed
+- **Names can no longer be generated off the wrong starting number.** If the game had not yet handed the
+  mod the number it seeds place names from, the mod fell back to a fixed stand-in and generated — and
+  saved — a whole set of names from it. In a single-player game that showed up as names changing once the
+  real number arrived. In multiplayer it was worse: everyone's names are generated from that same number,
+  so one player falling back to the stand-in left two people reading different names for the same mountain
+  range on the same map. The mod now waits for the real number instead of guessing, and generates or saves
+  nothing until it has it.
+
 ## [1.4.1] - 2026-09-19
 
 ### Fixed
