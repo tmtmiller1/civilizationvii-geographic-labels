@@ -6,7 +6,7 @@
 #         dist/preview.png                         (1024x1024 Workshop thumbnail, from docs/workshop-preview.svg)
 #         dist/workshop_item.vdf                   (steamcmd manifest; publishedfileid from steam_workshop_id.txt)
 #
-# What it does: run lightweight quality gate (`npm run verify`, if package.json exists), mirror the mod into
+# What it does: run lightweight quality gate (`npm run release:gate`, if package.json exists), mirror the mod into
 # dist/geographic-labels/ (dev cruft excluded), flip `const DBG = true` -> false so shipped builds are
 # quiet, syntax-check, zip with the modinfo at the zip root, render the preview, and write the workshop manifest.
 
@@ -28,8 +28,8 @@ case "$AUTHORS" in ""|"Your Name"|"TODO") echo "error: set <Authors> in $MODINFO
 case "$VERSION" in *-dev|*-smoke|0.0.*) echo "error: <Version> '$VERSION' looks like a dev tag."; exit 1;; esac
 
 if [ -f package.json ]; then
-    echo "==> Running verify gate (npm run verify)"
-    npm run verify
+    echo "==> Running verify gate (npm run release:gate)"
+    npm run release:gate
 fi
 
 # Steam publishedfileid (persisted outside dist/ so it survives `rm -rf dist`).
@@ -46,7 +46,7 @@ rm -rf "$DIST_DIR"
 mkdir -p "$TARGET_DIR"
 
 echo "==> Mirroring → $TARGET_DIR/ (excluding dev cruft)"
-rsync -a --exclude='.git' --exclude='.gitignore' --exclude='.DS_Store' --exclude='dist' \
+rsync -a --exclude='CHANGELOG.steam.txt' --exclude='scripts' --exclude='.git' --exclude='.gitignore' --exclude='.DS_Store' --exclude='dist' \
     --exclude='release.sh' --exclude='install.sh' --exclude='install-dev.sh' --exclude='*.bak' --exclude='node_modules' \
     --exclude='docs' --exclude='README.pdf' --exclude='steam_workshop_id.txt' \
     --exclude='tests' --exclude='coverage' --exclude='package.json' --exclude='package-lock.json' \
@@ -91,23 +91,11 @@ fi
 ABS_CONTENT="$(cd "$TARGET_DIR" && pwd)"
 ABS_PREVIEW=""; [ -f "$PREVIEW_OUT" ] && ABS_PREVIEW="$(cd "$DIST_DIR" && pwd)/preview.png"
 
-# Change note: current version's CHANGELOG section rendered as a Steam BBCode list.
-CHANGENOTE="v${VERSION} release."
-VERSION_RE="$(printf '%s' "$VERSION" | sed -E 's/[][(){}.^$*+?|\\]/\\&/g')"
-if [ -f CHANGELOG.md ]; then
-    BULLETS="$(awk -v verre="$VERSION_RE" '
-        function flush(){ if(cur!=""){print cur;cur=""} }
-        $0 ~ ("^## \\[" verre "\\]"){ grab=1; next }
-        grab && /^## /{ flush(); exit }
-        !grab{ next }
-        /^###/{ next }
-        /^[[:space:]]*[-*][[:space:]]+/{ flush(); line=$0; sub(/^[[:space:]]*[-*][[:space:]]+/,"",line); cur=line; next }
-        /^[[:space:]]*$/{ next }
-        cur!=""{ line=$0; sub(/^[[:space:]]+/,"",line); cur=cur " " line }
-        END{ flush() }
-    ' CHANGELOG.md | sed -E 's/\*//g; s/`//g; s/^/[*]/' | tr '\n' ' ')"
-    [ -n "$BULLETS" ] && CHANGENOTE="$(printf '[b]v%s[/b] [list]%s[/list]' "$VERSION" "$BULLETS" | sed -E "s/\\\\/\\\\\\\\/g; s/'/’/g; s/\"([^\"]*)\"/“\\1”/g")"
-fi
+# Change note: this release's block from CHANGELOG.steam.txt, which scripts/steam-changelog.mjs keeps in step with
+# CHANGELOG.md (that script documents Steam's change-note formatting rules). The block is VDF-safe: no straight
+# double quotes, no backslashes. Edit CHANGELOG.steam.txt to reword a note; a hand-edited block is kept.
+CHANGENOTE="$(node scripts/steam-changelog.mjs note "$VERSION")" \
+    || { echo "error: could not build the Steam change note (see above)"; exit 1; }
 
 # Workshop page description: the current long description, escaped for the VDF
 # quoted-string value. steamcmd's KeyValues parser has no backslash-quote

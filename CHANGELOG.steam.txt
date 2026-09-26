@@ -1,0 +1,135 @@
+Steam Workshop change notes, one block per release, newest first.
+Generated from CHANGELOG.md by scripts/steam-changelog.mjs; release.sh uploads the block for the version it builds.
+To fix an old Workshop entry, paste the text under its ==== line into that entry's Edit box on the change-notes page.
+A block edited by hand is kept as-is. Delete a block to regenerate it from CHANGELOG.md.
+
+==== 1.5.0 | 2026-09-21 | src ec35928b1ac8 | gen 24c2418785e1 ====
+[b]Version 1.5.0 · 21 September 2026[/b]
+
+[b]Fixed[/b]
+• [b]River names read the way the game names them.[/b] Rivers whose names already say what they are came out doubled or garbled: “River Severn River”, “Kolekole Stream River”, “Wadi Hanifa River”. Every river label now uses the game's own full name as-is: “River Severn”, “Kolekole Stream”, “Wadi Hanifa”, “Nile River”.
+• [b]The star that marks your own names shows up.[/b] It drew as an empty box, both in the panel's instructions and next to each place you renamed.
+• [b]The label settings stay in Options after you confirm.[/b] Pressing Confirm Changes made the Geographic Labels rows disappear from the Options screen until the game was restarted. They now stay.
+• [b]Cancel Changes undoes label settings too.[/b] Turning a kind of label off (or follow the terrain on) and then pressing Cancel Changes used to keep the change. It now puts things back the way they were.
+
+[b]Changed[/b]
+• [b]Rename Places looks like part of the game.[/b] It is now a proper game window: the gold-trimmed frame and title, the game's close button, its text fields and font, and the map dimmed behind it, centered on screen. It used to be a plain panel with a teal border stuck in the top-left corner.
+• [b]A search box[/b] at the top finds a place by name or by kind (“reef”, “sea”).
+• [b]Sort by type or name.[/b] Click the Type or Name column title to sort the list by it; click again to reverse it.
+• [b]Renaming is Enter, or just leave the field.[/b] The per-row Apply buttons are gone. Press Restore on a renamed place (or clear its name) to bring back the generated one. Escape puts back the name you were editing, and a controller opens the on-screen keyboard.
+
+==== 1.4.2 | 2026-09-20 | src f9acb71b643d | gen c5486dccc7f0 ====
+[b]Version 1.4.2 · 20 September 2026[/b]
+
+[b]Fixed[/b]
+• [b]Names can no longer be generated off the wrong starting number.[/b] If the game had not yet handed the mod the number it seeds place names from, the mod fell back to a fixed stand-in and generated — and saved — a whole set of names from it. In a single-player game that showed up as names changing once the real number arrived. In multiplayer it was worse: everyone's names are generated from that same number, so one player falling back to the stand-in left two people reading different names for the same mountain range on the same map. The mod now waits for the real number instead of guessing, and generates or saves nothing until it has it.
+
+==== 1.4.1 | 2026-09-19 | src d4e16e48dbb1 | gen 480b225c69f5 ====
+[b]Version 1.4.1 · 19 September 2026[/b]
+
+[b]Fixed[/b]
+• [b]Works in games already in progress.[/b] Loading a save that was started without the mod now shows the labels. Before, the game left the mod off for any save it had not been part of from the start, even with the mod enabled. Renamed places are still saved with the game.
+
+==== 1.4.0 | 2026-09-17 | src 64f7a1e834f2 | gen 43d8029b2005 ====
+[b]Version 1.4.0 · 17 September 2026[/b]
+
+[b]Changed[/b]
+• [b]Tidier Options tab.[/b] The per-category show/hide checkboxes now sit under their own “Geographic Labels to Show” heading, in four collapsible sections — Land, Island, Sea and Coast, and River and Lake Labels. Click a section's title to open it; its checkboxes are listed alphabetically.
+
+[b]Fixed[/b]
+• [b]Settings are no longer written into another mod's storage.[/b] This game's storage returns the wrong entry's contents on a read, so the mod could be handed a blob belonging to a different mod; writing it back copied that blob into the shared settings and grew it every time. The mod now checks that what it read is really the settings before saving, and declines to write otherwise. It never deletes or rewrites another mod's data.
+
+==== 1.3.0 | 2026-09-11 | src 3753a443e883 | gen a8b1372cbb99 ====
+[b]Version 1.3.0 · 11 September 2026[/b]
+
+[b]Added[/b]
+• [b]Rename Places.[/b] A “Rename Places…” button under the Geographic Names checkbox in the mini-map's Decorations list opens an alphabetical list of every label on the current map — including ones the map is hiding for lack of room — with an editable field. Press Enter or Apply to rename; leave a field blank to restore the generated name. Your names are marked with a star, always win a collision with a generated label, and are saved with the game. Natural wonders, rivers, seas, and continents can be renamed too, not just the generated regions.
+
+[b]Changed[/b]
+• [b]Names are now saved inside the game itself.[/b] Generated names and your renames are stored in the game's own per-save configuration, so they travel with the save, survive quit/reload and the age transition, and no longer compete for the small storage space every mod shares. Names from an existing game are carried over once on its next load. (This shared storage is what made the original 1.0 rename attempt silently fail to save.)
+• [b]Settings are stored the way other options mods store theirs.[/b] The terrain-following toggle and the per-category show/hide checkboxes now live in the shared mod-settings store under this mod's own entry, written carefully so other mods' settings are never touched. The mod's old private storage key is removed after its contents are carried over.
+
+[b]Fixed[/b]
+• [b]Two enabled copies of the mod no longer paint two sets of labels.[/b] If the game loads the mod twice (for example a Workshop copy beside a local copy), only the first registers, so a rename no longer appears to add a name while leaving the old one on the map.
+
+==== 1.2.1 | 2026-07-23 | src e1130f31030e | gen 1ea8407276dc ====
+[b]Version 1.2.1 · 23 July 2026[/b]
+
+[b]Fixed[/b]
+• [b]Generated names now stay put across save/reload.[/b] The per-game name store was keyed on Configuration.getGame().gameSeed, falling back to a shared constant when that field read empty. If the seed ever resolved empty on a load — which could happen depending on load timing — every game collapsed into the same bucket and the auto-generated names (islands, deserts, ranges, taiga, jungle, water) re-rolled. The seed is now read through a fallback chain (gameSeed, then startSeed, then mapSeed) and the last good value is remembered for the session, so an intermittent empty read can no longer switch buckets and re-roll the names mid-game. Existing saves keep their current names: gameSeed is still tried first, so the store key is unchanged wherever it already resolved.
+
+[b]Added[/b]
+• [b]Named rivers.[/b] The mod now labels rivers using the engine's own names. Because a river in Civ VII is an [i]edge[/i], its name (getRiverName) sits on any tile it touches, so the scan queries every tile rather than a single river-type class — grouping tiles by name into connected river systems and placing one label per system, angled along its course. Each system is tagged [b]navigable[/b] (if any tile is a navigable river) or [b]minor[/b], driving two separate toggles. Names are composed through Locale.compose (the engine returns a localization key, not display text). River labels always lie [b]flat along the terrain[/b] even when other labels face the camera, and they bypass overlap suppression so they aren't hidden by the region labels their course runs through.
+• [b]Per-category show/hide.[/b] Every label category is now an individual checkbox in the Options screen under [b]Geographic Labels[/b] — continents, mountain ranges, deserts, taiga, jungle, islands, archipelagos, keys, natural wonders, lakes, seas, gulfs, bays, sounds, inlets, fjords, reefs, atolls, estuaries, and the two river kinds. All default to on; changes apply live while the map layer is enabled. Hidden categories are dropped before overlap resolution, so hiding one never crowds out a category you kept.
+
+[b]Changed[/b]
+• [b]Font size now follows a geographic-type hierarchy.[/b] A label's size is tied to its feature type, not just its tile count, so the map reads consistently: continents and seas grandest, then gulfs/deserts/taiga/jungle, then islands/lakes/wonders, then mountains and coastal waters, then navigable rivers (small) and minor rivers (very small). Each type scales mildly within its own range, and all bounds live in one tunable table (FONT_TIERS).
+
+==== 1.1.1 | 2026-07-13 | src 56e59700c9a2 | gen 1e5830ca1ac7 ====
+[b]Version 1.1.1 · 13 July 2026[/b]
+
+[b]Fixed[/b]
+• [b]Units could not be selected anywhere on the map while the “Geographic Names” layer was enabled.[/b] The layer created an unused WorldUI overlay group at priority 10 (OVERLAY_PRIORITY.MAX_PRIORITY, one above the engine's CURSOR overlay) and never drew into it; that empty max-priority group swallowed world input, so unit clicks were ignored until the layer was toggled off (or the mini-map lens/decoration panel was closed, which pops its input context and restores world input). The labels themselves are painted into a WorldUI sprite grid — the same call the base-game yields layer uses — so the overlay group was pure dead code. Removed it; labels render exactly as before, and the map stays clickable.
+
+==== 1.1.0 | 2026-07-10 | src 593148781261 | gen be5f7d4d788a ====
+[b]Version 1.1.0 · 10 July 2026[/b]
+
+[b]Added[/b]
+• [b]Water & coastal labels.[/b] The mod now names water features, not just land, across the whole docs/water-labels-design.md plan (everything except seamounts, which the engine doesn't model):
+ ◦ [b]Direct feature/terrain matches:[/b] lakes (isLake/TERRAIN_LAKE) → “Lake X”, reefs (FEATURE_REEF/FEATURE_COLD_REEF) → “X Reef”, atolls (FEATURE_ATOLL) → “X Atoll”.
+ ◦ [b]Derived:[/b] estuaries (navigable-river mouths at the coast) → “X Estuary”, using the engine's own river name where known; archipelagos / keys (clusters of nearby islands) → “X Archipelago” or “X Keys” for chains of tiny islands.
+ ◦ [b]Enclosure-classified basins:[/b] a water basin's land-enclosure + size + shape pick “X Sea”, “Gulf of X”, “X Bay”, “X Sound”, “X Inlet”, or “X Fjord”. [b]Fjords are latitude-gated[/b] to the polar/subpolar bands (|lat| ≥ 50°) and additionally require adjacent mountains; elsewhere a narrow basin becomes a Sound.
+ ◦ Names are flavored by the nearest civ where a pool exists (Lake Baikal near Russia, Lake Titiqaqa near the Inca, Norse fjords near the Normans) and generic otherwise. Named marine natural wonders (Great Barrier Reef, Great Blue Hole) stay with the wonder labeler.
+ ◦ The sea/gulf/bay/sound/inlet/fjord split is a geometric [b]heuristic[/b] (the engine has no semantic tag for these); the thresholds in ui/geo-labels-water.js are tunable and want in-game calibration.
+
+[b]Changed[/b]
+• [b]Region labels drop a redundant generic when the name already carries its own geographic word.[/b] Mountains: “Hindu Kush”, “Tian Shan”, “Tengri Tag”, “Safed Koh”, Sanskrit/Tamil ranges (-parvata, -giri, -malai, -adri), Hawaiian Mauna peaks, and self-complete ranges (Himalaya, Karakoram, Pamir, Aravalli, Siwalik) now render bare. Islands: Japanese -shima/ -jima and Sanskrit/Dhivehi -dvipa/-dwipa/-divu names (all meaning “island”) drop the “Isle of” prefix. Jungle: Thai Dong … and Sanskrit -vana/-vanam/-aranya (all meaning “forest”) render bare. Deserts: “Sahra” (Arabic for desert) renders bare. Names without an embedded word keep their generic as before (“Atlas Mountains”, “Isle of Sicilia”, “Sahara Desert”, “Blue Ridge Mountains”).
+• [b]More regions get labeled at a fuller volume.[/b] Minimum sizes for a named region dropped (deserts 8→6, taiga 10→7, jungle 8→6, mountains 5→4 tiles), so smaller-but-real features now qualify.
+
+[b]Fixed[/b]
+• [b]Render-resource crash guard.[/b] The layer now hard-caps how many labels/glyphs it paints into the sprite grid (LABEL_BUDGET, currently 300 labels / 6000 glyphs — a small slice of the engine's ~49,152 draw-resource-per-frame ceiling). The engine's UI renderer segfaults when a frame exceeds that ceiling across the [i]whole[/i] UI (base-game unit flags/banners plus our labels); bounding our fixed per-frame footprint ensures this mod can never be the straw that overflows it, regardless of map size. Labels are dropped lowest-priority-first (computeLabels returns them most-important-first) and a truncation is logged. Covered by tests/geo-labels-budget.test.mjs.
+• [b]Fragmented regions get identified and labeled.[/b] A region broken by a single off-type tile (a mountain saddle, hill, or volcano for ranges; a river, oasis, or lone hill for biomes) was flood-filled into sub-threshold fragments that all got dropped. Region flood-fill now bridges one-tile gaps so the feature stays whole and clears its minimum size.
+
+==== 1.0.3 | 2026-07-10 | src f49c13def3e9 | gen e69b8a50e816 ====
+[b]Version 1.0.3 · 10 July 2026[/b]
+
+[b]Fixed[/b]
+• [b]Label names now stay consistent across save/reload.[/b] Islands and continents were keyed on the engine's area id (GameplayMap.getAreaId), which the engine renumbers every time the map is rebuilt on load. A persisted name therefore failed to match its feature after reload and a fresh name was drawn, so island (and custom continent) names changed instance to instance. All label types are now keyed on a stable, geometry-derived anchor (the minimum linear tile index of the feature) — the same scheme the region labels already used. Wonder labels were already stable (keyed on the data-defined feature type).
+• [b]Names no longer re-roll when switching between saved games.[/b] Saving one game rebuilt the stored state from scratch and kept only that game, so loading a different game found its labels gone and regenerated them. Each game's labels are now preserved independently.
+• [b]Desert names no longer lose out in overlap resolution.[/b] The label-priority table keyed deserts as desert while their labels are keyed deserts, so a desert always resolved to the lowest priority and was hidden whenever it overlapped another label. Fixed the key.
+• [b]Labels for features that cross the map's east/west wrap seam are placed correctly.[/b] Centroid and orientation now use circular (wrap-aware) statistics, so a desert/mountain range/continent straddling the date line is labeled on the feature instead of the map's numeric middle.
+• [b]Hardening:[/b] the save-to-storage quota fallback now actually runs on an over-quota write (it was unreachable), and a corrupted store that parses to a non-object no longer throws.
+
+[b]Notes[/b]
+• One-time reset on first load after updating: because the key scheme changed, older stored names can't be mapped to the new keys, so they are cleared once. Auto-generated names regenerate deterministically and then stay fixed; any custom (manually renamed) island/continent names set before this update revert to auto names once.
+
+==== 1.0.2 | 2026-07-06 | src 5498a2353513 | gen 94db17dfd151 ====
+[b]Version 1.0.2 · 6 July 2026[/b]
+Code-quality and reliability release. No gameplay or visible-behavior changes — every name, toggle, and option behaves exactly as in 1.0.0.
+
+[b]Fixed[/b]
+• [b]Packaging fix (would have broken the mod):[/b] two internal modules split out during the refactor below (geo-labels-map.js, geo-labels-compute.js) were not listed in the mod manifest's imported files, so the game could not resolve them at load. Both are now shipped. Caught before release.
+
+[b]Changed[/b]
+• [b]Decomposed the monolith.[/b] The single ~340-line label script is now split into focused, single-purpose modules — map scanning, label computation, formatting/geometry math, the toponym pools, and shared utilities — with the render layer down to ~170 lines. Easier to reason about and far less regression-prone for future features.
+• [b]Quieter shipped builds.[/b] Debug logging is centralized behind one switch that the release build flips off automatically, so the retail mod stays silent.
+
+[b]Internal (quality)[/b]
+• Added an automated test suite and a one-command verify gate (lint + syntax check + tests) that the release script runs before it will build a package.
+• Added ESLint with a checked-in config; the codebase is lint-clean.
+• Added test-coverage reporting (c8) for visibility into what the tests exercise.
+• Gave the map-observer lifecycle an explicit start/stop contract.
+
+==== 1.0.0 | 2026-07-06 | src 8157009e2e5a | gen de6552c796bb ====
+[b]Version 1.0.0 · 6 July 2026[/b]
+First release — Civilization VI-style geographic names painted on the Civilization VII map.
+
+[b]Added[/b]
+• [b]Names on the map[/b] for continents, islands, deserts, mountain ranges, taiga, and jungle, plus natural wonders. Off by default; toggle with the [b]Geographic Names[/b] checkbox in the mini-map's Decorations list.
+• [b]Period-accurate, per-civilization names.[/b] Islands and regions draw from the nearest civilization's own curated pool of ~1,200 real, era-appropriate toponyms across all 30 civs — Latin for Rome, romanized Ancient Greek for Greece, Quechua for the Inca, Han-era Chinese for the Han, and so on — with a neutral pool for unclaimed land and de-duplication so names don't repeat. Each region carries a clarifier: [i]Isle of Creta[/i], [i]Zagrus Mountains[/i], [i]Libyca Desert[/i].
+• [b]Organic re-flavoring across the ages.[/b] Names persist per game; when a new civilization's heartland reaches a place it may take on that civ's names, while the frontier and distant lands keep their old names, so you can still tell which civ named each area.
+• [b]Terrain-following labels[/b] (Options → Mods): lay names flat on the map and rotate them to run along ranges, coastlines, and deserts, the way Civilization VI did.
+• Priority-based collision handling, so a larger label (an island) overrides a smaller one (a desert or taiga) that would otherwise overlap it.
+
+[b]Notes[/b]
+• Additive and observer-based — no base UI files are replaced, so it coexists with other mods.

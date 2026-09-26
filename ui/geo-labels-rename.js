@@ -37,7 +37,7 @@ const MUTED = "#a99a7c";
 const GOLD = "#f3c34c";
 const RULE = "rgba(113,105,86,0.45)";
 const HEAD_ON = "#e5d2ac"; // the active sort column: the title's cream gold
-// fxs-textbox draws a thicker grey-blue `border-primary-1` edge; this window's
+// fxs-textbox draws a thicker gray-blue `border-primary-1` edge; this window's
 // fields use the frame's own 1px rim instead, lifting a little on hover/focus.
 // The selectors out-rank the component's single-class rules.
 const FIELD_CSS = `

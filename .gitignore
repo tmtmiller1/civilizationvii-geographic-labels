@@ -6,3 +6,4 @@ dumps/
 dist/
 coverage/
 node_modules/
+reports/
