@@ -48,6 +48,9 @@ With [url=https://github.com/tmtmiller1/civilizationvii_national-parks]National 
 [*][b]Source code (open source, MIT):[/b] [url=https://github.com/tmtmiller1/civilizationvii-geographic-labels]Geographic Labels on GitHub[/url]
 [/list]
 
+[h2]For modders[/h2]
+This mod is developed with [url=https://github.com/tmtmiller1/civilizationvii_tower-bench]Tower Bench[/url], a free, open-source test bench for Civilization VII mods. It connects to a running game from your browser or the command line: inspect and change the map with every write verified and undoable, diff the world between two turns, prove your deployed code is what the game runs, find which mod causes a crash, and see which copy of each mod is actually loaded.
+
 [h2]Credits[/h2]
 [list]
 [*][b]Tower[/b], for design and Civilization VII implementation.
