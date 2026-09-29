@@ -41,21 +41,17 @@ With [url=https://github.com/tmtmiller1/civilizationvii_national-parks]National 
 
 [b]Languages:[/b] English.
 
-[h2]Links[/h2]
+[h2]Source and documentation[/h2]
 [list]
-[*][b]Screenshots and release notes for 1.6.0:[/b] [url=https://github.com/tmtmiller1/civilizationvii-geographic-labels/releases/tag/v1.6.0]Geographic Labels 1.6.0 on GitHub[/url]
-[*][b]Latest release (notes, screenshots and a manual-install zip):[/b] [url=https://github.com/tmtmiller1/civilizationvii-geographic-labels/releases/latest]Latest Geographic Labels release[/url]
-[*][b]Source code (open source, MIT):[/b] [url=https://github.com/tmtmiller1/civilizationvii-geographic-labels]Geographic Labels on GitHub[/url]
+[*][b]What's new:[/b] [url=https://github.com/tmtmiller1/civilizationvii-geographic-labels/releases/latest]the latest release notes and a download[/url]
+[*][b]Full documentation:[/b] [url=https://github.com/tmtmiller1/civilizationvii-geographic-labels/blob/main/README.md]how the mod works[/url]
 [/list]
-
 [h2]For modders[/h2]
 This mod is developed with [url=https://github.com/tmtmiller1/civilizationvii_tower-bench]Tower Bench[/url], a free, open-source test bench for Civilization VII mods. It connects to a running game from your browser or the command line: inspect and change the map with every write verified and undoable, diff the world between two turns, prove your deployed code is what the game runs, find which mod causes a crash, and see which copy of each mod is actually loaded.
-
 [h2]Credits[/h2]
 [list]
 [*][b]Tower[/b], for design and Civilization VII implementation.
 [/list]
-
 [h2]Special Thanks[/h2]
 [list]
 [*][b]Potato McWhisky[/b], for teaching me to love again, Civilization-wise (Civ VI), after growing up as a Civilization II, IV, and V player. Making this mod is an act of faith that the community will eventually help make Civilization VII as good as the previous entries.
