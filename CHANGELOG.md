@@ -5,6 +5,16 @@ follows [Keep a Changelog](https://keepachangelog.com/) and Semantic Versioning.
 The Steam Workshop change note for each release is generated from the matching
 section below by `release.sh`.
 
+## [1.6.0] - 2026-09-29
+
+### Added
+- **National parks on the map.** With the National Park mod, each park's name is drawn over it like any other
+  place, and its parks are listed in Rename Places under "National park", where you can rename them. The names
+  belong to the National Park mod, so a rename there is saved with the park. Turn park labels off under
+  Options, Geographic Labels to Show, National parks.
+- **Other mods can name things after your map.** A park is named after the places around it (the wonder it
+  guards, a mountain range, a lake or river), taken from these labels, including any you have renamed.
+
 ## [1.5.0] - 2026-09-21
 
 ### Fixed

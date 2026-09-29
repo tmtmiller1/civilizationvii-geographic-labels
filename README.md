@@ -62,6 +62,7 @@ to *Yields* in the mini-map lens menu — and lets you **rename any of them**.
 | Jungle | Region labels generated from nearest-civilization and neutral toponym pools |
 | Rivers | The game's own river names (`getRiverName`), for both navigable rivers and minor rivers, laid along the river's course |
 | Natural wonders | The game's own feature names (e.g. *Great Barrier Reef*, *Uluru*), floated just above the wonder |
+| National parks | From the [National Park](https://github.com/tmtmiller1/civilizationvii_national-parks) mod, when it is installed: each park's own name, which the park takes from the places around it |
 
 Water and coastal features (lakes, seas, gulfs, bays, sounds, inlets, fjords, reefs, atolls,
 estuaries, archipelagos, keys) are labeled too — see `docs/water-labels-design.md`.
@@ -83,6 +84,9 @@ with its type and an editable field — including ones the map is hiding for lac
 Name column title to sort by it, and a search box finds a place by name or kind. Type a name and press Enter to rename; leave the field blank, or press
 Restore, to bring back the generated name. Your names are marked with a star, always win a collision with
 a generated label, and are saved with the game.
+
+National parks from the National Park mod are listed here too, under "National park". Their names belong to that
+mod, so a rename or Restore here is saved with the park itself.
 
 ## What counts as an "island"
 

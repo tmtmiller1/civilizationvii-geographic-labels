@@ -27,6 +27,7 @@ const FONT_TIERS = {
   archipelagos: [7, 10],
   lakes: [7, 10],
   wonder: [7, 10],
+  park: [6, 9], // national parks (from the National Park mod)
   mountains: [6, 9],
   bays: [6, 9],
   sounds: [6, 9],

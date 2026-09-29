@@ -7,7 +7,7 @@
         <SpecialThanks>Firaxis and the Civ modding community for the game, documentation, and sample mods; the many real-world atlases and gazetteers behind the period-accurate place names.</SpecialThanks>
         <Package>GeographicLabels</Package>
         <PackageSortIndex>1000</PackageSortIndex>
-        <Version>1.5.0</Version>
+        <Version>1.6.0</Version>
         <AffectsSavedGames>0</AffectsSavedGames>
     </Properties>
     <Dependencies>
@@ -50,6 +50,7 @@
                     <Item>ui/geo-labels-rivers.js</Item>
                     <Item>ui/geo-labels-categories.js</Item>
                     <Item>ui/geo-labels-compute.js</Item>
+                    <Item>ui/geo-labels-providers.js</Item>
                     <Item>images/geo-labels-icon.svg</Item>
                     <Item>images/geo-labels-icon.png</Item>
                 </ImportFiles>

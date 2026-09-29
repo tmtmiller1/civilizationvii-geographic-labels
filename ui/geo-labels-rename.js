@@ -191,6 +191,8 @@ class GeoLabelsRenameScreen extends Panel {
     const list = this.Root.querySelector("[data-geo-list]");
     for (const label of labels) list.appendChild(this.buildRow(label));
     if (labels.length) this.applySort();
+    if (labels.length && pendingSearch) this.presetSearch(pendingSearch);
+    pendingSearch = "";
   }
 
   // Clickable column titles over the list: a first click sorts by that column,
@@ -236,6 +238,13 @@ class GeoLabelsRenameScreen extends Panel {
     };
     search.addEventListener("text-changed", (e) => filter(e.detail?.newStr));
     host.appendChild(search);
+    this.searchBox = search;
+    this.filterRows = filter;
+  }
+
+  presetSearch(text) {
+    safe(() => this.searchBox.setAttribute("value", text));
+    safe(() => this.filterRows(text));
   }
 
   buildRow(label) {
@@ -280,7 +289,7 @@ class GeoLabelsRenameScreen extends Panel {
 
 // One list row: category, name field, "your name" star, and the restore button.
 function rowControls(label) {
-  const type = TYPE_LABEL[label.type] || label.type;
+  const type = TYPE_LABEL[label.type] || label.typeLabel || label.type;
   const row = el("div", "flex flex-row items-center py-1", "border-bottom:1px solid " + RULE + ";");
   const badge = el("div", "font-body text-xs uppercase", "width:8rem;flex:0 0 auto;color:" + MUTED + ";", type);
   const box = field("flex-auto");
@@ -305,7 +314,12 @@ Controls.define(SCREEN, {
   attributes: [],
 });
 
-function openPanel() {
+// Text for the search box the next time the window opens: another mod can
+// open it on one of its own places (the National Park mod's Rename button).
+let pendingSearch = "";
+
+function openPanel(opts) {
+  pendingSearch = String((opts && opts.search) || "");
   safe(() => ContextManager.push(SCREEN, { singleton: true, createMouseGuard: true }));
 }
 

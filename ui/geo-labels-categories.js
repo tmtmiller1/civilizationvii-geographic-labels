@@ -19,6 +19,7 @@ export const CATEGORIES = [
   { id: "archipelagos", group: "islands", loc: "LOC_GEO_LABELS_VIS_ARCHIPELAGOS" },
   { id: "keys", group: "islands", loc: "LOC_GEO_LABELS_VIS_KEYS" },
   { id: "wonder", group: "land", loc: "LOC_GEO_LABELS_VIS_WONDER" },
+  { id: "park", group: "land", loc: "LOC_GEO_LABELS_VIS_PARK" },
   { id: "lakes", group: "freshwater", loc: "LOC_GEO_LABELS_VIS_LAKES" },
   { id: "seas", group: "sea", loc: "LOC_GEO_LABELS_VIS_SEAS" },
   { id: "gulfs", group: "sea", loc: "LOC_GEO_LABELS_VIS_GULFS" },

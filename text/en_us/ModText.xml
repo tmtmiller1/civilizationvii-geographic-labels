@@ -103,6 +103,9 @@
         <Row Tag="LOC_GEO_LABELS_VIS_WONDER">
             <Text>Natural wonders</Text>
         </Row>
+        <Row Tag="LOC_GEO_LABELS_VIS_PARK">
+            <Text>National parks</Text>
+        </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_LAKES">
             <Text>Lakes</Text>
         </Row>

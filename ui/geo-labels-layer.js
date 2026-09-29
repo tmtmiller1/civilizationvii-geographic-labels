@@ -8,6 +8,7 @@ import {
   computeLabels,
   getFlatSetting,
   getLastComputedLabels,
+  getLastPlaces,
   hasGameSeed,
   setCustomLabelName,
   setFlatSetting,
@@ -15,6 +16,7 @@ import {
   LABEL_BUDGET,
 } from "./geo-labels-compute.js";
 import { getLastWriteError } from "./geo-labels-store.js";
+import { getProviders, namesNear, providerForKey } from "./geo-labels-providers.js";
 import { createLogger, safe } from "./geo-labels-utils.js";
 
 const TAG = "[GeoLabels]";
@@ -252,10 +254,20 @@ function listLabels() {
     key: l.key,
     text: String(l.text == null ? "" : l.text),
     type: l.key.slice(0, l.key.indexOf(":")),
+    typeLabel: l.typeLabel || null,
     cust: !!l.cust,
   }));
   logListDiagnostics(out);
   return out;
+}
+
+// Named places within `radius` tiles of `plots` ([{ x, y }]), nearest first, for
+// a mod that names things after their surroundings (see geo-labels-providers.js).
+// Computes the labels first if the layer has not drawn yet, as listLabels does.
+function namedPlacesNear(plots, radius = 3) {
+  if (!getLastPlaces()) safe(() => computeLabels(log));
+  return namesNear(getLastPlaces() || [], plots, radius,
+    (a, b) => GameplayMap.getPlotDistance(a.x, a.y, b.x, b.y));
 }
 
 function logListDiagnostics(list) {
@@ -267,6 +279,14 @@ function logListDiagnostics(list) {
 }
 
 function renameLabel(key, name) {
+  // A place another mod supplies keeps its name there; hand the rename back.
+  const provider = providerForKey(key, getProviders());
+  if (provider) {
+    const saved = !!safe(() => provider.rename(key, name));
+    log("rename via", provider.id || provider.type + ":", key, "=", JSON.stringify(name), saved ? "saved" : "FAILED");
+    instance._redraw();
+    return saved;
+  }
   // Distinct from a write failure: with no seed there is no per-game bucket to
   // key the name to, so nothing was attempted. Unreachable in practice (with no
   // seed there are no labels to rename), but keeps the log honest.
@@ -295,6 +315,7 @@ try {
       isFlat: () => FLAT,
       getLabels: listLabels,
       setName: renameLabel,
+      namesNear: namedPlacesNear,
     };
   }
 } catch (_e) {}

@@ -26,6 +26,7 @@ import {
 } from "./geo-labels-map.js";
 import { collectWaterFeatures } from "./geo-labels-water.js";
 import { collectRivers } from "./geo-labels-rivers.js";
+import { getProviders, providerLabels } from "./geo-labels-providers.js";
 
 const WONDER_OFFSET = 8;
 const CONTINENT_MIN_TILES = 80;
@@ -178,6 +179,25 @@ export function setCustomLabelName(key, name) {
 let lastComputed = null;
 export function getLastComputedLabels() {
   return lastComputed;
+}
+
+// Every named place from the last compute with its tiles, hidden categories
+// included: what namesNear searches. { key, text, toponym, cust, plots }
+let lastPlaces = null;
+export function getLastPlaces() {
+  return lastPlaces;
+}
+
+function collectPlaces(labels, sources, auto) {
+  const byKey = new Map(labels.map((l) => [l.key, l]));
+  const places = [];
+  for (const { key, plots, toponym } of sources) {
+    const label = byKey.get(key);
+    if (!label || !plots || !plots.length) continue;
+    places.push({ key, text: label.text, toponym: label.cust ? null : (toponym || auto[key]?.n || null),
+      cust: !!label.cust, plots });
+  }
+  return places;
 }
 
 function makeNamePicker(rand) {
@@ -378,6 +398,7 @@ function suppressOverlaps(labels) {
     seas: 5, // large water basins read like continents in prominence
     isle: 4,
     archipelagos: 4,
+    park: 4, // player-made places from the National Park mod
     mountains: 3,
     lakes: 3,
     rivernav: 3, // prominent water channels; outrank the minor-river label
@@ -493,6 +514,7 @@ export function computeLabels(log = () => {}) {
   if (!hasGameSeed()) {
     log("no game seed yet — deferring label generation (nothing generated or stored)");
     lastComputed = [];
+    lastPlaces = [];
     return [];
   }
   const prepared = prepareComputation();
@@ -520,8 +542,7 @@ export function computeLabels(log = () => {}) {
     w,
   });
 
-  pruneAuto(auto, features.feats);
-  saveGame({ custom, auto });
+  finishLabels(labels, prepared);
 
   // Drop player-hidden categories BEFORE overlap suppression so a hidden label
   // can't crowd out a visible one it happens to sit near.
@@ -531,6 +552,21 @@ export function computeLabels(log = () => {}) {
   logSummary({ log, labels: visible, shown, features, scanned, flips });
 
   return shown;
+}
+
+// Adds the places other mods name (the National Park mod's parks: drawn and
+// listed like the rest, but owned and stored by their provider), saves this
+// game's names, and records every place's tiles for namesNear.
+function finishLabels(labels, { custom, auto, scanned, areas, features, w }) {
+  labels.push(...providerLabels(getProviders(), { centroid, fontOf: typeFont }));
+  pruneAuto(auto, features.feats);
+  saveGame({ custom, auto });
+  lastPlaces = collectPlaces(labels, [
+    ...areas.map((a) => ({ key: "cont:" + anchorIndex(a.plots, w), plots: a.plots })),
+    ...[...scanned.wonders].map(([ft, wonder]) => ({ key: "wonder:" + ft, plots: wonder.plots })),
+    ...features.feats.map((f) => ({ key: f.key, plots: f.plots })),
+    ...labels.filter((l) => l.plots).map((l) => ({ key: l.key, plots: l.plots })),
+  ], auto);
 }
 
 function prepareComputation() {

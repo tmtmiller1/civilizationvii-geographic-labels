@@ -14,12 +14,13 @@ test("every category lands in exactly one section", () => {
 test("sections keep display order and sort members by displayed label", () => {
   const labels = { LOC_GEO_LABELS_VIS_DESERTS: "Deserts", LOC_GEO_LABELS_VIS_CONT: "Continents",
     LOC_GEO_LABELS_VIS_MOUNTAINS: "Mountain ranges", LOC_GEO_LABELS_VIS_TAIGA: "Taiga",
-    LOC_GEO_LABELS_VIS_JUNGLE: "Jungle", LOC_GEO_LABELS_VIS_WONDER: "Natural wonders" };
+    LOC_GEO_LABELS_VIS_JUNGLE: "Jungle", LOC_GEO_LABELS_VIS_WONDER: "Natural wonders",
+    LOC_GEO_LABELS_VIS_PARK: "National parks" };
   const groups = groupedCategories((loc) => labels[loc] ?? loc);
   assert.deepEqual(groups.map((g) => g.id), CATEGORY_GROUPS.map((g) => g.id));
   const land = groups.find((g) => g.id === "land");
   assert.deepEqual(land.members.map((c) => labels[c.loc]),
-    ["Continents", "Deserts", "Jungle", "Mountain ranges", "Natural wonders", "Taiga"]);
+    ["Continents", "Deserts", "Jungle", "Mountain ranges", "National parks", "Natural wonders", "Taiga"]);
 });
 
 test("every section is non-empty", () => {
