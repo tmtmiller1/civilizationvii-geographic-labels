@@ -7,6 +7,7 @@ import {
   namesNear,
   providerForKey,
   providerLabels,
+  standInForWonders,
 } from "../ui/geo-labels-providers.js";
 
 // Offset-free test distance: Chebyshev on x/y is enough to order and bound places.
@@ -70,4 +71,29 @@ test("a place far off in rows is never measured", () => {
   const places = [{ key: "cont:1", text: "Nena", plots: Array.from({ length: 500 }, (_, i) => ({ x: i % 50, y: 40 + (i % 5) })) }];
   assert.deepEqual(namesNear(places, [{ x: 3, y: 2 }], 3, counting), []);
   assert.equal(calls, 0);
+});
+
+test("a park named after the wonder beside it stands in for the wonder's label", () => {
+  const wonder = { key: "wonder:30", text: "Redwood Forest", plot: { x: 53, y: 10 } };
+  const place = { key: "park:1", text: "Redwood Forest Wilderness Area", provided: true,
+    plots: [{ x: 54, y: 9 }, { x: 54, y: 10 }] };
+  const shown = standInForWonders([wonder, place], dist, 6);
+  assert.deepEqual(shown.map((l) => l.key), ["park:1"]);
+  assert.equal(place.rank, 6);
+});
+
+test("a wonder keeps its label beside a park named for something else, or far from the park", () => {
+  const wonder = { key: "wonder:30", text: "Redwood Forest", plot: { x: 53, y: 10 } };
+  const other = { key: "park:1", text: "Klamath National Park", provided: true, plots: [{ x: 54, y: 10 }] };
+  const far = { key: "park:2", text: "Redwood Forest National Park", provided: true, plots: [{ x: 60, y: 10 }] };
+  const shown = standInForWonders([wonder, other, far], dist, 6);
+  assert.equal(shown.length, 3);
+  assert.equal(other.rank, undefined);
+  assert.equal(far.rank, undefined);
+});
+
+test("only a provider's place stands in: a map region sharing the wonder's words does not", () => {
+  const wonder = { key: "wonder:39", text: "Uluru", plot: { x: 62, y: 21 } };
+  const region = { key: "deserts:5", text: "Uluru Desert", plots: [{ x: 62, y: 22 }] };
+  assert.equal(standInForWonders([wonder, region], dist, 6).length, 2);
 });

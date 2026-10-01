@@ -2,6 +2,8 @@
  * Pure formatting/math helpers used by the layer.
  */
 
+import { composed, isLetterOrDigit, isMark } from "./geo-labels-text.js";
+
 const NBSP = String.fromCharCode(0xa0);
 
 export function scaledFont(size, fontScale) {
@@ -111,14 +113,32 @@ export function axisAngleDeg(plots, w) {
   return Math.round(normalizeAngle(raw));
 }
 
+// Upper case, letter-spaced, words set wide: the Civ VI map-label look. Spacing goes between any two letters or
+// digits of any script (Ł, Ж, シ, 島, 섬), never before an accent typed as a separate mark, and never around
+// punctuation ("XING'AN" keeps its apostrophe tight).
 export function styleText(s) {
-  const up = String(s).toUpperCase();
+  const up = composed(s).toUpperCase();
   const wordGap = NBSP + NBSP + NBSP + NBSP;
   return up
     .split(/\s+/)
     .filter(Boolean)
-    .map((w) => w.replace(/([A-Z0-9])(?=[A-Z0-9])/g, "$1" + NBSP))
+    .map(spaceLetters)
     .join(wordGap);
+}
+
+function spaceLetters(word) {
+  let out = "";
+  let prev = false;
+  for (const ch of word) {
+    if (isMark(ch)) {
+      out += ch;
+      continue;
+    }
+    const cur = isLetterOrDigit(ch);
+    out += (prev && cur ? NBSP : "") + ch;
+    prev = cur;
+  }
+  return out;
 }
 
 // Some toponyms already carry their own geographic word (often in the source
@@ -173,7 +193,7 @@ const GENERIC_PREFIX = {
 
 // True when the category's generic would be redundant because the name already
 // reads as one of those features.
-function carriesOwnWord(typeKey, name) {
+export function carriesOwnWord(typeKey, name) {
   const n = String(name).trim().toLowerCase();
   const exact = NO_GENERIC_EXACT[typeKey];
   if (exact && exact.has(n)) return true;

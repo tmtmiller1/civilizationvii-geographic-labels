@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database>
+    <LocalizedText>
+        <Replace Tag="LOC_MOD_GEO_LABELS_NAME" Language="ko_KR"><Text>Geographic Labels</Text></Replace>
+        <Replace Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS" Language="ko_KR"><Text>Geographic Labels</Text></Replace>
+        <Replace Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS_SHOW" Language="ko_KR"><Text>표시할 지명</Text></Replace>
+        <Replace Tag="LOC_MOD_GEO_LABELS_DESCRIPTION" Language="ko_KR"><Text>문명 VI 스타일로 지도에 대륙, 섬, 지역, 바다, 강, 자연경관의 이름을 표시하며, 어떤 이름이든 바꿀 수 있습니다. 미니맵 렌즈 메뉴에서 생산량 옆의 "지명" 체크박스로 켜고 끕니다.</Text></Replace>
+        <Replace Tag="LOC_MOD_GEO_LABELS_DEV_NAME" Language="ko_KR"><Text>Geographic Labels (개발판: 이름 변경 테스트)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME" Language="ko_KR"><Text>장소 이름 변경…</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_TITLE" Language="ko_KR"><Text>장소 이름 변경</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_HINT" Language="ko_KR"><Text>새 이름을 입력하고 Enter 키를 누르세요. 비워 두거나 복원을 누르면 자동 생성된 이름으로 돌아갑니다. ★ 표시는 직접 지은 이름입니다.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_EMPTY" Language="ko_KR"><Text>아직 표지가 없습니다. 먼저 지도에서 지명을 켜세요.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_SEARCH" Language="ko_KR"><Text>장소 찾기…</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_COL_TYPE" Language="ko_KR"><Text>종류</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_COL_NAME" Language="ko_KR"><Text>이름</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_RESTORE_BTN" Language="ko_KR"><Text>복원</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_RESTORE" Language="ko_KR"><Text>자동 생성된 이름으로 복원</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TOGGLE" Language="ko_KR"><Text>지명</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_OPT_FLAT" Language="ko_KR"><Text>Geographic Labels: 지형을 따라 배치</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_OPT_FLAT_DESC" Language="ko_KR"><Text>항상 카메라를 향해 서 있는 표지 대신, 지명을 지도 위에 눕히고 회전시켜 문명 VI처럼 산맥, 해안선, 사막을 따라 이어지게 합니다. 표지 자체는 미니맵의 지도 설정 목록에 있는 "지명" 체크박스로 켜고 끕니다.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_DESC" Language="ko_KR"><Text>이 종류의 지명 표지를 표시하거나 숨깁니다. "지명" 지도 레이어가 켜져 있는 동안 바로 적용됩니다.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_DESC" Language="ko_KR"><Text>이 표지 종류 묶음을 펼치거나 접습니다.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_EXPAND" Language="ko_KR"><Text>+</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_COLLAPSE" Language="ko_KR"><Text>-</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_LAND" Language="ko_KR"><Text>육지 표지</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_ISLANDS" Language="ko_KR"><Text>섬 표지</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_SEA" Language="ko_KR"><Text>바다 및 해안 표지</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_FRESHWATER" Language="ko_KR"><Text>강 및 호수 표지</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_CONT" Language="ko_KR"><Text>대륙</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_MOUNTAINS" Language="ko_KR"><Text>산맥</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_DESERTS" Language="ko_KR"><Text>사막</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_TAIGA" Language="ko_KR"><Text>타이가</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_JUNGLE" Language="ko_KR"><Text>밀림</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ISLE" Language="ko_KR"><Text>섬</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ARCHIPELAGOS" Language="ko_KR"><Text>제도</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_KEYS" Language="ko_KR"><Text>키스(낮은 섬 열도)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_WONDER" Language="ko_KR"><Text>자연경관</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_PARK" Language="ko_KR"><Text>국립공원</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_LAKES" Language="ko_KR"><Text>호수</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_SEAS" Language="ko_KR"><Text>바다</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_GULFS" Language="ko_KR"><Text>만(큰 만)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_BAYS" Language="ko_KR"><Text>만</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_SOUNDS" Language="ko_KR"><Text>사운드(해협)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_INLETS" Language="ko_KR"><Text>후미</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_FJORDS" Language="ko_KR"><Text>피오르</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_REEFS" Language="ko_KR"><Text>산호초</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ATOLLS" Language="ko_KR"><Text>환초</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ESTUARIES" Language="ko_KR"><Text>하구</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_RIVERNAV" Language="ko_KR"><Text>강(항행 가능)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_RIVERMINOR" Language="ko_KR"><Text>강(작은 강)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ISLANDS" Language="ko_KR"><Text>{1_Name}섬</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_LAKES" Language="ko_KR"><Text>{1_Name}호</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_GULFS" Language="ko_KR"><Text>{1_Name}만</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_DESERTS" Language="ko_KR"><Text>{1_Name}사막</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_MOUNTAINS" Language="ko_KR"><Text>{1_Name}산맥</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_TAIGA" Language="ko_KR"><Text>{1_Name} 타이가</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_JUNGLE" Language="ko_KR"><Text>{1_Name} 밀림</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_REEFS" Language="ko_KR"><Text>{1_Name} 산호초</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ATOLLS" Language="ko_KR"><Text>{1_Name}환초</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_SEAS" Language="ko_KR"><Text>{1_Name}해</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_BAYS" Language="ko_KR"><Text>{1_Name}만</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_SOUNDS" Language="ko_KR"><Text>{1_Name}사운드</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_INLETS" Language="ko_KR"><Text>{1_Name}만</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_FJORDS" Language="ko_KR"><Text>{1_Name}피오르</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ESTUARIES" Language="ko_KR"><Text>{1_Name} 하구</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ARCHIPELAGOS" Language="ko_KR"><Text>{1_Name}제도</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_KEYS" Language="ko_KR"><Text>{1_Name}키스제도</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_CONT" Language="ko_KR"><Text>대륙</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ISLE" Language="ko_KR"><Text>섬</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ARCHIPELAGOS" Language="ko_KR"><Text>제도</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_KEYS" Language="ko_KR"><Text>키스</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_DESERTS" Language="ko_KR"><Text>사막</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_TAIGA" Language="ko_KR"><Text>타이가</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_JUNGLE" Language="ko_KR"><Text>밀림</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_MOUNTAINS" Language="ko_KR"><Text>산맥</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_WONDER" Language="ko_KR"><Text>자연경관</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_LAKES" Language="ko_KR"><Text>호수</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_SEAS" Language="ko_KR"><Text>바다</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_GULFS" Language="ko_KR"><Text>만</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_BAYS" Language="ko_KR"><Text>만</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_SOUNDS" Language="ko_KR"><Text>해협</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_INLETS" Language="ko_KR"><Text>후미</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_FJORDS" Language="ko_KR"><Text>피오르</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_REEFS" Language="ko_KR"><Text>산호초</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ATOLLS" Language="ko_KR"><Text>환초</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ESTUARIES" Language="ko_KR"><Text>하구</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_RIVERNAV" Language="ko_KR"><Text>강</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_RIVERMINOR" Language="ko_KR"><Text>작은 강</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_WONDER" Language="ko_KR"><Text>자연경관</Text></Replace>
+    </LocalizedText>
+</Database>

@@ -50,7 +50,7 @@ rsync -a --exclude='CHANGELOG.steam.txt' --exclude='scripts' --exclude='.git' --
     --exclude='release.sh' --exclude='install.sh' --exclude='install-dev.sh' --exclude='*.bak' --exclude='node_modules' \
     --exclude='docs' --exclude='README.pdf' --exclude='steam_workshop_id.txt' \
     --exclude='tests' --exclude='coverage' --exclude='package.json' --exclude='package-lock.json' \
-    --exclude='eslint.config.js' --exclude='reports' \
+    --exclude='eslint.config.js' --exclude='reports' --exclude='devtools' --exclude='text/README.md' \
     ./ "$TARGET_DIR"/
 
 echo "==> Disabling debug logging (const DBG = true -> false) in dist JS"
@@ -69,7 +69,7 @@ echo "==> Verifying zip contents against allow-list"
 ALLOW="^${MOD_DIR}/(${MODINFO//./\\.}|README\\.md|LICENSE|CHANGELOG\\.md)$"
 ALLOW="$ALLOW"'|^'"$MOD_DIR"'/ui/.+\.(js|html|css)$'
 ALLOW="$ALLOW"'|^'"$MOD_DIR"'/images/.+\.(svg|png)$'
-ALLOW="$ALLOW"'|^'"$MOD_DIR"'/text/[a-z_]+/ModText\.xml$'
+ALLOW="$ALLOW"'|^'"$MOD_DIR"'/text/[a-z_]+/(ModText|PlaceText)\.xml$'
 UNEXPECTED="$(unzip -Z1 "$ZIP_PATH" | grep -vE '/$' | grep -vE "$ALLOW" || true)"
 if [ -n "$UNEXPECTED" ]; then
     echo "error: zip contains entries not on the allow-list:"; echo "$UNEXPECTED" | sed 's/^/    /'

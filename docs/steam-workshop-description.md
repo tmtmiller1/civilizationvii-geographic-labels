@@ -35,7 +35,7 @@ In [b]Options → Add-Ons → Geographic Labels[/b]:
 [/list]
 
 [h2]With National Park[/h2]
-With [url=https://github.com/tmtmiller1/civilizationvii_national-parks]National Park[/url] installed too, each park's name is drawn over it like any other place, and its parks are listed in Rename Places under "National park", where you can rename them. A new park can also take its name from the places these labels know around it: the wonder it guards, a mountain range, a lake or a river. Turn park labels off under Options, Add-Ons, Geographic Labels.
+With [url=https://github.com/tmtmiller1/civilizationvii_national-parks]National Park[/url] installed too, each park or wilderness area's name is drawn over it like any other place (a park named after the wonder beside it stands in for the wonder's label), and they are listed in Rename Places under "Park or wilderness", where you can rename them. A new park can also take its name from the places these labels know around it: the wonder it guards, a mountain range, a lake or a river. Turn park labels off under Options, Add-Ons, Geographic Labels.
 
 [b]Compatibility:[/b] additive and observer-based, with no base UI files replaced, so it coexists with other mods. Works in new games and in games already in progress. Names are stored per save.
 

@@ -11,6 +11,7 @@
 
 import { safe } from "./geo-labels-utils.js";
 import { neighbors, regionsOf, anchorIndex } from "./geo-labels-map.js";
+import { composeRiverName } from "./geo-labels-rivers.js";
 
 // --- enclosure / basin tunables ---
 const ENCLOSE_RADIUS = 3; // half-width of the box sampled around a water tile
@@ -213,11 +214,9 @@ function riverNameAt(plots) {
   for (const p of plots) {
     const raw = safe(() => GameplayMap.getRiverName(p.x, p.y));
     if (raw && typeof raw === "string" && raw.trim().length > 1) {
-      // getRiverName returns a localization KEY (e.g. "LOC_RIVER_..._NAME"), so
-      // compose it; Locale.compose passes plain strings through. Drop a trailing
-      // "River" so frame() doesn't yield "Nile River Estuary".
-      const composed = safe(() => Locale.compose(raw.trim())) || raw.trim();
-      return composed.replace(/\s+River$/i, "").trim();
+      // Drop a trailing English "River" so the frame doesn't yield "Nile River
+      // Estuary". Other languages keep the name whole: ja "ナイル川河口" is right.
+      return (composeRiverName(raw) || "").replace(/\s+River$/i, "").trim() || null;
     }
   }
   return null;

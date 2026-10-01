@@ -84,10 +84,12 @@ Click **Rename Places…** under the Geographic Names checkbox. Every label on t
 with its type and an editable field — including ones the map is hiding for lack of room. Click the Type or
 Name column title to sort by it, and a search box finds a place by name or kind. Type a name and press Enter to rename; leave the field blank, or press
 Restore, to bring back the generated name. Your names are marked with a star, always win a collision with
-a generated label, and are saved with the game.
+a generated label, and are saved with the game. A name can be in any script the game draws: accented Latin,
+Cyrillic, Japanese, Chinese or Korean.
 
-National parks from the National Park mod are listed here too, under "National park". Their names belong to that
-mod, so a rename or Restore here is saved with the park itself.
+National parks and wilderness areas from the National Park mod are listed here too, under "Park or wilderness".
+Their names belong to that mod, so a rename or Restore here is saved with the park itself. A park named after the
+wonder beside it is drawn in place of the wonder's own label.
 
 ## What counts as an "island"
 
@@ -101,6 +103,14 @@ sea-girt island gets its own name.
 
 Soft translucent white, no outline, uppercase with airy letter-spacing, sized to the landmass, and kept
 low-contrast so they don't obscure the terrain underneath. Small specks (< 3 tiles) are skipped to avoid clutter.
+
+## Translations
+
+The mod is in English, German, Spanish, French, Italian, Japanese, Korean, Polish, Portuguese (Brazil), Russian and
+Simplified and Traditional Chinese, including every name it paints on the map: "Isle of Sicilia" is "シチリア島" in a
+Japanese game and "Adriatic Sea" is "Адриатическое море" in a Russian one. Labels follow the game's language, so a
+save keeps its names when you switch. The translations are machine translations; corrections from native speakers are
+welcome. To fix or add a language, see [`text/README.md`](text/README.md).
 
 ## Install
 

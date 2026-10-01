@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database>
+    <LocalizedText>
+        <Replace Tag="LOC_MOD_GEO_LABELS_NAME" Language="zh_Hant_HK"><Text>Geographic Labels</Text></Replace>
+        <Replace Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS" Language="zh_Hant_HK"><Text>Geographic Labels</Text></Replace>
+        <Replace Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS_SHOW" Language="zh_Hant_HK"><Text>要顯示的地理標籤</Text></Replace>
+        <Replace Tag="LOC_MOD_GEO_LABELS_DESCRIPTION" Language="zh_Hant_HK"><Text>以《文明帝國VI》的風格在地圖上標示名稱：大陸、島嶼、地區、水域、河流與自然奇觀，並可重新命名其中任何一個。在迷你地圖視圖選單中「收益」旁的「地理名稱」核取方塊可開啟或關閉。</Text></Replace>
+        <Replace Tag="LOC_MOD_GEO_LABELS_DEV_NAME" Language="zh_Hant_HK"><Text>Geographic Labels（開發版：重新命名測試）</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME" Language="zh_Hant_HK"><Text>重新命名地點…</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_TITLE" Language="zh_Hant_HK"><Text>重新命名地點</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_HINT" Language="zh_Hant_HK"><Text>輸入新名稱後按 Enter。留空或按「還原」即可恢復自動產生的名稱。★ 標示你自訂的名稱。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_EMPTY" Language="zh_Hant_HK"><Text>尚無標籤。請先在地圖上開啟「地理名稱」。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_SEARCH" Language="zh_Hant_HK"><Text>搜尋地點…</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_COL_TYPE" Language="zh_Hant_HK"><Text>類型</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_COL_NAME" Language="zh_Hant_HK"><Text>名稱</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_RESTORE_BTN" Language="zh_Hant_HK"><Text>還原</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_RESTORE" Language="zh_Hant_HK"><Text>還原自動產生的名稱</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TOGGLE" Language="zh_Hant_HK"><Text>地理名稱</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_OPT_FLAT" Language="zh_Hant_HK"><Text>Geographic Labels：順應地形</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_OPT_FLAT_DESC" Language="zh_Hant_HK"><Text>讓地理名稱平貼在地圖上，並沿著地勢旋轉，如同《文明帝國VI》那樣順著山脈、海岸線與沙漠排列，而非始終朝向鏡頭的直立標籤。標籤本身的開關請使用迷你地圖「裝飾」清單中的「地理名稱」核取方塊。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_DESC" Language="zh_Hant_HK"><Text>顯示或隱藏此類地理標籤。「地理名稱」地圖圖層開啟時立即生效。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_DESC" Language="zh_Hant_HK"><Text>展開或收合此組標籤類型。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_EXPAND" Language="zh_Hant_HK"><Text>+</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_COLLAPSE" Language="zh_Hant_HK"><Text>-</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_LAND" Language="zh_Hant_HK"><Text>陸地標籤</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_ISLANDS" Language="zh_Hant_HK"><Text>島嶼標籤</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_SEA" Language="zh_Hant_HK"><Text>海洋與海岸標籤</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_FRESHWATER" Language="zh_Hant_HK"><Text>河流與湖泊標籤</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_CONT" Language="zh_Hant_HK"><Text>大陸</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_MOUNTAINS" Language="zh_Hant_HK"><Text>山脈</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_DESERTS" Language="zh_Hant_HK"><Text>沙漠</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_TAIGA" Language="zh_Hant_HK"><Text>北方針葉林</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_JUNGLE" Language="zh_Hant_HK"><Text>叢林</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ISLE" Language="zh_Hant_HK"><Text>島嶼</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ARCHIPELAGOS" Language="zh_Hant_HK"><Text>群島</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_KEYS" Language="zh_Hant_HK"><Text>礁島群</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_WONDER" Language="zh_Hant_HK"><Text>自然奇觀</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_PARK" Language="zh_Hant_HK"><Text>國家公園</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_LAKES" Language="zh_Hant_HK"><Text>湖泊</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_SEAS" Language="zh_Hant_HK"><Text>海</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_GULFS" Language="zh_Hant_HK"><Text>海灣</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_BAYS" Language="zh_Hant_HK"><Text>灣</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_SOUNDS" Language="zh_Hant_HK"><Text>海峽</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_INLETS" Language="zh_Hant_HK"><Text>小海灣</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_FJORDS" Language="zh_Hant_HK"><Text>峽灣</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_REEFS" Language="zh_Hant_HK"><Text>礁石</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ATOLLS" Language="zh_Hant_HK"><Text>環礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ESTUARIES" Language="zh_Hant_HK"><Text>河口</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_RIVERNAV" Language="zh_Hant_HK"><Text>河流（可通航）</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_RIVERMINOR" Language="zh_Hant_HK"><Text>河流（小型）</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ISLANDS" Language="zh_Hant_HK"><Text>{1_Name}島</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_LAKES" Language="zh_Hant_HK"><Text>{1_Name}湖</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_GULFS" Language="zh_Hant_HK"><Text>{1_Name}灣</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_DESERTS" Language="zh_Hant_HK"><Text>{1_Name}沙漠</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_MOUNTAINS" Language="zh_Hant_HK"><Text>{1_Name}山脈</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_TAIGA" Language="zh_Hant_HK"><Text>{1_Name}針葉林</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_JUNGLE" Language="zh_Hant_HK"><Text>{1_Name}叢林</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_REEFS" Language="zh_Hant_HK"><Text>{1_Name}礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ATOLLS" Language="zh_Hant_HK"><Text>{1_Name}環礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_SEAS" Language="zh_Hant_HK"><Text>{1_Name}海</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_BAYS" Language="zh_Hant_HK"><Text>{1_Name}灣</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_SOUNDS" Language="zh_Hant_HK"><Text>{1_Name}海峽</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_INLETS" Language="zh_Hant_HK"><Text>{1_Name}灣</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_FJORDS" Language="zh_Hant_HK"><Text>{1_Name}峽灣</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ESTUARIES" Language="zh_Hant_HK"><Text>{1_Name}口</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ARCHIPELAGOS" Language="zh_Hant_HK"><Text>{1_Name}群島</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_KEYS" Language="zh_Hant_HK"><Text>{1_Name}礁島群</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_CONT" Language="zh_Hant_HK"><Text>大陸</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ISLE" Language="zh_Hant_HK"><Text>島嶼</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ARCHIPELAGOS" Language="zh_Hant_HK"><Text>群島</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_KEYS" Language="zh_Hant_HK"><Text>礁島群</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_DESERTS" Language="zh_Hant_HK"><Text>沙漠</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_TAIGA" Language="zh_Hant_HK"><Text>針葉林</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_JUNGLE" Language="zh_Hant_HK"><Text>叢林</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_MOUNTAINS" Language="zh_Hant_HK"><Text>山脈</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_WONDER" Language="zh_Hant_HK"><Text>奇觀</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_LAKES" Language="zh_Hant_HK"><Text>湖泊</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_SEAS" Language="zh_Hant_HK"><Text>海</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_GULFS" Language="zh_Hant_HK"><Text>海灣</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_BAYS" Language="zh_Hant_HK"><Text>灣</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_SOUNDS" Language="zh_Hant_HK"><Text>海峽</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_INLETS" Language="zh_Hant_HK"><Text>小海灣</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_FJORDS" Language="zh_Hant_HK"><Text>峽灣</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_REEFS" Language="zh_Hant_HK"><Text>礁石</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ATOLLS" Language="zh_Hant_HK"><Text>環礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ESTUARIES" Language="zh_Hant_HK"><Text>河口</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_RIVERNAV" Language="zh_Hant_HK"><Text>河流</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_RIVERMINOR" Language="zh_Hant_HK"><Text>河流（小型）</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_WONDER" Language="zh_Hant_HK"><Text>自然奇觀</Text></Replace>
+    </LocalizedText>
+</Database>

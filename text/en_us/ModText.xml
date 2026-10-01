@@ -142,5 +142,125 @@
         <Row Tag="LOC_GEO_LABELS_VIS_RIVERMINOR">
             <Text>Rivers (minor)</Text>
         </Row>
+        <!-- Frames for a name with no label of its own (an estuary named after the game's river). -->
+        <Row Tag="LOC_GEO_LABELS_FRAME_ISLANDS">
+            <Text>Isle of {1_Name}</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_LAKES">
+            <Text>Lake {1_Name}</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_GULFS">
+            <Text>Gulf of {1_Name}</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_DESERTS">
+            <Text>{1_Name} Desert</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_MOUNTAINS">
+            <Text>{1_Name} Mountains</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_TAIGA">
+            <Text>{1_Name} Taiga</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_JUNGLE">
+            <Text>{1_Name} Jungle</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_REEFS">
+            <Text>{1_Name} Reef</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_ATOLLS">
+            <Text>{1_Name} Atoll</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_SEAS">
+            <Text>{1_Name} Sea</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_BAYS">
+            <Text>{1_Name} Bay</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_SOUNDS">
+            <Text>{1_Name} Sound</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_INLETS">
+            <Text>{1_Name} Inlet</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_FJORDS">
+            <Text>{1_Name} Fjord</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_ESTUARIES">
+            <Text>{1_Name} Estuary</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_ARCHIPELAGOS">
+            <Text>{1_Name} Archipelago</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_FRAME_KEYS">
+            <Text>{1_Name} Keys</Text>
+        </Row>
+        <!-- Rename Places: the Type column. -->
+        <Row Tag="LOC_GEO_LABELS_TYPE_CONT">
+            <Text>Continent</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_ISLE">
+            <Text>Island</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_ARCHIPELAGOS">
+            <Text>Archipelago</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_KEYS">
+            <Text>Keys</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_DESERTS">
+            <Text>Desert</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_TAIGA">
+            <Text>Taiga</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_JUNGLE">
+            <Text>Jungle</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_MOUNTAINS">
+            <Text>Mountains</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_WONDER">
+            <Text>Wonder</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_LAKES">
+            <Text>Lake</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_SEAS">
+            <Text>Sea</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_GULFS">
+            <Text>Gulf</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_BAYS">
+            <Text>Bay</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_SOUNDS">
+            <Text>Sound</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_INLETS">
+            <Text>Inlet</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_FJORDS">
+            <Text>Fjord</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_REEFS">
+            <Text>Reef</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_ATOLLS">
+            <Text>Atoll</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_ESTUARIES">
+            <Text>Estuary</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_RIVERNAV">
+            <Text>River</Text>
+        </Row>
+        <Row Tag="LOC_GEO_LABELS_TYPE_RIVERMINOR">
+            <Text>River (minor)</Text>
+        </Row>
+        <!-- A natural wonder whose name the game does not give. -->
+        <Row Tag="LOC_GEO_LABELS_WONDER">
+            <Text>Wonder</Text>
+        </Row>
     </EnglishText>
 </Database>

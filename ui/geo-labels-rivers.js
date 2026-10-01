@@ -10,6 +10,7 @@
 
 import { safe } from "./geo-labels-utils.js";
 import { regionsOf, anchorIndex } from "./geo-labels-map.js";
+import { firstForm } from "./geo-labels-l10n.js";
 
 // Smallest connected tile count that earns a label — drops 1-tile name specks.
 const RIVER_MIN = 2;
@@ -59,10 +60,12 @@ function componentIsNavigable(plots) {
 // game's full display name and is shown as-is: most end in "River", but many
 // carry their own form ("River Tay", "Wadi Hanifa", "Sông Hong", "Rio Negro",
 // "Kolekole Stream", "Þjórsá"), so appending a generic doubled or mangled them.
+// German, Polish and Russian names carry their case forms ("Волга|Волги|…"):
+// only the first is the name.
 export function composeRiverName(raw) {
   if (!raw || typeof raw !== "string" || raw.trim().length < 2) return null;
   const composed = safe(() => Locale.compose(raw.trim())) || raw.trim();
-  return composed.trim() || null;
+  return firstForm(composed).trim() || null;
 }
 
 // Composed river name at a plot (or null). Kept for the compute-side census.

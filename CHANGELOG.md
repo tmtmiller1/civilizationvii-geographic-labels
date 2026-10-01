@@ -5,6 +5,31 @@ follows [Keep a Changelog](https://keepachangelog.com/) and Semantic Versioning.
 The Steam Workshop change note for each release is generated from the matching
 section below by `release.sh`.
 
+## [1.7.0] - 2026-10-01
+
+### Added
+- **Eleven languages besides English**: German, Spanish, French, Italian, Japanese, Korean, Polish, Portuguese
+  (Brazil), Russian, and Simplified and Traditional Chinese, machine-translated. Every name painted on the map is
+  translated too: each of the 1,305 place names has its own tag, and each label is worded the way the language names
+  that kind of place. Names are saved as before, so a game keeps its names when the language changes. `text/README.md`
+  explains how to correct or add a language.
+
+### Changed
+- Labels draw in the display language's own font first, as the game's own text does: Japanese kanji no longer
+  take Chinese forms.
+- Labels letter-space every script (accented Latin, Cyrillic, kana, kanji, Hangul), not just A to Z.
+- Rename Places: the Type column is translated; search ignores case and accents ("lodz" finds "Łódź"); a name typed
+  with separate accent marks is stored as whole letters.
+- Saved names are written as ASCII with escapes, so a name in any script reads back unchanged.
+- Game names in German, Polish and Russian carry their case forms; only the first is drawn.
+- National Park 1.0.0 adds Wilderness Areas, so its places are listed in Rename Places under "Park or wilderness".
+
+### Fixed
+- **A park named after its wonder is drawn.** A National Park or Wilderness Area named after the natural wonder
+  beside it ("Redwood Forest Wilderness Area") was hidden behind the wonder's own label and never shown. The park's
+  name now stands in for the wonder's on the map, since it already carries it; the wonder is still listed in Rename
+  Places.
+
 ## [1.6.0] - 2026-09-29
 
 ### Added

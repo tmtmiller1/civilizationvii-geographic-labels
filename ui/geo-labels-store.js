@@ -57,6 +57,13 @@ function configRead() {
   return typeof v === "string" && v ? v : null;
 }
 
+// Names can be in any script (a rename in Japanese, Russian or Polish). The record is written as ASCII JSON, every
+// other character as a \uXXXX escape, so it reads back the same whatever encoding the save path uses; JSON.parse
+// restores the characters, and records written before this read as before.
+export function asciiJson(value) {
+  return JSON.stringify(value).replace(/[\u007f-\uffff]/g, (c) => "\\u" + c.charCodeAt(0).toString(16).padStart(4, "0"));
+}
+
 // Unguarded on purpose: the caller records a throw as a write failure.
 function configWrite(text) {
   const e = Configuration.editGame();
@@ -84,7 +91,7 @@ function readLegacyStore() {
 }
 
 function writeLegacyStore(all) {
-  safe(() => localStorage.setItem(STORE_KEY, JSON.stringify(all)));
+  safe(() => localStorage.setItem(STORE_KEY, asciiJson(all)));
 }
 
 // Import this game's entry from the legacy private key. Deliberately does NOT
@@ -111,7 +118,7 @@ function writeLegacyGame(seed, state) {
   }
   all[String(seed)] = { custom: state.custom, auto: state.auto };
   try {
-    localStorage.setItem(STORE_KEY, JSON.stringify(all));
+    localStorage.setItem(STORE_KEY, asciiJson(all));
   } catch (_e) {
     // Over quota: keep the player's renames, drop the regenerable auto names.
     all[String(seed)] = { custom: state.custom, auto: {} };
@@ -159,7 +166,7 @@ export function writeGameState(seed, state) {
     return true;
   }
   try {
-    configWrite(JSON.stringify({ seed: String(seed), custom: s.custom, auto: s.auto }));
+    configWrite(asciiJson({ seed: String(seed), custom: s.custom, auto: s.auto }));
     lastWriteError = null;
     return true;
   } catch (e) {

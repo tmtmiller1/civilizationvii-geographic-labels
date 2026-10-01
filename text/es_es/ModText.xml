@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database>
+    <LocalizedText>
+        <Replace Tag="LOC_MOD_GEO_LABELS_NAME" Language="es_ES"><Text>Geographic Labels</Text></Replace>
+        <Replace Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS" Language="es_ES"><Text>Geographic Labels</Text></Replace>
+        <Replace Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS_SHOW" Language="es_ES"><Text>Etiquetas geográficas visibles</Text></Replace>
+        <Replace Tag="LOC_MOD_GEO_LABELS_DESCRIPTION" Language="es_ES"><Text>Muestra en el mapa nombres al estilo de Civ VI: continentes, islas, regiones, masas de agua, ríos y maravillas naturales, y te permite cambiar el nombre de cualquiera de ellos. Actívalo con la casilla «Nombres geográficos», junto a Rendimientos, en el menú de lentes del minimapa.</Text></Replace>
+        <Replace Tag="LOC_MOD_GEO_LABELS_DEV_NAME" Language="es_ES"><Text>Geographic Labels (DEV: prueba de cambio de nombre)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME" Language="es_ES"><Text>Cambiar nombres…</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_TITLE" Language="es_ES"><Text>Cambiar nombres de lugares</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_HINT" Language="es_ES"><Text>Escribe un nombre nuevo y pulsa Intro. Déjalo en blanco o pulsa Restablecer para recuperar el nombre generado. ★ indica tus nombres.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_EMPTY" Language="es_ES"><Text>Aún no hay etiquetas. Primero activa Nombres geográficos en un mapa.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_SEARCH" Language="es_ES"><Text>Buscar un lugar…</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_COL_TYPE" Language="es_ES"><Text>Tipo</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_COL_NAME" Language="es_ES"><Text>Nombre</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_RESTORE_BTN" Language="es_ES"><Text>Restablecer</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_RESTORE" Language="es_ES"><Text>Restablecer el nombre generado</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TOGGLE" Language="es_ES"><Text>Nombres geográficos</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_OPT_FLAT" Language="es_ES"><Text>Geographic Labels: seguir el terreno</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_OPT_FLAT_DESC" Language="es_ES"><Text>Coloca los nombres geográficos planos sobre el mapa y los gira para que sigan el terreno (a lo largo de cordilleras, costas y desiertos, como en Civilization VI) en lugar de mostrarlos como etiquetas verticales siempre orientadas hacia la cámara. Las etiquetas se activan o desactivan con la casilla «Nombres geográficos» de la lista Decoración del minimapa.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_DESC" Language="es_ES"><Text>Muestra u oculta esta categoría de etiquetas geográficas. Se aplica al instante mientras la capa «Nombres geográficos» del mapa esté activa.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_DESC" Language="es_ES"><Text>Abre o cierra este grupo de tipos de etiqueta.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_EXPAND" Language="es_ES"><Text>+</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_COLLAPSE" Language="es_ES"><Text>-</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_LAND" Language="es_ES"><Text>Etiquetas terrestres</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_ISLANDS" Language="es_ES"><Text>Etiquetas de islas</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_SEA" Language="es_ES"><Text>Etiquetas de mares y costas</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_FRESHWATER" Language="es_ES"><Text>Etiquetas de ríos y lagos</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_CONT" Language="es_ES"><Text>Continentes</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_MOUNTAINS" Language="es_ES"><Text>Cordilleras</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_DESERTS" Language="es_ES"><Text>Desiertos</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_TAIGA" Language="es_ES"><Text>Taiga</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_JUNGLE" Language="es_ES"><Text>Selva</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ISLE" Language="es_ES"><Text>Islas</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ARCHIPELAGOS" Language="es_ES"><Text>Archipiélagos</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_KEYS" Language="es_ES"><Text>Cayos</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_WONDER" Language="es_ES"><Text>Maravillas naturales</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_PARK" Language="es_ES"><Text>Parques nacionales</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_LAKES" Language="es_ES"><Text>Lagos</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_SEAS" Language="es_ES"><Text>Mares</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_GULFS" Language="es_ES"><Text>Golfos</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_BAYS" Language="es_ES"><Text>Bahías</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_SOUNDS" Language="es_ES"><Text>Estrechos</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_INLETS" Language="es_ES"><Text>Ensenadas</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_FJORDS" Language="es_ES"><Text>Fiordos</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_REEFS" Language="es_ES"><Text>Arrecifes</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ATOLLS" Language="es_ES"><Text>Atolones</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ESTUARIES" Language="es_ES"><Text>Estuarios</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_RIVERNAV" Language="es_ES"><Text>Ríos (navegables)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_RIVERMINOR" Language="es_ES"><Text>Ríos (menores)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ISLANDS" Language="es_ES"><Text>Isla de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_LAKES" Language="es_ES"><Text>Lago {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_GULFS" Language="es_ES"><Text>Golfo de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_DESERTS" Language="es_ES"><Text>Desierto de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_MOUNTAINS" Language="es_ES"><Text>Montes {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_TAIGA" Language="es_ES"><Text>Taiga de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_JUNGLE" Language="es_ES"><Text>Selva de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_REEFS" Language="es_ES"><Text>Arrecife de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ATOLLS" Language="es_ES"><Text>Atolón de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_SEAS" Language="es_ES"><Text>Mar de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_BAYS" Language="es_ES"><Text>Bahía de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_SOUNDS" Language="es_ES"><Text>Estrecho de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_INLETS" Language="es_ES"><Text>Ensenada de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_FJORDS" Language="es_ES"><Text>Fiordo de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ESTUARIES" Language="es_ES"><Text>Estuario del {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ARCHIPELAGOS" Language="es_ES"><Text>Archipiélago de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_KEYS" Language="es_ES"><Text>Cayos de {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_CONT" Language="es_ES"><Text>Continente</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ISLE" Language="es_ES"><Text>Isla</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ARCHIPELAGOS" Language="es_ES"><Text>Archipiélago</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_KEYS" Language="es_ES"><Text>Cayos</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_DESERTS" Language="es_ES"><Text>Desierto</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_TAIGA" Language="es_ES"><Text>Taiga</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_JUNGLE" Language="es_ES"><Text>Selva</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_MOUNTAINS" Language="es_ES"><Text>Cordillera</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_WONDER" Language="es_ES"><Text>Maravilla</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_LAKES" Language="es_ES"><Text>Lago</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_SEAS" Language="es_ES"><Text>Mar</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_GULFS" Language="es_ES"><Text>Golfo</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_BAYS" Language="es_ES"><Text>Bahía</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_SOUNDS" Language="es_ES"><Text>Estrecho</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_INLETS" Language="es_ES"><Text>Ensenada</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_FJORDS" Language="es_ES"><Text>Fiordo</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_REEFS" Language="es_ES"><Text>Arrecife</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ATOLLS" Language="es_ES"><Text>Atolón</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ESTUARIES" Language="es_ES"><Text>Estuario</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_RIVERNAV" Language="es_ES"><Text>Río</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_RIVERMINOR" Language="es_ES"><Text>Río (menor)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_WONDER" Language="es_ES"><Text>Maravilla natural</Text></Replace>
+    </LocalizedText>
+</Database>

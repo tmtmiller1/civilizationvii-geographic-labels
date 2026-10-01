@@ -18,6 +18,7 @@ import {
 import { getLastWriteError } from "./geo-labels-store.js";
 import { getProviders, namesNear, providerForKey } from "./geo-labels-providers.js";
 import { createLogger, safe } from "./geo-labels-utils.js";
+import { orderedFonts } from "./geo-labels-l10n.js";
 
 const TAG = "[GeoLabels]";
 // A draw attempted before the engine hands out a game seed generates nothing
@@ -28,13 +29,9 @@ const SEED_RETRY_LIMIT = 30;
 const BUILD = "b8-single-instance";
 const LAYER_TYPE = "tmt-geo-labels-layer";
 
-const FONTS = [
-  "TitleFont",
-  "TitleFont-SC",
-  "TitleFont-TC",
-  "TitleFont-JP",
-  "TitleFont-KR",
-];
+// The display language's own face first, as the game orders its title fonts: kanji
+// in a Japanese game must not take their shapes from the Chinese face.
+const FONTS = orderedFonts();
 const LABEL_ALPHA = 64;
 const LABEL_STROKE = 0;
 const FACE_CAMERA = true;

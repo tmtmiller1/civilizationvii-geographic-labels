@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database>
+    <LocalizedText>
+        <Replace Tag="LOC_MOD_GEO_LABELS_NAME" Language="ja_JP"><Text>Geographic Labels</Text></Replace>
+        <Replace Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS" Language="ja_JP"><Text>Geographic Labels</Text></Replace>
+        <Replace Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS_SHOW" Language="ja_JP"><Text>表示する地名ラベル</Text></Replace>
+        <Replace Tag="LOC_MOD_GEO_LABELS_DESCRIPTION" Language="ja_JP"><Text>大陸、島、地域、海域、河川、自然遺産の名前を『シヴィライゼーション VI』風にマップ上に表示し、どの名前も自由に変更できます。ミニマップのレンズメニューで「産出」の隣にある「地名」チェックボックスで表示を切り替えます。</Text></Replace>
+        <Replace Tag="LOC_MOD_GEO_LABELS_DEV_NAME" Language="ja_JP"><Text>Geographic Labels (開発版: 名前変更テスト)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME" Language="ja_JP"><Text>地名の変更…</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_TITLE" Language="ja_JP"><Text>地名の変更</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_HINT" Language="ja_JP"><Text>新しい名前を入力してEnterキーを押してください。空欄にするか「元に戻す」を押すと、自動生成された名前に戻ります。★はあなたが付けた名前です。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_EMPTY" Language="ja_JP"><Text>まだラベルがありません。先にマップで「地名」をオンにしてください。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_SEARCH" Language="ja_JP"><Text>地名を検索…</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_COL_TYPE" Language="ja_JP"><Text>種類</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_COL_NAME" Language="ja_JP"><Text>名前</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_RESTORE_BTN" Language="ja_JP"><Text>元に戻す</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_RESTORE" Language="ja_JP"><Text>自動生成された名前に戻す</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TOGGLE" Language="ja_JP"><Text>地名</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_OPT_FLAT" Language="ja_JP"><Text>Geographic Labels: 地形に沿わせる</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_OPT_FLAT_DESC" Language="ja_JP"><Text>地名をマップ上に平らに置き、山脈や海岸線、砂漠に沿うように回転させて、『シヴィライゼーション VI』のように地形に沿って表示します。オフの場合は、常にカメラの方を向いた直立したラベルになります。ラベル自体の表示・非表示は、ミニマップの「表示項目」リストにある「地名」チェックボックスで切り替えます。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_DESC" Language="ja_JP"><Text>この種類の地名ラベルを表示または非表示にします。「地名」マップレイヤーがオンの間、即座に反映されます。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_DESC" Language="ja_JP"><Text>このラベル種類のグループを開閉します。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_EXPAND" Language="ja_JP"><Text>+</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_COLLAPSE" Language="ja_JP"><Text>-</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_LAND" Language="ja_JP"><Text>陸地のラベル</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_ISLANDS" Language="ja_JP"><Text>島のラベル</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_SEA" Language="ja_JP"><Text>海と沿岸のラベル</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_FRESHWATER" Language="ja_JP"><Text>河川と湖のラベル</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_CONT" Language="ja_JP"><Text>大陸</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_MOUNTAINS" Language="ja_JP"><Text>山脈</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_DESERTS" Language="ja_JP"><Text>砂漠</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_TAIGA" Language="ja_JP"><Text>タイガ</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_JUNGLE" Language="ja_JP"><Text>ジャングル</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ISLE" Language="ja_JP"><Text>島</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ARCHIPELAGOS" Language="ja_JP"><Text>諸島</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_KEYS" Language="ja_JP"><Text>キーズ (小島列)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_WONDER" Language="ja_JP"><Text>自然遺産</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_PARK" Language="ja_JP"><Text>国立公園</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_LAKES" Language="ja_JP"><Text>湖</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_SEAS" Language="ja_JP"><Text>海</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_GULFS" Language="ja_JP"><Text>湾 (ガルフ)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_BAYS" Language="ja_JP"><Text>湾 (ベイ)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_SOUNDS" Language="ja_JP"><Text>サウンド (細長い湾)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_INLETS" Language="ja_JP"><Text>入江</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_FJORDS" Language="ja_JP"><Text>フィヨルド</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_REEFS" Language="ja_JP"><Text>礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ATOLLS" Language="ja_JP"><Text>環礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ESTUARIES" Language="ja_JP"><Text>河口</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_RIVERNAV" Language="ja_JP"><Text>河川 (航行可能)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_RIVERMINOR" Language="ja_JP"><Text>河川 (小)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ISLANDS" Language="ja_JP"><Text>{1_Name}島</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_LAKES" Language="ja_JP"><Text>{1_Name}湖</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_GULFS" Language="ja_JP"><Text>{1_Name}湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_DESERTS" Language="ja_JP"><Text>{1_Name}砂漠</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_MOUNTAINS" Language="ja_JP"><Text>{1_Name}山脈</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_TAIGA" Language="ja_JP"><Text>{1_Name}タイガ</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_JUNGLE" Language="ja_JP"><Text>{1_Name}ジャングル</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_REEFS" Language="ja_JP"><Text>{1_Name}礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ATOLLS" Language="ja_JP"><Text>{1_Name}環礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_SEAS" Language="ja_JP"><Text>{1_Name}海</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_BAYS" Language="ja_JP"><Text>{1_Name}湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_SOUNDS" Language="ja_JP"><Text>{1_Name}湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_INLETS" Language="ja_JP"><Text>{1_Name}入江</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_FJORDS" Language="ja_JP"><Text>{1_Name}フィヨルド</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ESTUARIES" Language="ja_JP"><Text>{1_Name}河口</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ARCHIPELAGOS" Language="ja_JP"><Text>{1_Name}諸島</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_KEYS" Language="ja_JP"><Text>{1_Name}キーズ</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_CONT" Language="ja_JP"><Text>大陸</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ISLE" Language="ja_JP"><Text>島</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ARCHIPELAGOS" Language="ja_JP"><Text>諸島</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_KEYS" Language="ja_JP"><Text>キーズ</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_DESERTS" Language="ja_JP"><Text>砂漠</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_TAIGA" Language="ja_JP"><Text>タイガ</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_JUNGLE" Language="ja_JP"><Text>ジャングル</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_MOUNTAINS" Language="ja_JP"><Text>山脈</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_WONDER" Language="ja_JP"><Text>自然遺産</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_LAKES" Language="ja_JP"><Text>湖</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_SEAS" Language="ja_JP"><Text>海</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_GULFS" Language="ja_JP"><Text>湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_BAYS" Language="ja_JP"><Text>湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_SOUNDS" Language="ja_JP"><Text>サウンド</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_INLETS" Language="ja_JP"><Text>入江</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_FJORDS" Language="ja_JP"><Text>フィヨルド</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_REEFS" Language="ja_JP"><Text>礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ATOLLS" Language="ja_JP"><Text>環礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ESTUARIES" Language="ja_JP"><Text>河口</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_RIVERNAV" Language="ja_JP"><Text>河川</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_RIVERMINOR" Language="ja_JP"><Text>河川 (小)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_WONDER" Language="ja_JP"><Text>自然遺産</Text></Replace>
+    </LocalizedText>
+</Database>

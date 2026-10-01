@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database>
+    <LocalizedText>
+        <Replace Tag="LOC_MOD_GEO_LABELS_NAME" Language="ru_RU"><Text>Geographic Labels</Text></Replace>
+        <Replace Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS" Language="ru_RU"><Text>Geographic Labels</Text></Replace>
+        <Replace Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS_SHOW" Language="ru_RU"><Text>Показ географических подписей</Text></Replace>
+        <Replace Tag="LOC_MOD_GEO_LABELS_DESCRIPTION" Language="ru_RU"><Text>Наносит на карту названия в стиле Civ VI: континенты, острова, регионы, водоёмы, реки и чудеса природы, и позволяет переименовать любое из них. Включается флажком «Географические названия» рядом с пунктом «Прибыль» в меню линз мини-карты.</Text></Replace>
+        <Replace Tag="LOC_MOD_GEO_LABELS_DEV_NAME" Language="ru_RU"><Text>Geographic Labels (DEV: тест переименования)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME" Language="ru_RU"><Text>Переименовать места…</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_TITLE" Language="ru_RU"><Text>Переименование мест</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_HINT" Language="ru_RU"><Text>Введите новое название и нажмите Enter. Оставьте поле пустым или нажмите «Восстановить», чтобы вернуть сгенерированное название. ★ отмечает ваши названия.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_EMPTY" Language="ru_RU"><Text>Подписей пока нет. Сначала включите «Географические названия» на карте.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_SEARCH" Language="ru_RU"><Text>Найти место…</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_COL_TYPE" Language="ru_RU"><Text>Тип</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_COL_NAME" Language="ru_RU"><Text>Название</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_RESTORE_BTN" Language="ru_RU"><Text>Восстановить</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_RESTORE" Language="ru_RU"><Text>Вернуть сгенерированное название</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TOGGLE" Language="ru_RU"><Text>Географические названия</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_OPT_FLAT" Language="ru_RU"><Text>Geographic Labels: по рельефу</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_OPT_FLAT_DESC" Language="ru_RU"><Text>Кладёт географические названия плашмя на карту и разворачивает их вдоль суши — по горным хребтам, береговым линиям и пустыням, как в Civilization VI, — вместо вертикальных подписей, всегда обращённых к камере. Сами подписи включаются и выключаются флажком «Географические названия» в списке «Оформление» мини-карты.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_DESC" Language="ru_RU"><Text>Показать или скрыть эту категорию географических подписей. Применяется сразу, пока включён слой карты «Географические названия».</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_DESC" Language="ru_RU"><Text>Открыть или закрыть эту группу типов подписей.</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_EXPAND" Language="ru_RU"><Text>+</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_COLLAPSE" Language="ru_RU"><Text>-</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_LAND" Language="ru_RU"><Text>Подписи суши</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_ISLANDS" Language="ru_RU"><Text>Подписи островов</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_SEA" Language="ru_RU"><Text>Подписи морей и побережий</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_FRESHWATER" Language="ru_RU"><Text>Подписи рек и озёр</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_CONT" Language="ru_RU"><Text>Континенты</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_MOUNTAINS" Language="ru_RU"><Text>Горные хребты</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_DESERTS" Language="ru_RU"><Text>Пустыни</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_TAIGA" Language="ru_RU"><Text>Тайга</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_JUNGLE" Language="ru_RU"><Text>Джунгли</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ISLE" Language="ru_RU"><Text>Острова</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ARCHIPELAGOS" Language="ru_RU"><Text>Архипелаги</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_KEYS" Language="ru_RU"><Text>Острова-кис</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_WONDER" Language="ru_RU"><Text>Чудеса природы</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_PARK" Language="ru_RU"><Text>Национальные парки</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_LAKES" Language="ru_RU"><Text>Озёра</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_SEAS" Language="ru_RU"><Text>Моря</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_GULFS" Language="ru_RU"><Text>Заливы</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_BAYS" Language="ru_RU"><Text>Бухты</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_SOUNDS" Language="ru_RU"><Text>Проливы</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_INLETS" Language="ru_RU"><Text>Узкие заливы</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_FJORDS" Language="ru_RU"><Text>Фьорды</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_REEFS" Language="ru_RU"><Text>Рифы</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ATOLLS" Language="ru_RU"><Text>Атоллы</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ESTUARIES" Language="ru_RU"><Text>Эстуарии</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_RIVERNAV" Language="ru_RU"><Text>Реки (судоходные)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_RIVERMINOR" Language="ru_RU"><Text>Реки (малые)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ISLANDS" Language="ru_RU"><Text>Остров {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_LAKES" Language="ru_RU"><Text>Озеро {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_GULFS" Language="ru_RU"><Text>Залив {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_DESERTS" Language="ru_RU"><Text>Пустыня {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_MOUNTAINS" Language="ru_RU"><Text>Горы {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_TAIGA" Language="ru_RU"><Text>Тайга {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_JUNGLE" Language="ru_RU"><Text>Джунгли {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_REEFS" Language="ru_RU"><Text>Риф {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ATOLLS" Language="ru_RU"><Text>Атолл {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_SEAS" Language="ru_RU"><Text>Море {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_BAYS" Language="ru_RU"><Text>Бухта {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_SOUNDS" Language="ru_RU"><Text>Пролив {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_INLETS" Language="ru_RU"><Text>Залив {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_FJORDS" Language="ru_RU"><Text>Фьорд {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ESTUARIES" Language="ru_RU"><Text>Эстуарий реки {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ARCHIPELAGOS" Language="ru_RU"><Text>Архипелаг {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_KEYS" Language="ru_RU"><Text>Острова {1_Name}</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_CONT" Language="ru_RU"><Text>Континент</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ISLE" Language="ru_RU"><Text>Остров</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ARCHIPELAGOS" Language="ru_RU"><Text>Архипелаг</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_KEYS" Language="ru_RU"><Text>Острова-кис</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_DESERTS" Language="ru_RU"><Text>Пустыня</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_TAIGA" Language="ru_RU"><Text>Тайга</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_JUNGLE" Language="ru_RU"><Text>Джунгли</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_MOUNTAINS" Language="ru_RU"><Text>Горы</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_WONDER" Language="ru_RU"><Text>Чудо природы</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_LAKES" Language="ru_RU"><Text>Озеро</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_SEAS" Language="ru_RU"><Text>Море</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_GULFS" Language="ru_RU"><Text>Залив</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_BAYS" Language="ru_RU"><Text>Бухта</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_SOUNDS" Language="ru_RU"><Text>Пролив</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_INLETS" Language="ru_RU"><Text>Узкий залив</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_FJORDS" Language="ru_RU"><Text>Фьорд</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_REEFS" Language="ru_RU"><Text>Риф</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ATOLLS" Language="ru_RU"><Text>Атолл</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ESTUARIES" Language="ru_RU"><Text>Эстуарий</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_RIVERNAV" Language="ru_RU"><Text>Река</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_RIVERMINOR" Language="ru_RU"><Text>Река (малая)</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_WONDER" Language="ru_RU"><Text>Чудо природы</Text></Replace>
+    </LocalizedText>
+</Database>

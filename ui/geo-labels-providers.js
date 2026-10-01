@@ -57,10 +57,46 @@ export function providerLabels(providers, { centroid, fontOf }) {
     const typeLabel = safe(() => p.typeLabel, null) || p.type;
     for (const it of items.filter((x) => isPlaceOf(x, p.type))) {
       out.push({ key: it.key, plot: centroid(it.plots), plots: it.plots, text: String(it.text),
-        fontSize: fontOf(it.key, it.plots.length), cust: !!it.cust, typeLabel });
+        fontSize: fontOf(it.key, it.plots.length), cust: !!it.cust, typeLabel, provided: true });
     }
   }
   return out;
+}
+
+/** How far a provider's place may lie from a wonder it is named after: a park is founded beside its wonder, and a
+ *  multi-tile wonder's label sits at its centre. */
+export const STAND_IN_REACH = 2;
+
+/**
+ * A provider's place named after a natural wonder beside it ("Redwood Forest Wilderness Area" beside the Redwood
+ * Forest) stands in for that wonder on the map: the wonder's label is left out, and the place takes the wonder's
+ * `rank`, so overlap suppression cannot hide the place behind the name it already carries. The wonder stays in
+ * Rename Places, which lists every label. Returns the labels to draw; the stand-ins are marked with `rank`.
+ */
+export function standInForWonders(labels, dist, rank, reach = STAND_IN_REACH) {
+  const wonders = labels.filter(isWonderLabel);
+  const dropped = new Set();
+  for (const place of labels.filter(isProvidedPlace)) {
+    for (const w of wonders.filter((x) => !dropped.has(x) && namedFor(place, x, dist, reach))) {
+      dropped.add(w);
+      place.rank = rank;
+    }
+  }
+  return dropped.size ? labels.filter((l) => !dropped.has(l)) : labels;
+}
+
+function isWonderLabel(l) {
+  return !!l && typeof l.key === "string" && l.key.startsWith("wonder:") && !!l.text && !!l.plot;
+}
+
+function isProvidedPlace(l) {
+  return !!l && !!l.provided && Array.isArray(l.plots);
+}
+
+/** Whether `place` carries the wonder's name and lies within `reach` of it. */
+function namedFor(place, wonder, dist, reach) {
+  if (!String(place.text).toLowerCase().includes(String(wonder.text).toLowerCase())) return false;
+  return closest(place.plots, [wonder.plot], reach, dist) <= reach;
 }
 
 /** Shortest distance from any of `plots` to any of `targets`, measuring only pairs within `radius` rows. */

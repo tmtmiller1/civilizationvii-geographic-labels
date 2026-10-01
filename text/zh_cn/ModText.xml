@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database>
+    <LocalizedText>
+        <Replace Tag="LOC_MOD_GEO_LABELS_NAME" Language="zh_Hans_CN"><Text>Geographic Labels</Text></Replace>
+        <Replace Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS" Language="zh_Hans_CN"><Text>Geographic Labels</Text></Replace>
+        <Replace Tag="LOC_OPTIONS_GROUP_GEOGRAPHIC_LABELS_SHOW" Language="zh_Hans_CN"><Text>要显示的地理标签</Text></Replace>
+        <Replace Tag="LOC_MOD_GEO_LABELS_DESCRIPTION" Language="zh_Hans_CN"><Text>以《文明6》的风格在地图上标注名称：大陆、岛屿、地区、水域、河流和自然奇观，并可重命名其中任何一个。可通过小地图滤镜菜单中“产量”旁的“地理名称”复选框开启或关闭。</Text></Replace>
+        <Replace Tag="LOC_MOD_GEO_LABELS_DEV_NAME" Language="zh_Hans_CN"><Text>Geographic Labels（开发版：重命名测试）</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME" Language="zh_Hans_CN"><Text>重命名地点…</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_TITLE" Language="zh_Hans_CN"><Text>重命名地点</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_HINT" Language="zh_Hans_CN"><Text>输入新名称后按回车键。留空或点击“恢复”即可恢复生成的名称。★ 表示你自定义的名称。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_EMPTY" Language="zh_Hans_CN"><Text>尚无标签。请先在地图上开启“地理名称”。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_SEARCH" Language="zh_Hans_CN"><Text>查找地点…</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_COL_TYPE" Language="zh_Hans_CN"><Text>类型</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_COL_NAME" Language="zh_Hans_CN"><Text>名称</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_RESTORE_BTN" Language="zh_Hans_CN"><Text>恢复</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_RENAME_RESTORE" Language="zh_Hans_CN"><Text>恢复生成的名称</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TOGGLE" Language="zh_Hans_CN"><Text>地理名称</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_OPT_FLAT" Language="zh_Hans_CN"><Text>Geographic Labels：顺应地形</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_OPT_FLAT_DESC" Language="zh_Hans_CN"><Text>将地理名称平铺在地图上，并沿陆地走向旋转，像《文明6》那样顺着山脉、海岸线和沙漠排列，而不是始终面向镜头的直立标签。标签本身的开关请使用小地图“地图显示”列表中的“地理名称”复选框。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_DESC" Language="zh_Hans_CN"><Text>显示或隐藏此类地理标签。在“地理名称”地图图层开启时即时生效。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_DESC" Language="zh_Hans_CN"><Text>展开或收起此组标签类型。</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_EXPAND" Language="zh_Hans_CN"><Text>+</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_COLLAPSE" Language="zh_Hans_CN"><Text>-</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_LAND" Language="zh_Hans_CN"><Text>陆地标签</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_ISLANDS" Language="zh_Hans_CN"><Text>岛屿标签</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_SEA" Language="zh_Hans_CN"><Text>海洋与海岸标签</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_GROUP_FRESHWATER" Language="zh_Hans_CN"><Text>河流与湖泊标签</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_CONT" Language="zh_Hans_CN"><Text>大陆</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_MOUNTAINS" Language="zh_Hans_CN"><Text>山脉</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_DESERTS" Language="zh_Hans_CN"><Text>沙漠</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_TAIGA" Language="zh_Hans_CN"><Text>泰加林</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_JUNGLE" Language="zh_Hans_CN"><Text>丛林</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ISLE" Language="zh_Hans_CN"><Text>岛屿</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ARCHIPELAGOS" Language="zh_Hans_CN"><Text>群岛</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_KEYS" Language="zh_Hans_CN"><Text>礁岛群</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_WONDER" Language="zh_Hans_CN"><Text>自然奇观</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_PARK" Language="zh_Hans_CN"><Text>国家公园</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_LAKES" Language="zh_Hans_CN"><Text>湖泊</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_SEAS" Language="zh_Hans_CN"><Text>海</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_GULFS" Language="zh_Hans_CN"><Text>海湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_BAYS" Language="zh_Hans_CN"><Text>湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_SOUNDS" Language="zh_Hans_CN"><Text>海峡</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_INLETS" Language="zh_Hans_CN"><Text>小海湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_FJORDS" Language="zh_Hans_CN"><Text>峡湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_REEFS" Language="zh_Hans_CN"><Text>礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ATOLLS" Language="zh_Hans_CN"><Text>环礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_ESTUARIES" Language="zh_Hans_CN"><Text>河口</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_RIVERNAV" Language="zh_Hans_CN"><Text>河流（可通航）</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_VIS_RIVERMINOR" Language="zh_Hans_CN"><Text>河流（小型）</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ISLANDS" Language="zh_Hans_CN"><Text>{1_Name}岛</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_LAKES" Language="zh_Hans_CN"><Text>{1_Name}湖</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_GULFS" Language="zh_Hans_CN"><Text>{1_Name}湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_DESERTS" Language="zh_Hans_CN"><Text>{1_Name}沙漠</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_MOUNTAINS" Language="zh_Hans_CN"><Text>{1_Name}山脉</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_TAIGA" Language="zh_Hans_CN"><Text>{1_Name}泰加林</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_JUNGLE" Language="zh_Hans_CN"><Text>{1_Name}丛林</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_REEFS" Language="zh_Hans_CN"><Text>{1_Name}礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ATOLLS" Language="zh_Hans_CN"><Text>{1_Name}环礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_SEAS" Language="zh_Hans_CN"><Text>{1_Name}海</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_BAYS" Language="zh_Hans_CN"><Text>{1_Name}湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_SOUNDS" Language="zh_Hans_CN"><Text>{1_Name}海峡</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_INLETS" Language="zh_Hans_CN"><Text>{1_Name}湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_FJORDS" Language="zh_Hans_CN"><Text>{1_Name}峡湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ESTUARIES" Language="zh_Hans_CN"><Text>{1_Name}口</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_ARCHIPELAGOS" Language="zh_Hans_CN"><Text>{1_Name}群岛</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_FRAME_KEYS" Language="zh_Hans_CN"><Text>{1_Name}礁岛群</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_CONT" Language="zh_Hans_CN"><Text>大陆</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ISLE" Language="zh_Hans_CN"><Text>岛屿</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ARCHIPELAGOS" Language="zh_Hans_CN"><Text>群岛</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_KEYS" Language="zh_Hans_CN"><Text>礁岛群</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_DESERTS" Language="zh_Hans_CN"><Text>沙漠</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_TAIGA" Language="zh_Hans_CN"><Text>泰加林</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_JUNGLE" Language="zh_Hans_CN"><Text>丛林</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_MOUNTAINS" Language="zh_Hans_CN"><Text>山脉</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_WONDER" Language="zh_Hans_CN"><Text>奇观</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_LAKES" Language="zh_Hans_CN"><Text>湖泊</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_SEAS" Language="zh_Hans_CN"><Text>海</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_GULFS" Language="zh_Hans_CN"><Text>海湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_BAYS" Language="zh_Hans_CN"><Text>湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_SOUNDS" Language="zh_Hans_CN"><Text>海峡</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_INLETS" Language="zh_Hans_CN"><Text>小海湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_FJORDS" Language="zh_Hans_CN"><Text>峡湾</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_REEFS" Language="zh_Hans_CN"><Text>礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ATOLLS" Language="zh_Hans_CN"><Text>环礁</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_ESTUARIES" Language="zh_Hans_CN"><Text>河口</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_RIVERNAV" Language="zh_Hans_CN"><Text>河流</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_TYPE_RIVERMINOR" Language="zh_Hans_CN"><Text>河流（小型）</Text></Replace>
+        <Replace Tag="LOC_GEO_LABELS_WONDER" Language="zh_Hans_CN"><Text>自然奇观</Text></Replace>
+    </LocalizedText>
+</Database>

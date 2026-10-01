@@ -1,10 +1,6 @@
-import {
-  axisAngleDeg,
-  circularMeanX,
-  frame,
-  typeFont,
-  wrapDeltaX,
-} from "./geo-labels-format.js";
+import { axisAngleDeg, circularMeanX, typeFont, wrapDeltaX } from "./geo-labels-format.js";
+import { firstForm, localFrame, localLabel, localPlace } from "./geo-labels-l10n.js";
+import { displayWidth } from "./geo-labels-text.js";
 import { CIV_NAMES, GENERIC, NEUTRAL } from "./geo-labels-toponyms.js";
 import {
   getGlobalSettings,
@@ -26,7 +22,7 @@ import {
 } from "./geo-labels-map.js";
 import { collectWaterFeatures } from "./geo-labels-water.js";
 import { collectRivers } from "./geo-labels-rivers.js";
-import { getProviders, providerLabels } from "./geo-labels-providers.js";
+import { getProviders, providerLabels, standInForWonders } from "./geo-labels-providers.js";
 
 const WONDER_OFFSET = 8;
 const CONTINENT_MIN_TILES = 80;
@@ -194,7 +190,8 @@ function collectPlaces(labels, sources, auto) {
   for (const { key, plots, toponym } of sources) {
     const label = byKey.get(key);
     if (!label || !plots || !plots.length) continue;
-    places.push({ key, text: label.text, toponym: label.cust ? null : (toponym || auto[key]?.n || null),
+    // The toponym in the display language: what the National Park mod names a park after.
+    places.push({ key, text: label.text, toponym: label.cust ? null : (localPlace(toponym || auto[key]?.n) || null),
       cust: !!label.cust, plots });
   }
   return places;
@@ -278,7 +275,7 @@ function continentName(continentType) {
   if (typeof continentType !== "number" || continentType === -1) return null;
   const def = safe(() => GameInfo.Continents.lookup(continentType));
   if (!def || !def.Description) return null;
-  return safe(() => Locale.compose(def.Description)) || null;
+  return firstForm(safe(() => Locale.compose(def.Description))) || null;
 }
 
 function addWonderLabels(wonders, custom, labels) {
@@ -345,12 +342,12 @@ function addFeatureLabels(ctx) {
     }
 
     // A feature with an engine-supplied name (e.g. an estuary's river name)
-    // skips the toponym picker and renders that name directly through frame().
+    // skips the toponym picker and renders that name in the language's frame.
     if (feature.fixedName) {
       labels.push({
         key: feature.key,
         plot: centroid(feature.plots),
-        text: frame(feature.typeKey, feature.fixedName),
+        text: localFrame(feature.typeKey, feature.fixedName),
         fontSize: typeFont(feature.key, feature.plots.length),
         angle: axisAngleDeg(feature.plots, w),
       });
@@ -364,7 +361,7 @@ function addFeatureLabels(ctx) {
     labels.push({
       key: feature.key,
       plot: centroid(feature.plots),
-      text: frame(feature.typeKey, chosen.toponym),
+      text: localLabel(feature.typeKey, chosen.toponym),
       fontSize: typeFont(feature.key, feature.plots.length),
       angle: axisAngleDeg(feature.plots, w),
     });
@@ -391,39 +388,39 @@ function pruneAuto(auto, feats) {
   }
 }
 
-function suppressOverlaps(labels) {
-  const priority = {
-    wonder: 6,
-    cont: 5,
-    seas: 5, // large water basins read like continents in prominence
-    isle: 4,
-    archipelagos: 4,
-    park: 4, // player-made places from the National Park mod
-    mountains: 3,
-    lakes: 3,
-    rivernav: 3, // prominent water channels; outrank the minor-river label
-    gulfs: 3,
-    bays: 3,
-    keys: 3,
-    deserts: 2, // must match cat.typeKey "deserts" (the key prefix labelType extracts)
-    taiga: 2,
-    jungle: 2,
-    reefs: 2,
-    atolls: 2,
-    sounds: 2,
-    inlets: 2,
-    fjords: 2,
-    estuaries: 2,
-    riverminor: 1, // faint valley labels sit below almost everything
-  };
+const LABEL_PRIORITY = {
+  wonder: 6,
+  cont: 5,
+  seas: 5, // large water basins read like continents in prominence
+  isle: 4,
+  archipelagos: 4,
+  park: 4, // player-made places from the National Park mod
+  mountains: 3,
+  lakes: 3,
+  rivernav: 3, // prominent water channels; outrank the minor-river label
+  gulfs: 3,
+  bays: 3,
+  keys: 3,
+  deserts: 2, // must match cat.typeKey "deserts" (the key prefix labelType extracts)
+  taiga: 2,
+  jungle: 2,
+  reefs: 2,
+  atolls: 2,
+  sounds: 2,
+  inlets: 2,
+  fjords: 2,
+  estuaries: 2,
+  riverminor: 1, // faint valley labels sit below almost everything
+};
 
+function suppressOverlaps(labels) {
+  const rankOf = (l) => l.rank ?? LABEL_PRIORITY[labelType(l)] ?? 0;
   labels.sort((a, b) => {
     const ac = a.cust ? 1 : 0;
     const bc = b.cust ? 1 : 0;
     if (bc !== ac) return bc - ac;
-    const bp = priority[labelType(b)] || 0;
-    const ap = priority[labelType(a)] || 0;
-    if (bp !== ap) return bp - ap;
+    const byRank = rankOf(b) - rankOf(a);
+    if (byRank) return byRank;
     return b.fontSize - a.fontSize;
   });
 
@@ -458,7 +455,7 @@ function labelType(label) {
 }
 
 function labelReach(label) {
-  const len = String(label.text).replace(/\s+/g, "").length;
+  const len = displayWidth(label.text);
   const raw = Math.round(len * label.fontSize * 0.05);
   return Math.max(2, Math.min(10, raw));
 }
@@ -548,7 +545,8 @@ export function computeLabels(log = () => {}) {
   // can't crowd out a visible one it happens to sit near.
   const visible = labels.filter((label) => isCategoryVisible(labelType(label)));
   lastComputed = visible;
-  const shown = suppressOverlaps(visible);
+  const dist = (a, b) => GameplayMap.getPlotDistance(a.x, a.y, b.x, b.y);
+  const shown = suppressOverlaps(standInForWonders(visible, dist, LABEL_PRIORITY.wonder));
   logSummary({ log, labels: visible, shown, features, scanned, flips });
 
   return shown;

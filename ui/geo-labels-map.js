@@ -1,5 +1,6 @@
 import { safe } from "./geo-labels-utils.js";
 import { REGION_CATS, FEATURE_TO_TYPEKEY } from "./geo-labels-toponyms.js";
+import { firstForm, loc } from "./geo-labels-l10n.js";
 
 const MIN_LABEL_TILES = 3;
 const CONTINENT_MIN_TILES = 80;
@@ -231,10 +232,8 @@ function collectWonderTile(x, y, wonders) {
 
 function resolveWonderName(featureType) {
   const def = safe(() => GameInfo.Features.lookup(featureType));
-  if (def && def.Name) {
-    return safe(() => Locale.compose(def.Name)) || "Wonder";
-  }
-  return "Wonder";
+  const name = def && def.Name ? firstForm(safe(() => Locale.compose(def.Name))) : null;
+  return name || loc("LOC_GEO_LABELS_WONDER", "Wonder");
 }
 
 export function buildReachable(areas, w, h) {

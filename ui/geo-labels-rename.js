@@ -15,12 +15,14 @@ import ContextManager from "/core/ui/context-manager/context-manager.js";
 import { InputEngineEventName } from "/core/ui/input/input-support.js";
 import ViewManager from "/core/ui/views/view-manager.js";
 import { createLogger, safe } from "./geo-labels-utils.js";
+import { composed, foldForSearch } from "./geo-labels-text.js";
 
 const TAG = "[GeoLabels]";
 const BTN_ID = "geo-labels-rename-btn";
 const SCREEN = "geo-labels-rename-screen";
 // base-game LOC (engine-owned) — used as a DOM selector to find the Yields row.
 const YIELDS_SELECTOR = '[data-l10n-id="LOC_UI_MINI_MAP_YIELDS"]';
+// English fallbacks for the Type column; the shown text is LOC_GEO_LABELS_TYPE_<TYPE>.
 const TYPE_LABEL = {
   cont: "Continent", isle: "Island", archipelagos: "Archipelago", keys: "Keys",
   deserts: "Desert", taiga: "Taiga", jungle: "Jungle", mountains: "Mountains",
@@ -50,6 +52,10 @@ const log = createLogger(TAG, () => DBG);
 
 function api() {
   return (typeof window !== "undefined" && window.__geoLabels) || null;
+}
+
+function typeLabel(type) {
+  return TYPE_LABEL[type] ? loc("LOC_GEO_LABELS_TYPE_" + String(type).toUpperCase(), TYPE_LABEL[type]) : null;
 }
 
 function loc(key, fallback) {
@@ -229,10 +235,11 @@ class GeoLabelsRenameScreen extends Panel {
   buildSearch(host) {
     const search = field("flex-auto");
     search.setAttribute("placeholder", loc("LOC_GEO_LABELS_RENAME_SEARCH", "Find a place…"));
+    // Case and accents are ignored, so "lodz" finds "Łódź"; kana, kanji and Hangul match as typed.
     const filter = (text) => {
-      const q = String(text || "").trim().toLowerCase();
+      const q = foldForSearch(String(text || "").trim());
       for (const r of this.rows) {
-        const hit = !q || r.search.includes(q) || boxValue(r.box).toLowerCase().includes(q);
+        const hit = !q || r.search.includes(q) || foldForSearch(boxValue(r.box)).includes(q);
         r.row.style.display = hit ? "" : "none";
       }
     };
@@ -249,14 +256,15 @@ class GeoLabelsRenameScreen extends Panel {
 
   buildRow(label) {
     const c = rowControls(label);
-    const r = { row: c.row, box: c.box, type: c.type, search: (label.text + " " + c.type).toLowerCase(),
+    const r = { row: c.row, box: c.box, type: c.type, search: foldForSearch(label.text + " " + c.type),
       shown: label.text, cust: !!label.cust };
     const paint = () => {
       c.star.textContent = r.cust ? "★" : "";
       c.restore.style.visibility = r.cust ? "visible" : "hidden";
     };
+    // NFC, so a name typed with separate accent marks is stored and drawn as whole letters.
     const commit = (value) => {
-      const name = String(value).trim();
+      const name = composed(value).trim();
       if (name === r.shown && (name !== "" || !r.cust)) return;
       const g = api();
       if (!g || !g.setName) { log("commit: no api/setName"); return; }
@@ -289,7 +297,7 @@ class GeoLabelsRenameScreen extends Panel {
 
 // One list row: category, name field, "your name" star, and the restore button.
 function rowControls(label) {
-  const type = TYPE_LABEL[label.type] || label.typeLabel || label.type;
+  const type = typeLabel(label.type) || label.typeLabel || label.type;
   const row = el("div", "flex flex-row items-center py-1", "border-bottom:1px solid " + RULE + ";");
   const badge = el("div", "font-body text-xs uppercase", "width:8rem;flex:0 0 auto;color:" + MUTED + ";", type);
   const box = field("flex-auto");

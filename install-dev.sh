@@ -15,12 +15,16 @@ sed -e 's/<Mod id="tmt-geographic-labels"/<Mod id="tmt-geographic-labels-dev"/' 
     -e 's|<Package>GeographicLabels</Package>|<Package>GeographicLabelsDev</Package>|' \
     "$HERE/geographic-labels.modinfo" > "$DEST/geographic-labels.modinfo"
 cp -R "$HERE/ui" "$DEST/"
-mkdir -p "$DEST/text/en_us"
+cp -R "$HERE/text" "$DEST/"
+rm -f "$DEST/text/README.md"
 # <Replace> upserts, so the dev copy's LOC rows no longer collide with the Workshop
 # copy's identical <Row> inserts (UNIQUE constraint on LocalizedText.Language+Tag,
 # which made content configuration validation fail and roll everything back).
-sed -e 's|<Row Tag=|<Replace Tag=|g' -e 's|</Row>|</Replace>|g' \
-    "$HERE/text/en_us/ModText.xml" > "$DEST/text/en_us/ModText.xml"
+# The other languages are <Replace> rows already.
+for f in ModText PlaceText; do
+    sed -e 's|<Row Tag=|<Replace Tag=|g' -e 's|</Row>|</Replace>|g' \
+        "$HERE/text/en_us/$f.xml" > "$DEST/text/en_us/$f.xml"
+done
 cp -R "$HERE/images" "$DEST/"
 grep -q 'tmt-geographic-labels-dev' "$DEST/geographic-labels.modinfo" || { echo "modinfo id rewrite failed" >&2; exit 1; }
 echo "installed -> $DEST  (mod id tmt-geographic-labels-dev)"
