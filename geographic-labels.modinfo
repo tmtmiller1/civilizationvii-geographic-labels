@@ -7,7 +7,7 @@
         <SpecialThanks>Firaxis and the Civ modding community for the game, documentation, and sample mods; the many real-world atlases and gazetteers behind the period-accurate place names.</SpecialThanks>
         <Package>GeographicLabels</Package>
         <PackageSortIndex>1000</PackageSortIndex>
-        <Version>1.7.0</Version>
+        <Version>1.7.1</Version>
         <AffectsSavedGames>0</AffectsSavedGames>
     </Properties>
     <Dependencies>
@@ -54,6 +54,8 @@
                     <Item locale="zh_Hant_HK">text/zh_hk/PlaceText.xml</Item>
                 </UpdateText>
                 <UIScripts>
+                    <!-- Tower Settings Keeper: listed first, imports nothing, so it runs before anything reads storage. -->
+                    <Item>ui/settings-keeper.js</Item>
                     <Item>ui/geo-labels-layer.js</Item>
                     <Item>ui/geo-labels-toggle.js</Item>
                     <Item>ui/geo-labels-options.js</Item>
@@ -102,6 +104,8 @@
                     <Item locale="zh_Hant_HK">text/zh_hk/ModText.xml</Item>
                 </UpdateText>
                 <UIScripts>
+                    <!-- Tower Settings Keeper: listed first, imports nothing, so it runs before anything reads storage. -->
+                    <Item>ui/settings-keeper.js</Item>
                     <Item>ui/geo-labels-options.js</Item>
                 </UIScripts>
                 <ImportFiles>

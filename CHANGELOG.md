@@ -7,10 +7,28 @@ section below by `release.sh`.
 
 ## [Unreleased]
 
+## [1.7.1] - 2026-10-07
+
+Settings that survive a restart: the mod now carries the Tower Settings Keeper.
+
 ### Fixed
 - **Park and wilderness names stay on the map.** A National Park or Wilderness Area not named after a wonder was often
   hidden by an island, lake or continent label several tiles away, since a long name claims a wide space. Parks now
   outrank the map's own regions, islands and seas; only natural wonders come first.
+- Settings kept after a restart. Civilization VII reads back only the first entry in its mod storage, whichever one
+  a mod asks for, so options set in one session could come back as another mod's data or not at all, and a mod
+  saving its options could copy that data under its own name. Geographic Labels now carries the Tower Settings
+  Keeper file, which keeps every mod's settings inside the one entry the game reads correctly and repairs a store
+  another mod has already put out of order, without deleting anything. Geographic Labels' options (following the
+  terrain, hidden label types) now keep their values from one launch to the next, and so do other mods' options that
+  use the shared settings entry.
+- The file runs before any other script and changes nothing else in the mod. If several mods carry it, or the
+  standalone Tower Settings Keeper is installed too, one copy runs and the newest build wins. Nothing to set up:
+  existing settings carry over. Tower Settings Keeper:
+  [GitHub](https://github.com/tmtmiller1/civilizationvii_tower-settings-keeper), [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=3815023570).
+
+### Changed
+- English text: the mod's description in Additional Content reads more plainly.
 
 ## [1.7.0] - 2026-10-01
 
