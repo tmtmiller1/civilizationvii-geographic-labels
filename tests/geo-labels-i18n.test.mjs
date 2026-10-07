@@ -80,7 +80,7 @@ test("i18n: every pool name has a place tag and a label tag for each kind of pla
 test("i18n: every kind of place has a frame, and every category a Rename Places type", () => {
   const types = new Set([...Object.values(CIV_NAMES).flatMap((c) => Object.keys(c)), ...Object.keys(GENERIC)]);
   for (const t of types) assert.ok(english.texts.has(frameTag(t)), frameTag(t));
-  // "park" is the National Park mod's category; it supplies its own type name.
+  // "park" is the National Parks mod's category; it supplies its own type name.
   for (const c of CATEGORIES.filter((x) => x.id !== "park")) {
     assert.ok(english.texts.has("LOC_GEO_LABELS_TYPE_" + c.id.toUpperCase()), "LOC_GEO_LABELS_TYPE_" + c.id.toUpperCase());
   }

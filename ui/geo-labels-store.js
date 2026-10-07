@@ -1,18 +1,17 @@
 /**
- * Geographic Labels — per-game name store.
+ * Geographic Labels: per-game name store.
  *
  * Per-game state (auto-generated names + the player's renames) lives in the
  * GameConfiguration key-value store: `Configuration.editGame().setValue` /
  * `Configuration.getGame().getValue`. That surface is saved with the game,
- * survives quit→load and the age transition, and holds well over 4MB (validated
- * for the demographics mod, 2026-06-08).
+ * survives quit→load and the age transition, and holds well over 4MB.
  *
  * It replaces Gameface's shared localStorage for per-game data. localStorage's
  * tiny quota is why the original Rename Places feature failed: every past game's
  * generated names accumulated under one key until a player's rename silently
  * failed to write, and the redraw (which re-read the store) showed the old name.
  *
- * Global settings (flat labels, hidden categories) stay in localStorage — they
+ * Global settings (flat labels, hidden categories) stay in localStorage: they
  * are player-wide, tiny, and must survive across games.
  *
  * The store also keeps an in-session cache: a rename is visible to the very
@@ -22,8 +21,8 @@
 import { retireLegacyStore, safe, STORE_KEY } from "./geo-labels-utils.js";
 
 export const GAME_KEY = "TmtGeoLabels__names";
-// Schema stamp the localStorage FALLBACK writer maintains (mirrors the old
-// migrateStore). NOT required on import — see readLegacyGame.
+// Schema stamp the localStorage fallback writer maintains (mirrors the old
+// migrateStore). Not required on import; see readLegacyGame.
 export const LEGACY_SCHEMA_MIN = 2;
 
 let cache = null; // { seed, custom, auto }
@@ -41,7 +40,7 @@ function normalize(game) {
   };
 }
 
-// --- GameConfiguration backend ---------------------------------------------
+// GameConfiguration backend
 
 function configAvailable() {
   return (
@@ -82,7 +81,7 @@ function parseConfig(seed) {
   return normalize(o);
 }
 
-// --- legacy localStorage backend (import source + fallback) -----------------
+// legacy localStorage backend (import source + fallback)
 
 function readLegacyStore() {
   const raw = safe(() => localStorage.getItem(STORE_KEY));
@@ -94,8 +93,8 @@ function writeLegacyStore(all) {
   safe(() => localStorage.setItem(STORE_KEY, asciiJson(all)));
 }
 
-// Import this game's entry from the legacy private key. Deliberately does NOT
-// require the `_schema` stamp: the shared localStorage has been seen to lose
+// Import this game's entry from the legacy private key. Does not require the
+// `_schema` stamp: the shared localStorage has been seen to lose
 // our `_schema`/`_settings` fields (another mod's envelope smeared across every
 // key), and a lost stamp must not cost the player this game's names. The
 // worst case for a pre-geometry-key entry (v1.0.2, July 2026) is a different
@@ -126,7 +125,7 @@ function writeLegacyGame(seed, state) {
   }
 }
 
-// --- public API -------------------------------------------------------------
+// public API
 
 /** Per-game state for `seed`: { custom, auto }. Never throws, never null. */
 export function readGameState(seed) {

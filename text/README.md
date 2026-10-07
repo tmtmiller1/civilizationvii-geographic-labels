@@ -20,7 +20,7 @@ Generated names are saved with the game as their pool names ("Sicilia", "Adriati
 language, so a game keeps its names when the player switches language and only the text on the map changes. Each pool
 name has two tags:
 
-- `LOC_GEO_PLACE_<NAME>`: the name on its own. The National Park mod names a park after it ("{1_Name} National
+- `LOC_GEO_PLACE_<NAME>`: the name on its own. The National Parks mod names a park after it ("{1_Name} National
   Park"), so it must read as a noun.
 - `LOC_GEO_NAME_<TYPE>_<NAME>`: the whole label for one kind of place, worded the way the language names it: "Isle of
   Sicilia", "Mer Adriatique", "シチリア島", "Аденский залив". Where a name already carries its own geographic word
@@ -85,7 +85,7 @@ A new language also goes in `devtools/languages.mjs`.
 - **Keep the placeholders.** Each frame holds `{1_Name}` once, placed where the language needs it. In practice a frame
   receives the game's own river name at an estuary, in the nominative, so it must not need the name's gender or case.
 - **The mod's name.** Polish translates it ("Etykiety geograficzne"), as the Demographics mod's Polish does; the
-  other languages keep "Geographic Labels", as the National Park mod's text calls it.
+  other languages keep "Geographic Labels", as the National Parks mod's text calls it.
 - **Polish is its own file.** `pl_pl/ModText.xml` keeps the Demographics layout: a header comment, tab indentation,
   one `<Replace>` per tag over several lines. It uses Polish exonyms wherever Polish has one (Sycylia, Mazury,
   Karkonosze) and Polish quotation marks („…”). Keep that shape and that standard when adding tags.

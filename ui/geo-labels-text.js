@@ -1,5 +1,5 @@
 /**
- * Geographic Labels — text helpers that work in every script the game draws: accented Latin, Cyrillic, kana, kanji,
+ * Geographic Labels: text helpers that work in every script the game draws: accented Latin, Cyrillic, kana, kanji,
  * hanzi and Hangul. A leaf module (imports nothing), so the formatting and localization modules can share it.
  */
 

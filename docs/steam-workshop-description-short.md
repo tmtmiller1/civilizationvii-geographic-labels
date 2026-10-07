@@ -2,20 +2,20 @@
 
 [b]Civilization VI–style names painted across the Civilization VII map.[/b]
 
-Writes the names of the land and water back onto the map — continents, islands, deserts, mountains, taiga, jungle, natural wonders, plus lakes, seas, gulfs, bays, and the rivers themselves. Land and region names are period-accurate and drawn per civilization: the nearest civ lends its own era-appropriate toponyms, shifting across the ages as new civs rise; rivers, seas, and wonders use the game's own names. Off by default — toggle with the [b]Geographic Names[/b] checkbox next to [i]Yields[/i] in the mini-map's Decorations list.
+Writes the names of the land and water back onto the map: continents, islands, deserts, mountains, taiga, jungle, natural wonders, plus lakes, seas, gulfs, bays, and the rivers themselves. Land and region names are period-accurate and drawn per civilization: the nearest civ lends its own era-appropriate toponyms, shifting across the ages as new civs rise; rivers, seas, and wonders use the game's own names. Off by default: tick the [b]Geographic Names[/b] checkbox next to [i]Yields[/i] in the mini-map's Decorations list.
 
 [b]Includes:[/b]
 [list]
-[*]Continents, islands, deserts, mountains, taiga, jungle, and natural wonders — soft, translucent labels.
+[*]Continents, islands, deserts, mountains, taiga, jungle, and natural wonders, as soft, translucent labels.
 [*]Water & coast: lakes, seas, gulfs, bays, sounds, inlets, fjords, reefs, atolls, estuaries, archipelagos, keys.
 [*]Named rivers (navigable and minor), using the game's own names, laid flat along each course.
 [*]~1,200 real toponyms across all 30 civilizations, with clarifiers like [i]Isle of Creta[/i].
-[*]Font sized by feature type — continents and seas grandest, rivers smallest.
+[*]Font sized by feature type: continents and seas grandest, rivers smallest.
 [*]Per-category show/hide for every label type, grouped into four sections (Options → Mods), applied live; plus a terrain-following option.
-[*]Rename Places: rename any label — wonders, rivers, seas, continents, regions — saved with your game.
+[*]Rename Places: rename any label (wonders, rivers, seas, continents, regions), saved with your game.
 [/list]
 
-[b]Compatibility:[/b] additive and observer-based — no base-game file replacement. Works in games already in progress. Per-save name storage.
+[b]Compatibility:[/b] additive and observer-based, with no base-game files replaced. Works in games already in progress. Names are stored per save.
 
 [b]Languages:[/b] English.
 [b]Source:[/b] Open source (MIT): https://github.com/tmtmiller1/civilizationvii-geographic-labels

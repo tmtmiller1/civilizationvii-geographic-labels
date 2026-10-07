@@ -1,7 +1,7 @@
 /**
- * Geographic Labels — places named by other mods, and the "names near here" query.
+ * Geographic Labels: places named by other mods, and the "names near here" query.
  *
- * Another mod can put its own named places on the map (the National Park mod adds its parks) by pushing a
+ * Another mod can put its own named places on the map (the National Parks mod adds its parks) by pushing a
  * provider into `window.__geoLabelsProviders`, an array either mod may create first:
  *
  *   { id, type, typeLabel, list(), rename(key, name) }

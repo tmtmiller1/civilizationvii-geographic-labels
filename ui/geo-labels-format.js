@@ -11,15 +11,13 @@ export function scaledFont(size, fontScale) {
   return Math.max(5, Math.min(16, Math.round(f * 10) / 10));
 }
 
-// Font size is tied to a feature's GEOGRAPHIC TYPE, not just its tile count, so
-// the map reads as a consistent hierarchy: continents and seas (oceans) grandest,
-// down through land regions, coastal waters, and finally rivers — navigable
-// small, minor very small. Each type has a [min, max] range; a label scales
-// mildly within its own range by tile count, so a big instance still reads a
-// touch larger than a small one of the same type. Keyed by the label's key
-// prefix. Every bound is a tunable.
+// Font size follows the feature's type, not just its tile count, so the map
+// reads as one hierarchy: continents and seas largest, then land regions,
+// coastal waters, and finally rivers (navigable small, minor very small). Each
+// type has a [min, max] range and a label scales mildly within it by tile
+// count. Keyed by the label's key prefix.
 const FONT_TIERS = {
-  cont: [13, 16], // continents — grandest
+  cont: [13, 16], // continents
   seas: [12, 16], // seas / oceans
   gulfs: [8, 11],
   deserts: [8, 11],
@@ -29,7 +27,7 @@ const FONT_TIERS = {
   archipelagos: [7, 10],
   lakes: [7, 10],
   wonder: [7, 10],
-  park: [6, 9], // national parks (from the National Park mod)
+  park: [6, 9], // national parks (from the National Parks mod)
   mountains: [6, 9],
   bays: [6, 9],
   sounds: [6, 9],
@@ -39,8 +37,8 @@ const FONT_TIERS = {
   atolls: [5, 8],
   estuaries: [5, 8],
   keys: [5, 8],
-  rivernav: [5, 7], // navigable rivers — small
-  riverminor: [4, 5], // minor rivers — very small
+  rivernav: [5, 7], // navigable rivers
+  riverminor: [4, 5], // minor rivers
 };
 const DEFAULT_TIER = [6, 10];
 
@@ -142,7 +140,7 @@ function spaceLetters(word) {
 }
 
 // Some toponyms already carry their own geographic word (often in the source
-// language), so bolting the English generic on top reads redundantly — e.g.
+// language), so bolting the English generic on top reads redundantly, e.g.
 // "Hindu Kush Mountains", "Isle of Miyajima" (…-island), "Dong Yai Jungle"
 // (dong = forest). For those we render the bare name; everything else keeps the
 // generic, which is the safe default ("Atlas Mountains", "Isle of Sicilia").
@@ -164,7 +162,7 @@ const EMBEDDED_WORD = {
   // Thai/Isan "dong" = forest; Sanskrit -vana/-vanam/-aranya = forest.
   jungle: /(?:\bdong\b|vana\b|vanam\b|aranya\b)/i,
   // Japanese -shima/-jima, Sanskrit -dvipa/-dwipa, Tamil -tivu, Dhivehi
-  // -divu/-dib — all meaning "island".
+  // -divu/-dib, all meaning "island".
   islands: /(?:shima\b|jima\b|dvipa\b|dwipa\b|divu\b|tivu\b|dib\b)/i,
 };
 

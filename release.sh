@@ -78,7 +78,7 @@ fi
 echo "    OK: every shipped entry matches the allow-list."
 unzip -l "$ZIP_PATH" | head -25 || true
 
-# ── Steam Workshop preview + manifest ─────────────────────────────────────
+# Steam Workshop preview + manifest
 PREVIEW_SRC="docs/workshop-preview.svg"; [ -f "$PREVIEW_SRC" ] || PREVIEW_SRC="images/geo-labels-icon.svg"
 PREVIEW_OUT="$DIST_DIR/preview.png"
 if command -v rsvg-convert >/dev/null 2>&1; then
@@ -99,14 +99,14 @@ CHANGENOTE="$(node scripts/steam-changelog.mjs note "$VERSION")" \
 
 # Workshop page description: the current long description, escaped for the VDF
 # quoted-string value. steamcmd's KeyValues parser has no backslash-quote
-# escape, so literal " would terminate the string early — swap straight quotes
-# for curly ones instead of escaping them (newlines are kept verbatim, which
-# the KeyValues format accepts).
+# escape, so a literal " would end the string early; swap straight quotes for
+# curly ones instead (newlines are kept verbatim, which the KeyValues format
+# accepts).
 DESC_SRC="docs/steam-workshop-description.md"
 DESCRIPTION=""
 [ -f "$DESC_SRC" ] && DESCRIPTION="$(sed -E "s/\\\\/\\\\\\\\/g; s/'/’/g; s/\"([^\"]*)\"/“\\1”/g" "$DESC_SRC")"
 
-# The VDF sets description + content + change note but NOT previewfile, so an
+# The VDF sets description + content + change note but not previewfile, so an
 # upload refreshes the Workshop page text without touching the preview image.
 write_vdf() {
     local out="$1"

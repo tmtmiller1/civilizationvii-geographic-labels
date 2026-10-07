@@ -11,7 +11,7 @@
         <AffectsSavedGames>0</AffectsSavedGames>
     </Properties>
     <Dependencies>
-        <!-- title is a base-game LOC (engine-owned; NOT defined in this mod's ModText.xml) -->
+        <!-- title is a base-game LOC the engine owns; it is not defined in this mod's ModText.xml -->
         <Mod id="base-standard" title="LOC_MODULE_BASE_STANDARD_NAME" />
     </Dependencies>
     <ActionCriteria>
@@ -20,8 +20,8 @@
         </Criteria>
     </ActionCriteria>
     <ActionGroups>
-        <!-- Game scope: the labels + the mini-map menu checkbox. High LoadOrder so the mini-map panel
-             (which we inject the checkbox into) already exists. -->
+        <!-- Game scope: the labels and the mini-map menu checkbox. High LoadOrder so the mini-map panel
+             the checkbox is injected into already exists. -->
         <ActionGroup id="geo-labels-game" scope="game" criteria="always">
             <Properties>
                 <LoadOrder>1000</LoadOrder>

@@ -1,5 +1,5 @@
 /**
- * Geographic Labels — the displayed text of a label, in the game's language.
+ * Geographic Labels: the displayed text of a label, in the game's language.
  *
  * Generated names are stored as their pool stems ("Sicilia", "Adriatic"), which stay the same in every language, so a
  * save keeps its names when the player switches language and only the display changes. A stem is shown through
@@ -71,7 +71,7 @@ export function localLabel(typeKey, name) {
   return loc(nameTag(typeKey, name), null) || localFrame(typeKey, localPlace(name));
 }
 
-// --- fonts ----------------------------------------------------------------------------------------
+// fonts
 
 export const LABEL_FONTS = ["TitleFont", "TitleFont-SC", "TitleFont-TC", "TitleFont-JP", "TitleFont-KR"];
 const LEAD_FONT = { zh_Hans_CN: 1, zh_Hant_HK: 2, ja_JP: 3, ko_KR: 4 };

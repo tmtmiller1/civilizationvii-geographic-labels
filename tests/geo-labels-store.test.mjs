@@ -11,7 +11,7 @@ import {
 } from "../ui/geo-labels-store.js";
 import { MOD_SLICE, ROOT_KEY, resetSettingsCache, STORE_KEY } from "../ui/geo-labels-utils.js";
 
-// --- fakes -------------------------------------------------------------------
+// fakes
 
 function fakeLocalStorage(quota = Infinity) {
   const m = new Map();
@@ -48,7 +48,7 @@ function setup(opts = {}) {
   else globalThis.Configuration = fakeConfiguration(opts);
 }
 
-// --- tests -------------------------------------------------------------------
+// tests
 
 test("round-trips per-game state through the game config store", () => {
   setup();

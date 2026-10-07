@@ -62,7 +62,7 @@ export const GENERIC = {
   mountains: ["Balkan", "Pennine", "Cambrian", "Grampian", "Tatra", "Rila", "Pirin", "Rwenzori", "Bale", "Virunga", "Mitumba", "Muchinga"],
   taiga: ["Siberian", "Scandinavian", "Yakutian", "Taymyr", "Kolyma", "Chukotka", "Kamchatka", "Karelian", "Komi", "Lapland", "Evenkia", "Magadan"],
   jungle: ["Bornean", "Sumatran", "Daintree", "Darien", "Choco", "Ituri", "Bwindi", "Kakum", "Yasuni", "Sinharaja", "Palawan", "Taman Negara"],
-  // Water/coastal — also all real places.
+  // Water and coastal, also all real places.
   lakes: ["Tanganyika", "Malawi", "Turkana", "Chad", "Nicaragua", "Maracaibo", "Geneva", "Como", "Garda", "Balaton", "Vanern", "Biwa", "Toba", "Winnipeg", "Van", "Constance"],
   reefs: ["Tubbataha", "Apo", "Ningaloo", "Palancar", "Agincourt", "Osprey", "Flynn", "Elphinstone", "Molasses", "Andros"],
   atolls: ["Bikini", "Majuro", "Kwajalein", "Enewetak", "Funafuti", "Tarawa", "Rangiroa", "Aldabra", "Mataiva", "Fakarava", "Palmyra", "Wake"],

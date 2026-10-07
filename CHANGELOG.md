@@ -5,6 +5,13 @@ follows [Keep a Changelog](https://keepachangelog.com/) and Semantic Versioning.
 The Steam Workshop change note for each release is generated from the matching
 section below by `release.sh`.
 
+## [Unreleased]
+
+### Fixed
+- **Park and wilderness names stay on the map.** A National Park or Wilderness Area not named after a wonder was often
+  hidden by an island, lake or continent label several tiles away, since a long name claims a wide space. Parks now
+  outrank the map's own regions, islands and seas; only natural wonders come first.
+
 ## [1.7.0] - 2026-10-01
 
 ### Added
@@ -22,7 +29,7 @@ section below by `release.sh`.
   with separate accent marks is stored as whole letters.
 - Saved names are written as ASCII with escapes, so a name in any script reads back unchanged.
 - Game names in German, Polish and Russian carry their case forms; only the first is drawn.
-- National Park 1.0.0 adds Wilderness Areas, so its places are listed in Rename Places under "Park or wilderness".
+- National Parks 1.0.0 adds Wilderness Areas, so its places are listed in Rename Places under "Park or wilderness".
 
 ### Fixed
 - **A park named after its wonder is drawn.** A National Park or Wilderness Area named after the natural wonder
@@ -33,9 +40,9 @@ section below by `release.sh`.
 ## [1.6.0] - 2026-09-29
 
 ### Added
-- **National parks on the map.** With the National Park mod, each park's name is drawn over it like any other
+- **National parks on the map.** With the National Parks mod, each park's name is drawn over it like any other
   place, and its parks are listed in Rename Places under "National park", where you can rename them. The names
-  belong to the National Park mod, so a rename there is saved with the park. Turn park labels off under
+  belong to the National Parks mod, so a rename there is saved with the park. Turn park labels off under
   Options, Geographic Labels to Show, National parks.
 - **Other mods can name things after your map.** A park is named after the places around it (the wonder it
   guards, a mountain range, a lake or river), taken from these labels, including any you have renamed.

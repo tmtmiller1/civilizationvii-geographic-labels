@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install-dev.sh — deploy a STRICTLY LOCAL test copy of Geographic Labels under a
+# install-dev.sh: deploy a local-only test copy of Geographic Labels under a
 # separate mod id, so it can sit beside the Steam Workshop subscription without
 # the game deduplicating the two. Disable the Workshop copy in Add-Ons while
 # testing this one (both register the same lens layer).

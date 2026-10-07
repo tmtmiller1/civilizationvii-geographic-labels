@@ -190,7 +190,7 @@ function collectPlaces(labels, sources, auto) {
   for (const { key, plots, toponym } of sources) {
     const label = byKey.get(key);
     if (!label || !plots || !plots.length) continue;
-    // The toponym in the display language: what the National Park mod names a park after.
+    // The toponym in the display language: what the National Parks mod names a park after.
     places.push({ key, text: label.text, toponym: label.cust ? null : (localPlace(toponym || auto[key]?.n) || null),
       cust: !!label.cust, plots });
   }
@@ -394,7 +394,10 @@ const LABEL_PRIORITY = {
   seas: 5, // large water basins read like continents in prominence
   isle: 4,
   archipelagos: 4,
-  park: 4, // player-made places from the National Park mod
+  // Player-made places from the National Parks mod: above the map's own regions, islands and seas, below wonders (a
+  // park named after its wonder takes the wonder's place). At 4 a park's long name reached 8 tiles and an island or a
+  // continent label anywhere in that reach hid it.
+  park: 5.5,
   mountains: 3,
   lakes: 3,
   rivernav: 3, // prominent water channels; outrank the minor-river label
@@ -552,7 +555,7 @@ export function computeLabels(log = () => {}) {
   return shown;
 }
 
-// Adds the places other mods name (the National Park mod's parks: drawn and
+// Adds the places other mods name (the National Parks mod's parks: drawn and
 // listed like the rest, but owned and stored by their provider), saves this
 // game's names, and records every place's tiles for namesNear.
 function finishLabels(labels, { custom, auto, scanned, areas, features, w }) {

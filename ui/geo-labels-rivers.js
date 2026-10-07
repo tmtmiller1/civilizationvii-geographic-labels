@@ -1,18 +1,18 @@
-// Named-river labels. A river in Civ VII is an EDGE, and the engine reports its
-// name (via GameplayMap.getRiverName) on any tile it touches — the bank tiles of
-// both minor and navigable rivers, water tiles, etc. — not just tiles a river
-// TYPE flag classifies. So the scan queries getRiverName on every tile
-// (scanned.namedRiverTiles: "x,y" -> raw LOC key); here we compose the names,
-// group tiles into connected river systems, and emit one label per system placed
-// at its centroid and angled along its course (the fixedName path estuaries use).
-// A system is tagged navigable if any of its tiles is a navigable river, else
-// minor — driving the two visibility toggles.
+// Named-river labels. A river in Civ VII is an edge, and the engine reports its
+// name (GameplayMap.getRiverName) on any tile it touches, the bank tiles of
+// minor and navigable rivers and water tiles alike, not just tiles a river type
+// flag classifies. So the scan queries getRiverName on every tile
+// (scanned.namedRiverTiles: "x,y" -> raw LOC key). This module composes the
+// names, groups tiles into connected river systems, and emits one label per
+// system at its centroid, angled along its course (the fixedName path estuaries
+// use). A system is navigable if any of its tiles is a navigable river, else
+// minor; the two visibility toggles key off that.
 
 import { safe } from "./geo-labels-utils.js";
 import { regionsOf, anchorIndex } from "./geo-labels-map.js";
 import { firstForm } from "./geo-labels-l10n.js";
 
-// Smallest connected tile count that earns a label — drops 1-tile name specks.
+// Smallest connected tile count that earns a label; drops 1-tile name specks.
 const RIVER_MIN = 2;
 
 export function collectRivers(ctx) {
@@ -53,8 +53,8 @@ function componentIsNavigable(plots) {
   return false;
 }
 
-// getRiverName returns a localization KEY (e.g. "LOC_RIVER_WADI_HANIFA_NAME"),
-// NOT display text — verified live in UI.log — so it must be composed.
+// getRiverName returns a localization key ("LOC_RIVER_WADI_HANIFA_NAME"), not
+// display text, so it must be composed.
 // Locale.compose passes a plain string through unchanged, so this stays correct
 // if a build ever hands back an already-composed name. The composed text is the
 // game's full display name and is shown as-is: most end in "River", but many

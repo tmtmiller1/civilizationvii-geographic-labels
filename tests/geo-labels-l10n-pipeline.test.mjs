@@ -62,7 +62,7 @@ test("pipeline: a generated label is drawn in the display language and saved as 
   const saved = JSON.parse(kv.get(GAME_KEY));
   const stem = saved.auto[label.key].n;
   assert.match(stem, /^[A-Za-z' -]+$/, "the saved name is the pool stem, not the Japanese");
-  // What the National Park mod names a park after: the bare name in the display language.
+  // What the National Parks mod names a park after: the bare name in the display language.
   assert.match(getLastPlaces().find((p) => p.key === label.key).toponym, /（ja）$/);
 
   // The same game in English draws the English label for the same stem.

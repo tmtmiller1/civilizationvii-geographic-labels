@@ -29,7 +29,7 @@
 
 Brings back **Civ VI–style geographic names on the map**. Paints translucent labels for continents,
 islands, regions, water, rivers, and natural wonders, toggled with a **"Geographic Names"** checkbox next
-to *Yields* in the mini-map lens menu — and lets you **rename any of them**.
+to *Yields* in the mini-map lens menu, and lets you **rename any of them**.
 
 ## Screenshots
 
@@ -47,7 +47,7 @@ to *Yields* in the mini-map lens menu — and lets you **rename any of them**.
   <tr><td width="50%" align="center" valign="top"><a href="docs/screenshots/15-rename-places-panel.jpg"><img src="docs/screenshots/15-rename-places-panel.jpg" alt="The Rename Places window listing every place with its type and an editable name"></a><br><sub>Rename Places: every place in the game, with its type and an editable name</sub></td><td width="50%" align="center" valign="top"><a href="docs/screenshots/25-rename-search.jpg"><img src="docs/screenshots/25-rename-search.jpg" alt="Rename Places filtered by typing reef, listing only reefs"></a><br><sub>Search by name or by kind: typing "reef" lists every reef</sub></td></tr>
   <tr><td width="50%" align="center" valign="top"><a href="docs/screenshots/27-rename-sort-by-type.jpg"><img src="docs/screenshots/27-rename-sort-by-type.jpg" alt="Rename Places sorted by the Type column"></a><br><sub>Click a column title to sort by type or by name</sub></td><td width="50%" align="center" valign="top"><a href="docs/screenshots/26-rename-restore.jpg"><img src="docs/screenshots/26-rename-restore.jpg" alt="Lake Como renamed to Lake Lario, starred, with a Restore button"></a><br><sub>Your names are starred; Restore brings back the generated one</sub></td></tr>
   <tr><td width="50%" align="center" valign="top"><a href="docs/screenshots/28-options-sections.jpg"><img src="docs/screenshots/28-options-sections.jpg" alt="Options screen with the four Geographic Labels sections folded"></a><br><sub>Label settings in Options, folded into four sections</sub></td><td width="50%" align="center" valign="top"><a href="docs/screenshots/17-options-land-and-islands.jpg"><img src="docs/screenshots/17-options-land-and-islands.jpg" alt="Options screen with the Land and Island label sections open"></a><br><sub>Choose which kinds of labels to show: land and islands</sub></td></tr>
-  <tr><td width="50%" align="center" valign="top"><a href="docs/screenshots/18-options-sea-coast-rivers-lakes.jpg"><img src="docs/screenshots/18-options-sea-coast-rivers-lakes.jpg" alt="Options screen with the Sea and Coast and River and Lake sections open"></a><br><sub>Sea and coast, rivers and lakes</sub></td><td width="50%" align="center" valign="top"><a href="docs/screenshots/29-national-park-label.jpg"><img src="docs/screenshots/29-national-park-label.jpg" alt="Tatra National Park labeled across a park on the coast"></a><br><sub>National parks, with the National Park mod installed</sub></td></tr>
+  <tr><td width="50%" align="center" valign="top"><a href="docs/screenshots/18-options-sea-coast-rivers-lakes.jpg"><img src="docs/screenshots/18-options-sea-coast-rivers-lakes.jpg" alt="Options screen with the Sea and Coast and River and Lake sections open"></a><br><sub>Sea and coast, rivers and lakes</sub></td><td width="50%" align="center" valign="top"><a href="docs/screenshots/29-national-park-label.jpg"><img src="docs/screenshots/29-national-park-label.jpg" alt="Tatra National Park labeled across a park on the coast"></a><br><sub>National parks, with the National Parks mod installed</sub></td></tr>
   <tr><td width="50%" align="center" valign="top"><a href="docs/screenshots/30-rename-national-park.jpg"><img src="docs/screenshots/30-rename-national-park.jpg" alt="Rename Places listing Tatra National Park under the type National Park"></a><br><sub>Parks are listed in Rename Places, and renaming one renames the park</sub></td><td width="50%"></td></tr>
 </table>
 
@@ -66,28 +66,26 @@ to *Yields* in the mini-map lens menu — and lets you **rename any of them**.
 | National parks | From the [National Park](https://github.com/tmtmiller1/civilizationvii_national-parks) mod, when it is installed: each park's own name, which the park takes from the places around it |
 
 Water and coastal features (lakes, seas, gulfs, bays, sounds, inlets, fjords, reefs, atolls,
-estuaries, archipelagos, keys) are labeled too — see `docs/water-labels-design.md`.
+estuaries, archipelagos, keys) are labeled too; `docs/water-labels-design.md` says how they are told apart.
 
 ## Choosing what you see
 
-Every category above is an individual checkbox in the game's **Options** screen, under
-**Geographic Labels to Show** (reachable from the main menu and in-game). The checkboxes are grouped
-into four sections — Land, Island, Sea and Coast, and River and Lake Labels — that you open by clicking
-the section title. Untick any you don't want —
-say, keep continents and rivers but hide the coastal-water flavor labels. Changes apply live
-while the map layer is on. The master on/off is still the **Geographic Names** checkbox in the
-mini-map's Decorations list.
+Every category above is an individual checkbox in the game's **Options** screen, under **Geographic Labels to
+Show** (reachable from the main menu and in-game). The checkboxes are grouped into four sections (Land, Island, Sea
+and Coast, and River and Lake Labels) that you open by clicking the section title. Untick any you don't want: keep
+continents and rivers, say, and hide the coastal-water labels. Changes apply live while the map layer is on. The
+master on/off is still the **Geographic Names** checkbox in the mini-map's Decorations list.
 
 ## Renaming places
 
-Click **Rename Places…** under the Geographic Names checkbox. Every label on the current map is listed
-with its type and an editable field — including ones the map is hiding for lack of room. Click the Type or
-Name column title to sort by it, and a search box finds a place by name or kind. Type a name and press Enter to rename; leave the field blank, or press
-Restore, to bring back the generated name. Your names are marked with a star, always win a collision with
-a generated label, and are saved with the game. A name can be in any script the game draws: accented Latin,
+Click **Rename Places…** under the Geographic Names checkbox. Every label on the current map is listed with its type
+and an editable field, including ones the map is hiding for lack of room. Click the Type or Name column title to
+sort by it, and a search box finds a place by name or kind. Type a name and press Enter to rename; leave the field
+blank, or press Restore, to bring back the generated name. Your names are marked with a star, always win a collision
+with a generated label, and are saved with the game. A name can be in any script the game draws: accented Latin,
 Cyrillic, Japanese, Chinese or Korean.
 
-National parks and wilderness areas from the National Park mod are listed here too, under "Park or wilderness".
+National parks and wilderness areas from the National Parks mod are listed here too, under "Park or wilderness".
 Their names belong to that mod, so a rename or Restore here is saved with the park itself. A park named after the
 wonder beside it is drawn in place of the wonder's own label.
 
@@ -123,29 +121,31 @@ welcome. To fix or add a language, see [`text/README.md`](text/README.md).
 
 ## How it works (for modders)
 
-- **`ui/geo-labels-layer.js`** — reads the map with the `GameplayMap` API, partitions land by `getAreaId`,
-  classifies island vs. mainland by ocean-crossing flood-fill, assigns names, and renders via
-  `WorldUI.SpriteGrid.addText` (the only text path that honors opacity + no outline). Registered as a
-  `LensManager` lens layer.
-- **`ui/geo-labels-toggle.js`** — injects the mini-map checkbox with a `MutationObserver` (no
-  `ReplaceUIScript`), so it coexists with other UI mods.
-- **`ui/geo-labels-rename.js`** — the Rename Places button and panel.
-- **`ui/geo-labels-store.js`** — per-game names (generated + renamed) in the game's own per-save
-  configuration (`Configuration.editGame().setValue`), which survives reload and the age transition.
-  Player-wide settings live in the shared `modSettings` localStorage blob under this mod's slice
-  (`ui/geo-labels-utils.js`), written so sibling mods' slices are never disturbed.
+- `ui/geo-labels-layer.js` is the `LensManager` lens layer. It paints the computed labels with
+  `WorldUI.SpriteGrid.addText` (the only text path that honors opacity and no outline) and caps how many it paints,
+  so the UI renderer's per-frame resource list cannot overflow.
+- `ui/geo-labels-map.js`, `geo-labels-water.js`, `geo-labels-rivers.js` and `geo-labels-compute.js` read the map
+  through the `GameplayMap` API, partition land by `getAreaId`, tell islands from mainland by an ocean-crossing
+  flood-fill, classify water basins by enclosure and shape, and assign names.
+- `ui/geo-labels-toggle.js` injects the mini-map checkbox with a `MutationObserver` rather than a `ReplaceUIScript`,
+  so it coexists with other UI mods.
+- `ui/geo-labels-rename.js` is the Rename Places button and window.
+- `ui/geo-labels-store.js` keeps per-game names (generated and renamed) in the game's own per-save configuration
+  (`Configuration.editGame().setValue`), which survives reload and the age transition. Player-wide settings live in
+  the shared `modSettings` localStorage blob under this mod's slice (`ui/geo-labels-utils.js`), written so sibling
+  mods' slices are never disturbed.
 
 ## Compatibility
 
-Additive and observer-based — no base UI files are replaced. Should coexist with other mods. Works in new games
-and in saves started without it.
+Additive and observer-based, with no base UI files replaced, so it should coexist with other mods. Works in new
+games and in saves started without it.
 
 ## Development Quality Gate
 
-For this mod, quality is intentionally kept lightweight and practical:
-- `npm run verify` (syntax + focused tests)
-- release packaging checks in `release.sh`
-- no-preview Steam upload fallback for reliable publishing
+The checks a release goes through:
+- `npm run verify` (syntax check and the focused tests)
+- the packaging checks in `release.sh`
+- a Steam upload that leaves the preview image alone (`release.sh` writes no `previewfile`)
 
 ## License
 

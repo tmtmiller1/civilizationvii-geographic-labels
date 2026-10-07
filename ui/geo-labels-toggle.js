@@ -1,5 +1,5 @@
 /**
- * Geographic Labels — mini-map menu checkbox.
+ * Geographic Labels: mini-map menu checkbox.
  *
  * Injects a "Geographic Names" checkbox next to "Yields" in the mini-map lens/decoration menu, toggling
  * the geo-labels lens layer. Uses a MutationObserver (no ReplaceUIScript) so it plays nicely with other mods.
@@ -11,8 +11,7 @@ import { createLogger, safe } from "./geo-labels-utils.js";
 const TAG = "[GeoLabels]";
 const LAYER_TYPE = "tmt-geo-labels-layer";                 // must match geo-labels-layer.js
 const CHANGE_EVENT = "component-value-changed";            // ComponentValueChangeEventName
-// base-game LOC (engine-owned; NOT defined in this mod's ModText.xml) — used here
-// as a DOM selector to locate the base game's "Yields" mini-map row, not as our text.
+// base-game LOC, used only as a DOM selector to find the base game's "Yields" row
 const YIELDS_SELECTOR = '[data-l10n-id="LOC_UI_MINI_MAP_YIELDS"]';
 const MY_ID = "geo-labels-toggle-row";
 
@@ -101,8 +100,8 @@ function tryInject() {
   return true;
 }
 
-// The mini-map panel REBUILDS (leaving/returning to the window, closing the panel, etc.), which drops our
-// injected checkbox. So keep watching FOREVER and re-inject whenever it's missing. tryInject is idempotent.
+// The mini-map panel rebuilds (leaving and returning to the window, closing the panel), which drops the
+// checkbox. Keep watching and re-inject whenever it is missing; tryInject is idempotent.
 function start() {
   if (started) return;
   started = true;
@@ -120,7 +119,7 @@ function start() {
     toggleObserver = new MutationObserver(schedule);
     toggleObserver.observe(document.body, { childList: true, subtree: true });
   }
-  // Belt-and-suspenders: catches rebuilds the observer might miss.
+  // catches rebuilds the observer misses
   toggleIntervalId = setInterval(tryInject, 3000);
 }
 

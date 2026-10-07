@@ -1,5 +1,5 @@
-// Dev-only ESLint flat config. Enforces the modularization gate used by active
-// tower mods and catches correctness issues. Not shipped in release artifacts.
+// Dev-only ESLint flat config, not shipped. The size and complexity limits are
+// the ones the other tower mods use; the rest catches correctness slips.
 
 const ENGINE_GLOBALS = {
   Game: "readonly",

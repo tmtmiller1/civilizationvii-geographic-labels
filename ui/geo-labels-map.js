@@ -69,8 +69,8 @@ export function scanMap(w, h) {
     seaTiles: new Set(), // water && !lake (coast + ocean), for basin detection
     landSet: new Set(), // non-water tiles, for enclosure scoring
     navRiverTiles: new Set(), // navigable-river water tiles, for estuaries
-    namedRiverTiles: new Map(), // "x,y" -> raw river-name LOC key, ANY tile the
-    // engine reports a river name on (source of truth for river labels)
+    namedRiverTiles: new Map(), // "x,y" -> raw river-name LOC key, any tile the
+    // engine reports a river name on (what the river labels are built from)
     featureTiles: new Map(), // water typeKey ("reefs"/"atolls") -> Set of "x,y"
     featureTypeName: new Map(),
     biomeTypeName: new Map(),
@@ -114,9 +114,9 @@ function scanTile(x, y, ctx) {
       biomeTypeName: ctx.biomeTypeName,
     });
   }
-  // River names live on ANY tile the engine attaches one to (land bank tiles for
-  // both minor and navigable rivers, water tiles, etc.) — not just tiles a river
-  // type flag classifies. Query every tile so we don't miss named rivers.
+  // River names sit on any tile the engine attaches one to (bank tiles of minor
+  // and navigable rivers, water tiles), not just tiles a river type flag
+  // classifies, so every tile is queried.
   collectRiverNameTile(x, y, key, ctx);
   collectWaterFeatureTile({
     x, y,
@@ -144,9 +144,9 @@ function collectWaterTile(x, y, key, ctx) {
   if (safe(() => GameplayMap.isLake(x, y)) === true) {
     ctx.lakeTiles.add(key);
   } else if (safe(() => GameplayMap.isNavigableRiver(x, y)) === true) {
-    // Navigable rivers are water but NOT sea — keep them out of seaTiles so
-    // inland river fingers aren't misread as enclosed basins (sounds/inlets).
-    // They drive estuary detection instead, at the coast where they meet sea.
+    // Navigable rivers are water but not sea: kept out of seaTiles so inland
+    // river fingers aren't read as enclosed basins (sounds/inlets). They drive
+    // estuary detection instead, where they meet the sea.
     ctx.navRiverTiles.add(key);
   } else {
     ctx.seaTiles.add(key);
@@ -296,7 +296,7 @@ export function collectFeatures(ctx) {
   const feats = [];
   // Any land area not reachable from a continent is an islet. The >= 3-tile
   // subset gets its own "Isle of" label; the full list (incl. 1-2 tile rocks)
-  // feeds archipelago/keys grouping — keys are chains of exactly those tiny
+  // feeds archipelago/keys grouping; keys are chains of exactly those tiny
   // islets, so they must not be size-filtered away first.
   const islets = areas.filter(
     (a) => !a.plots.some((p) => reached.has(p.x + "," + p.y)),
@@ -314,7 +314,7 @@ export function collectFeatures(ctx) {
   const sources = { mountainTiles, lakeTiles, featureTiles, biomeTiles, empty: new Set() };
   for (const cat of REGION_CATS) {
     const tiles = tilesForCat(cat, sources);
-    // Regions are often broken by a single off-type tile — a mountain saddle,
+    // Regions are often broken by a single off-type tile: a mountain saddle,
     // hill, or volcano for ranges; a river, oasis, or lone hill for biomes.
     // Strict flood-fill splits them into sub-threshold fragments that all get
     // dropped; bridging one-tile gaps keeps the feature whole so it clears

@@ -1,19 +1,18 @@
-// Phase 2/3 water & coastal features that need geometry, not just tile-type
-// matching: estuaries (river mouths), archipelagos/keys (island groups), and
-// enclosure-classified basins (seas/gulfs/bays/sounds/inlets/fjords).
+// Water and coastal features that need geometry, not just tile-type matching:
+// estuaries (river mouths), archipelagos and keys (island groups), and
+// enclosure-classified basins (seas, gulfs, bays, sounds, inlets, fjords).
 //
-// The engine has NO semantic tag for sea vs gulf vs bay vs sound vs inlet vs
-// fjord — they are all just water. We infer them from a water region's
-// enclosure (how surrounded by land it is) and shape (size + elongation), and
-// the classification is intentionally a flavor heuristic. Every threshold below
-// is a tunable; they want tuning against real maps. Fjords are additionally
-// latitude-gated so they only appear in the polar/subpolar bands.
+// The engine has no tag that tells a sea from a gulf, bay, sound, inlet or
+// fjord; they are all just water. They are inferred from a water region's
+// enclosure (how surrounded by land it is) and shape (size and elongation), as
+// flavor. Every threshold below wants tuning against real maps. Fjords are also
+// latitude-gated to the polar and subpolar bands.
 
 import { safe } from "./geo-labels-utils.js";
 import { neighbors, regionsOf, anchorIndex } from "./geo-labels-map.js";
 import { composeRiverName } from "./geo-labels-rivers.js";
 
-// --- enclosure / basin tunables ---
+// enclosure / basin tunables
 const ENCLOSE_RADIUS = 3; // half-width of the box sampled around a water tile
 const SEXT_MIN_SAMPLES = 2; // land tiles in a 60° sextant for it to count as "land there"
 const ENCLOSE_MIN_SEXTANTS = 4; // land in >= this many of 6 sextants => enclosed (bay/gulf/sea)
@@ -24,13 +23,13 @@ const BAY_MIN = 6; // -> "bay"; smaller -> "inlet"
 const ELONGATION_MIN = 3.0; // major/minor axis ratio at/above which a basin is "narrow"
 const FJORD_LAT_MIN = 50; // |latitude| (deg); fjords only poleward of this band
 
-// --- island-group tunables ---
+// island-group tunables
 const ARCH_LINK_DIST = 4; // hex distance linking two islands into one group
 const ARCH_MIN_ISLANDS = 3; // islands in a group needed to name it
 const ARCH_MAX_ISLAND_TILES = 24; // islands larger than this stand alone, not grouped
 const KEYS_MAX_AVG_TILES = 2; // group whose islands average this small -> "keys"
 
-// --- estuary tunables ---
+// estuary tunables
 const ESTUARY_MIN = 1; // smallest river-mouth cluster to label
 
 export function collectWaterFeatures(ctx) {
@@ -41,9 +40,7 @@ export function collectWaterFeatures(ctx) {
   ];
 }
 
-// ---------------------------------------------------------------------------
-// Enclosed basins -> seas / gulfs / bays / sounds / inlets / fjords
-// ---------------------------------------------------------------------------
+// enclosed basins: seas / gulfs / bays / sounds / inlets / fjords
 
 function collectBasins(ctx) {
   const { seaTiles, landSet, mountainTiles, w, h } = ctx;
@@ -64,7 +61,7 @@ function collectBasins(ctx) {
   return feats;
 }
 
-// Pure classifier (kept side-effect free so it is unit-testable). Order matters:
+// Order matters:
 // a narrow basin becomes a sound/fjord before size buckets apply, and fjords
 // require both the polar latitude band and adjacent mountains.
 export function classifyBasin({ area, elongation, latAbs, mountainAdjacent }) {
@@ -88,14 +85,14 @@ function gridFromSet(set, w, h) {
   return grid;
 }
 
-// Directional enclosure (engine-call-free, over the x-wrapped/y-clamped land
-// grid). A raw land *fraction* can't tell a bay from a straight open coast —
-// both are ~half land — so instead we bin surrounding land into six 60°
-// sextants and ask on how many SIDES land sits. Open coast fills one ~180° arc
-// (~3 sextants); a bay/gulf/sea-interior has land on 3+ sides (>=4 sextants); a
-// narrow channel (sound/fjord/strait) has land on two OPPOSITE sides. A sextant
-// only counts if it holds >= SEXT_MIN_SAMPLES land tiles, so a stray corner tile
-// on a straight shore doesn't read as enclosure.
+// Directional enclosure (no engine calls, over the x-wrapped/y-clamped land
+// grid). A raw land fraction can't tell a bay from a straight open coast, since
+// both are about half land, so surrounding land is binned into six 60° sextants
+// and the question is how many sides land sits on. Open coast fills one ~180°
+// arc (~3 sextants); a bay, gulf or sea interior has land on 3+ sides (>=4
+// sextants); a narrow channel (sound/fjord/strait) has land on two opposite
+// sides. A sextant only counts if it holds >= SEXT_MIN_SAMPLES land tiles, so a
+// stray corner tile on a straight shore doesn't read as enclosure.
 export function isEnclosed(x, y, landGrid, w, h) {
   const sides = sextantCounts(x, y, landGrid, w, h).map((c) => c >= SEXT_MIN_SAMPLES);
   const active = sides.filter(Boolean).length;
@@ -177,9 +174,7 @@ function touchesSet(plots, set, w, h) {
   return false;
 }
 
-// ---------------------------------------------------------------------------
-// Estuaries — navigable-river mouths meeting the sea
-// ---------------------------------------------------------------------------
+// estuaries: navigable-river mouths meeting the sea
 
 function collectEstuaries(ctx) {
   const { navRiverTiles, seaTiles, w, h } = ctx;
@@ -222,9 +217,7 @@ function riverNameAt(plots) {
   return null;
 }
 
-// ---------------------------------------------------------------------------
-// Archipelagos & keys — clusters of nearby islands
-// ---------------------------------------------------------------------------
+// archipelagos and keys: clusters of nearby islands
 
 function collectArchipelagos(ctx) {
   const { islets, w } = ctx;
@@ -297,9 +290,7 @@ function plainCentroid(plots) {
   return best;
 }
 
-// ---------------------------------------------------------------------------
 // shared helpers
-// ---------------------------------------------------------------------------
 
 function splitKey(key) {
   const c = key.indexOf(",");

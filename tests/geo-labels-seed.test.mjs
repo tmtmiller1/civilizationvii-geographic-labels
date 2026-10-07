@@ -10,7 +10,7 @@ import {
 } from "../ui/geo-labels-compute.js";
 import { resetStoreCache } from "../ui/geo-labels-store.js";
 
-// --- fakes -------------------------------------------------------------------
+// fakes
 
 // Configuration whose seed field reads back whatever `seed` currently holds.
 // `null` models the engine handing out no seed yet (seen at load timing).
@@ -59,7 +59,7 @@ function setup(seedBox) {
   globalThis.GameInfo = {};
 }
 
-// --- tests -------------------------------------------------------------------
+// tests
 
 test("no seed: reports no seed and generates nothing", () => {
   const seed = { value: null };

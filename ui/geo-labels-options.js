@@ -1,9 +1,9 @@
 /**
- * Geographic Labels — Options-screen entry.
+ * Geographic Labels: Options-screen entries.
  *
- * Registers the "terrain-following labels" toggle under the shared "Mods" category of the game's Options
- * screen (works from the main menu and in-game). Persists to the same localStorage store the layer reads,
- * and applies live to the running layer via window.__geoLabels when in-game.
+ * Registers the terrain-following toggle and the per-category show/hide checkboxes under the shared "Mods"
+ * category of the game's Options screen (main menu and in-game). Settings go to the shared modSettings store
+ * the layer reads, and apply live to the running layer through window.__geoLabels when in-game.
  */
 
 import { CategoryType, OptionType, Options } from "/core/ui/options/model-options.js";
@@ -42,11 +42,11 @@ function refreshLayer() {
 // options write through immediately, so each one remembers the value it had when
 // the Options screen opened (initListener) and puts it back on Cancel.
 
-// Shared community "Mods" Options category (idempotent — first mod to load creates it, others reuse).
+// Shared community "Mods" Options category: the first mod to load creates it, the others reuse it.
 if (!CategoryType.Mods) CategoryType["Mods"] = "mods";
 if (!CategoryData[CategoryType.Mods]) {
   CategoryData[CategoryType.Mods] = {
-    // base-game LOC (engine-owned; NOT defined in this mod's ModText.xml)
+    // base-game LOC, not defined in this mod's ModText.xml
     title: "LOC_UI_CONTENT_MGR_SUBTITLE",
     description: "LOC_UI_CONTENT_MGR_SUBTITLE_DESCRIPTION",
   };

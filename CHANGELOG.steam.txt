@@ -3,7 +3,7 @@ Generated from CHANGELOG.md by scripts/steam-changelog.mjs; release.sh uploads t
 To fix an old Workshop entry, paste the text under its ==== line into that entry's Edit box on the change-notes page.
 A block edited by hand is kept as-is. Delete a block to regenerate it from CHANGELOG.md.
 
-==== 1.7.0 | 2026-10-01 | src 625c118dcf47 | gen 351160ffcb1b ====
+==== 1.7.0 | 2026-10-01 | src 746aa142df1c | gen 757f82eb3434 ====
 [b]Version 1.7.0 · 1 October 2026[/b]
 
 [b]Added[/b]
@@ -15,16 +15,16 @@ A block edited by hand is kept as-is. Delete a block to regenerate it from CHANG
 • Rename Places: the Type column is translated; search ignores case and accents (“lodz” finds “Łódź”); a name typed with separate accent marks is stored as whole letters.
 • Saved names are written as ASCII with escapes, so a name in any script reads back unchanged.
 • Game names in German, Polish and Russian carry their case forms; only the first is drawn.
-• National Park 1.0.0 adds Wilderness Areas, so its places are listed in Rename Places under “Park or wilderness”.
+• National Parks 1.0.0 adds Wilderness Areas, so its places are listed in Rename Places under “Park or wilderness”.
 
 [b]Fixed[/b]
 • [b]A park named after its wonder is drawn.[/b] A National Park or Wilderness Area named after the natural wonder beside it (“Redwood Forest Wilderness Area”) was hidden behind the wonder's own label and never shown. The park's name now stands in for the wonder's on the map, since it already carries it; the wonder is still listed in Rename Places.
 
-==== 1.6.0 | 2026-09-29 | src 451eccc4811b | gen 8a47f0e5f179 ====
+==== 1.6.0 | 2026-09-29 | src 4505d89bcddd | gen 7184ee4132cd ====
 [b]Version 1.6.0 · 29 September 2026[/b]
 
 [b]Added[/b]
-• [b]National parks on the map.[/b] With the National Park mod, each park's name is drawn over it like any other place, and its parks are listed in Rename Places under “National park”, where you can rename them. The names belong to the National Park mod, so a rename there is saved with the park. Turn park labels off under Options, Geographic Labels to Show, National parks.
+• [b]National parks on the map.[/b] With the National Parks mod, each park's name is drawn over it like any other place, and its parks are listed in Rename Places under “National park”, where you can rename them. The names belong to the National Parks mod, so a rename there is saved with the park. Turn park labels off under Options, Geographic Labels to Show, National parks.
 • [b]Other mods can name things after your map.[/b] A park is named after the places around it (the wonder it guards, a mountain range, a lake or river), taken from these labels, including any you have renamed.
 
 ==== 1.5.0 | 2026-09-21 | src ec35928b1ac8 | gen 24c2418785e1 ====

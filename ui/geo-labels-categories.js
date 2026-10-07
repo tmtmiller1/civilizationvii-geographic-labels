@@ -1,8 +1,8 @@
 /**
  * Central registry of label categories the player can show/hide.
  *
- * `id` MUST equal the label key prefix produced by the pipeline (the part before
- * the first ":" in a label key — e.g. "cont", "isle", "mountains", "rivernav").
+ * `id` must equal the label key prefix produced by the pipeline (the part before
+ * the first ":" in a label key, e.g. "cont", "isle", "mountains", "rivernav").
  * `labelType()` in geo-labels-compute.js derives exactly that prefix, so the same
  * id drives both the Options checkbox (geo-labels-options.js) and the visibility
  * filter (geo-labels-compute.js). `loc` is the ModText token for the checkbox

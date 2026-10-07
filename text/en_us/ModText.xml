@@ -50,7 +50,7 @@
             <Text>Geographic Labels: follow the terrain</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_OPT_FLAT_DESC">
-            <Text>Lay geographic names flat on the map and rotate them to run along the land — following mountain ranges, coastlines, and deserts the way Civilization VI did — instead of upright labels that always face the camera. Turn the labels themselves on or off with the "Geographic Names" checkbox in the mini-map's Decorations list.</Text>
+            <Text>Lay geographic names flat on the map and rotate them to run along the land, following mountain ranges, coastlines, and deserts the way Civilization VI did, instead of upright labels that always face the camera. Turn the labels themselves on or off with the "Geographic Names" checkbox in the mini-map's Decorations list.</Text>
         </Row>
         <Row Tag="LOC_GEO_LABELS_VIS_DESC">
             <Text>Show or hide this category of geographic label. Applies live while the "Geographic Names" map layer is on.</Text>

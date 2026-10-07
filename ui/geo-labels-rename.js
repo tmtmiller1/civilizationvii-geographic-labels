@@ -1,5 +1,5 @@
 /**
- * Geographic Labels — "Rename Places" window.
+ * Geographic Labels: the "Rename Places" window.
  *
  * Injects a "Rename Places…" button into the mini-map lens menu (under the
  * Geographic Names checkbox). It opens a game-styled window (a Panel pushed by
@@ -20,7 +20,7 @@ import { composed, foldForSearch } from "./geo-labels-text.js";
 const TAG = "[GeoLabels]";
 const BTN_ID = "geo-labels-rename-btn";
 const SCREEN = "geo-labels-rename-screen";
-// base-game LOC (engine-owned) — used as a DOM selector to find the Yields row.
+// base-game LOC, used only as a DOM selector to find the Yields row.
 const YIELDS_SELECTOR = '[data-l10n-id="LOC_UI_MINI_MAP_YIELDS"]';
 // English fallbacks for the Type column; the shown text is LOC_GEO_LABELS_TYPE_<TYPE>.
 const TYPE_LABEL = {
@@ -108,7 +108,7 @@ function injectFieldStyle() {
   document.head.appendChild(style);
 }
 
-// A game text field for this window. `enabled` is deliberately NOT set: on
+// A game text field for this window. `enabled` is left unset: on
 // fxs-textbox it means "start editing now" (it grabs focus and goes read-only),
 // so setting it on every row handed focus to the last one.
 function field(cls) {
@@ -323,7 +323,7 @@ Controls.define(SCREEN, {
 });
 
 // Text for the search box the next time the window opens: another mod can
-// open it on one of its own places (the National Park mod's Rename button).
+// open it on one of its own places (the National Parks mod's Rename button).
 let pendingSearch = "";
 
 function openPanel(opts) {
@@ -335,7 +335,7 @@ function closePanel() {
   safe(() => ContextManager.pop(SCREEN));
 }
 
-// ---- inject the "Rename Places…" button under the Geographic Names checkbox --
+// the "Rename Places…" button under the Geographic Names checkbox
 
 // The game's own button primitive: gold frame, hover/press states, press audio.
 // (An earlier hand-rolled fxs-activatable put the frame in a `-z-1` child

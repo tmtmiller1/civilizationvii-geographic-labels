@@ -1,5 +1,5 @@
 /**
- * Geographic Labels — Civ VI-style names painted on the Civ VII map.
+ * Geographic Labels: Civ VI-style names painted on the Civ VII map.
  */
 
 import LensManager from "/core/ui/lenses/lens-manager.js";
@@ -126,12 +126,11 @@ class GeoLabelsLayer {
     const ok =
       safe(() => {
         // Labels are painted into the sprite grid below (same call the base-game
-        // yields layer uses). We deliberately do NOT create a WorldUI overlay
-        // group here: an earlier build created one at priority 10
-        // (OVERLAY_PRIORITY.MAX_PRIORITY, above the CURSOR overlay) but never drew
-        // into it, and that empty max-priority group swallowed world input —
-        // units couldn't be selected anywhere while the layer was enabled. See
-        // the CHANGELOG "Fixed" entry for the input-block investigation.
+        // yields layer uses). No WorldUI overlay group here: an earlier build
+        // created one at priority 10 (OVERLAY_PRIORITY.MAX_PRIORITY, above the
+        // CURSOR overlay) and never drew into it, and that empty max-priority
+        // group swallowed world input, so units couldn't be selected while the
+        // layer was on (fixed in 1.1.1).
         this._grid = WorldUI.createSpriteGrid(
           "GeoLabelsGrid_" + (FLAT ? "flat" : "bb"),
           mode,
@@ -229,9 +228,9 @@ class GeoLabelsLayer {
 
 // One layer instance per UI context, even if two copies of the mod are enabled
 // (e.g. a Workshop copy beside a local dev copy: the engine runs this module
-// once per copy). The lens manager only ever drives the FIRST registered
+// once per copy). The lens manager only ever drives the first registered
 // instance, so a second one would paint a second, stale set of labels into its
-// own sprite grid — renames then appear to add a name without removing the old.
+// own sprite grid: renames then appear to add a name without removing the old.
 const priorInstance = safe(() => window.__geoLabelsLayerInstance);
 const instance = priorInstance || new GeoLabelsLayer();
 if (!priorInstance) {

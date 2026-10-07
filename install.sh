@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install.sh — deploy Geographic Labels into the Civ VII Mods dir (macOS).
+# install.sh: deploy Geographic Labels into the Civ VII Mods dir (macOS).
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")" && pwd)"
 MODS="$HOME/Library/Application Support/Civilization VII/Mods"
