@@ -93,7 +93,6 @@ function isProvidedPlace(l) {
   return !!l && !!l.provided && Array.isArray(l.plots);
 }
 
-/** Whether `place` carries the wonder's name and lies within `reach` of it. */
 function namedFor(place, wonder, dist, reach) {
   if (!String(place.text).toLowerCase().includes(String(wonder.text).toLowerCase())) return false;
   return closest(place.plots, [wonder.plot], reach, dist) <= reach;
