@@ -107,7 +107,7 @@ low-contrast so they don't obscure the terrain underneath. Small specks (< 3 til
 The mod is in English, German, Spanish, French, Italian, Japanese, Korean, Polish, Portuguese (Brazil), Russian and
 Simplified and Traditional Chinese, including every name it paints on the map: "Isle of Sicilia" is "シチリア島" in a
 Japanese game and "Adriatic Sea" is "Адриатическое море" in a Russian one. Labels follow the game's language, so a
-save keeps its names when you switch. The translations are machine translations; corrections from native speakers are
+save keeps its names when you switch. Corrections to the translations from native speakers are
 welcome. To fix or add a language, see [`text/README.md`](text/README.md).
 
 ## Install

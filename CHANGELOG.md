@@ -34,7 +34,7 @@ Settings that survive a restart: the mod now carries the Tower Settings Keeper.
 
 ### Added
 - **Eleven languages besides English**: German, Spanish, French, Italian, Japanese, Korean, Polish, Portuguese
-  (Brazil), Russian, and Simplified and Traditional Chinese, machine-translated. Every name painted on the map is
+  (Brazil), Russian, and Simplified and Traditional Chinese. Every name painted on the map is
   translated too: each of the 1,305 place names has its own tag, and each label is worded the way the language names
   that kind of place. Names are saved as before, so a game keeps its names when the language changes. `text/README.md`
   explains how to correct or add a language.
