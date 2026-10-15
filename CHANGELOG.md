@@ -7,6 +7,12 @@ section below by `release.sh`.
 
 ## [Unreleased]
 
+## [1.7.2] - 2026-10-14
+
+### Changed
+- The license now says that Civilization VII and its art and data belong to Firaxis and 2K. The mod itself plays
+  exactly as in 1.7.1.
+
 ## [1.7.1] - 2026-10-07
 
 Settings that survive a restart: the mod now carries the Tower Settings Keeper.
