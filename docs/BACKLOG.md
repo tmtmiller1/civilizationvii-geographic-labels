@@ -145,7 +145,7 @@ Founder: founder lens, off. Each deselect went back to the default lens with the
 `V4-gl-alone-*` in `working_screenshots/watch2-block1/`. So the cause is watched on both sides, and the fix
 (`allowedLayers` on the unit lenses) can go ahead.
 
-**Fix built, 2026-10-16, not watched yet:** `ui/geo-labels-lenses.js` adds the layer to `allowedLayers` on the five
+**Fix built 2026-10-16, watched the same day:** `ui/geo-labels-lenses.js` adds the layer to `allowedLayers` on the five
 unit lenses found in `LensManager.lenses`, right after the layer registers and again each time the labels are drawn
 on. Checked against 1.5.0 `setActiveLens`: an enabled layer survives when the new lens lists it in `allowedLayers`
 and blends, and none of the five sets `blendEnabledLayersOnTransition = false` (only the default lens does). The UI log

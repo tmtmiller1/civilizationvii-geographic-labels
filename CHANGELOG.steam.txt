@@ -3,6 +3,12 @@ Generated from CHANGELOG.md by scripts/steam-changelog.mjs; release.sh uploads t
 To fix an old Workshop entry, paste the text under its ==== line into that entry's Edit box on the change-notes page.
 A block edited by hand is kept as-is. Delete a block to regenerate it from CHANGELOG.md.
 
+==== 1.7.3 | 2026-10-16 | src c368a0c7b6fd | gen 95f98b6f8892 ====
+[b]Version 1.7.3 · 16 October 2026[/b]
+
+[b]Fixed[/b]
+• [b]Labels stay on while you move a unit.[/b] Selecting a Scout, Settler, Founder, Merchant or Archaeologist switches the map to that unit's view, and the labels used to vanish until you deselected it. They now stay on the map for all five, and the game's other map views are left as they were.
+
 ==== 1.7.2 | 2026-10-14 | src 83bde71e5494 | gen daf0f7f3277e ====
 [b]Version 1.7.2 · 14 October 2026[/b]
 
