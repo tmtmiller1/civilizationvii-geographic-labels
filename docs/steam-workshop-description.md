@@ -54,7 +54,7 @@ This mod is developed with [url=https://github.com/tmtmiller1/civilizationvii_to
 [/list]
 [h2]Special Thanks[/h2]
 [list]
-[*][b]Potato McWhisky[/b], for teaching me to love again, Civilization-wise (Civ VI), after growing up as a Civilization II, IV, and V player. Making this mod is an act of faith that the community will eventually help make Civilization VII as good as the previous entries.
+[*][b]Potato McWhisky[/b], for teaching me to love again, Civilization-wise (Civ VI), after growing up as a Civilization II, IV, and V player.
 [*]Firaxis and the Civilization modding community.
 [*]The real-world atlases and gazetteers behind the place names.
 [/list]

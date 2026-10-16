@@ -65,7 +65,7 @@ width):
 |---|---|---|
 | **Sea** | large water basin, mostly land-enclosed, not a lake | `<X> Sea` |
 | **Gulf** | large indentation into land, wide mouth | `Gulf of <X>` |
-| **Bay** | smaller indentation, moderate enclosure | `Bay of <X>` / `<X> Bay` |
+| **Bay** | smaller indentation, moderate enclosure | `<X> Bay` (shipped; see Naming conventions) |
 | **Sound** | long, narrow water flanked by land on both long sides | `<X> Sound` |
 | **Inlet** | small narrow intrusion into land | `<X> Inlet` |
 | **Fjord** | narrow elongated inlet **with adjacent mountains**, high-latitude | `<X> Fjord` |
@@ -93,7 +93,7 @@ proxy, and it's more likely a map artifact than a guyot, not worth a wrong label
    (source tile-set selector, `min`, `typeKey`). Reuse the existing gap-bridging
    flood-fill and `anchorIndex` keying unchanged.
 3. **Naming** (`geo-labels-format.js frame`): add the new type formats. Note the
-   mix of prefixes (`Lake `, `Gulf of `, `Bay of `) and suffixes (` Reef`,
+   mix of prefixes (`Lake `, `Gulf of `) and suffixes (` Bay`, ` Reef`,
    ` Atoll`, ` Sea`, ` Sound`, ` Estuary`, ` Archipelago`, ` Keys`, ` Fjord`).
    The redundant-generic suppression (`carriesOwnWord`) applies here too.
 4. **Name pools** (`geo-labels-toponyms.js`): `GENERIC.<type>` for each (required:
@@ -141,8 +141,53 @@ Each phase is independently shippable and reversible; nothing later blocks earli
 - Navigable rivers are excluded from sea tiles, so inland river fingers aren't read as enclosed
   sounds/inlets; they drive estuary detection at the coast instead.
 
-## Open naming-convention questions (for tuning, not blocking Phase 1)
+## Naming conventions
 
-- Lakes: `Lake X` vs `X Lake`? (Doc assumes `Lake X`.)
-- Bays/Gulfs: `Bay of X` vs `X Bay`? (Doc mixes per real-world convention.)
-- How aggressively to flavor by civ vs. lean on generic pools for water types.
+These were open questions while the water labels were being built. 1.1.0 shipped one answer for each, and 1.7.0
+translated every label into eleven languages. What shipped is below, next to the alternatives. Whether to change any of
+it is the owner's call.
+
+### What shipped
+
+The English form comes from `frame()` in `ui/geo-labels-format.js` (`GENERIC_PREFIX` and `GENERIC_SUFFIX`, `:169-190`).
+`devtools/gen-places.mjs` runs every pool name through `frame()` to write the whole-label tags
+(`LOC_GEO_NAME_<TYPE>_<NAME>`) in `text/en_us/PlaceText.xml`. The same forms are the English frames
+(`LOC_GEO_LABELS_FRAME_<TYPE>`, `text/en_us/ModText.xml:145-196`), which wrap a name that has no label of its own, like
+the game's river name at an estuary.
+
+| Kind | Shipped (English) | Alternatives | Examples |
+| --- | --- | --- | --- |
+| Lakes | `Lake <X>` | `<X> Lake` | Lake Geneva, Lake Baikal, Lake Titiqaqa, Lake Superior |
+| Bays | `<X> Bay` | `Bay of <X>`, or each name the way the real place is called | Hudson Bay, Guanabara Bay, Botany Bay |
+| Gulfs | `Gulf of <X>` | `<X> Gulf` | Gulf of Guinea, Gulf of Aden, Gulf of Carpentaria |
+| Islands | `Isle of <X>` | `<X> Island` | Isle of Sicilia, Isle of Kreta |
+| Everything else | `<X> Sea`, `<X> Sound`, `<X> Fjord` and so on | | Adriatic Sea, Puget Sound, Cook Inlet, Sogne Fjord, Ningaloo Reef, Bikini Atoll, Thames Estuary, Sulu Archipelago, Florida Keys |
+
+The examples are names from the pools in `ui/geo-labels-toponyms.js` with the label text the mod ships for them, read
+from the code and the text files. They aren't captures from real games; those need a lab run.
+
+A name that already carries its own geographic word is drawn bare (`carriesOwnWord`): Miyajima, not "Isle of
+Miyajima"; Hindu Kush, not "Hindu Kush Mountains".
+
+The translations don't follow the English word order. Each language words every label on its own, the way it names the
+real place: Hudson Bay is "Hudson Bay" in German and "Baie d'Hudson" in French, Lake Geneva is "Genfer See" in German
+and "ジュネーヴ湖" in Japanese. The frames follow the language too (`{1_Name}-See`, `Lac {1_Name}`).
+
+### Flavour by civilization
+
+Land kinds (islands, deserts, mountains, taiga, jungle) have pools for the 30 base-game civilizations. Water is barely
+flavoured: lakes have pools for four civs (Inca, Russia, America, Buganda) and fjords for one (Norman). Seas, gulfs,
+bays, sounds, inlets, reefs, atolls, estuaries, archipelagos and keys all draw from the neutral pools in `GENERIC`. The
+alternative is what step 4 of Shared implementation asks for: reef and atoll pools for tropical and Pacific civs, fjord
+and sound pools for Norse and Norman ones. The 20 DLC civilizations have no pools at all yet, so every place nearest to
+one of them draws from `GENERIC`.
+
+### What a change costs
+
+- English only: change the prefix or suffix in `frame()` and the English frame tag, then run
+  `node devtools/gen-places.mjs`, which rewrites every English label of that kind (49 lake labels, 12 bay, 12 gulf, 318
+  island). `npm test` fails until the English place text is current.
+- The same change in every language means re-translating by hand: every label tag of that kind and its frame, in all
+  eleven translations. Lakes alone are 50 tags, so 550 strings.
+- Saves keep their names. A game stores the pool name ("Geneva"), not the label, so an existing game shows the new form
+  the next time it draws, and names a player typed in Rename Places stay exactly as typed.

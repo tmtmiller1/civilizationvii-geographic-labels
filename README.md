@@ -143,7 +143,7 @@ games and in saves started without it.
 ## Development Quality Gate
 
 The checks a release goes through:
-- `npm run verify` (syntax check and the focused tests)
+- `npm run verify` (lint, syntax check and the focused tests)
 - the packaging checks in `release.sh`
 - a Steam upload that leaves the preview image alone (`release.sh` writes no `previewfile`)
 
