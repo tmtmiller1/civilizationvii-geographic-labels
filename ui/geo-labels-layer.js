@@ -19,6 +19,7 @@ import { getLastWriteError } from "./geo-labels-store.js";
 import { getProviders, namesNear, providerForKey } from "./geo-labels-providers.js";
 import { createLogger, safe } from "./geo-labels-utils.js";
 import { orderedFonts } from "./geo-labels-l10n.js";
+import { allowLayerOnUnitLenses } from "./geo-labels-lenses.js";
 
 const TAG = "[GeoLabels]";
 // A draw attempted before the engine hands out a game seed generates nothing
@@ -201,6 +202,8 @@ class GeoLabelsLayer {
   initLayer() {}
 
   applyLayer() {
+    // Again here in case a unit lens registered after the layer did.
+    safe(() => allowLayerOnUnitLenses(LensManager, LAYER_TYPE));
     this._visible = true;
     this._seedRetries = 0;
     this._seedGaveUp = false;
@@ -235,6 +238,8 @@ const priorInstance = safe(() => window.__geoLabelsLayerInstance);
 const instance = priorInstance || new GeoLabelsLayer();
 if (!priorInstance) {
   safe(() => LensManager.registerLensLayer(LAYER_TYPE, instance));
+  const unitLenses = safe(() => allowLayerOnUnitLenses(LensManager, LAYER_TYPE)) || [];
+  log(`labels allowed on unit lenses: ${unitLenses.join(", ") || "none found"}`);
   safe(() => { window.__geoLabelsLayerInstance = instance; });
 } else {
   log("layer already registered in this context; second copy of the mod skipped");

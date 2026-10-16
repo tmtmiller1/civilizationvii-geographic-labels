@@ -78,6 +78,7 @@
                     <Item>ui/geo-labels-providers.js</Item>
                     <Item>ui/geo-labels-l10n.js</Item>
                     <Item>ui/geo-labels-text.js</Item>
+                    <Item>ui/geo-labels-lenses.js</Item>
                     <Item>images/geo-labels-icon.svg</Item>
                     <Item>images/geo-labels-icon.png</Item>
                 </ImportFiles>

@@ -7,6 +7,11 @@ section below by `release.sh`.
 
 ## [Unreleased]
 
+### Fixed
+- **Labels stay on while you move a unit.** Selecting a Scout, Settler, Founder, Merchant or Archaeologist switches the
+  map to that unit's view, and the labels used to vanish until you deselected it. They now stay on the map for all
+  five, and the game's other map views are left as they were.
+
 ## [1.7.2] - 2026-10-14
 
 ### Changed

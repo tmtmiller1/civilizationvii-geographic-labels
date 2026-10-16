@@ -108,3 +108,50 @@ a `TypeError` in strict mode) or `Object.keys(all)`. Normal writes always store 
 so nothing changes in the happy path. **Verify:** set
 `localStorage[STORE_KEY] = '"5"'`, run `computeLabels`, and confirm it returns labels
 (regenerating fresh state) instead of throwing out of `applyLayer`.
+
+## [Medium · Watched, cause confirmed] Labels go away while some units are selected
+
+**Report:** Workshop comment, 2026-10-16: "is it intentional that the labels disappear whenever a Unit is selected?"
+It isn't intentional.
+
+**Likely cause:** selecting a unit can switch the map lens (base game
+`base-standard/ui/interface-modes/interface-mode-unit-selected.js`, `setUnitLens`): Founder → `fxs-founder-lens`,
+other settlers → `fxs-settler-lens`, Merchants → `fxs-trade-lens`, Modern Archaeologists → `fxs-continent-lens`, and
+anything tagged `UNIT_CLASS_AUTOEXPLORE` (Scouts, plus every naval unit in Exploration) → `fxs-discovery-lens`.
+`LensManager.setActiveLens` turns off every enabled layer the new lens doesn't list in `activeLayers` or
+`allowedLayers`, and `tmt-geo-labels-layer` isn't on any lens's lists. Yields survive because the base lenses list
+`fxs-yields-layer`. Deselecting goes back to the default lens, which restores its cached layers, so the labels come
+back. A Warrior or other plain unit stays on the default lens, where `setActiveLens` returns early, so the labels
+should stay put; with Universal Auto-Explore on, the units it tags also stay on the default lens.
+
+**Cheapest disproof:** in a lab game with the labels on, select a Warrior, then a Scout, then a Settler, and read
+`LensManager.getActiveLens()` and `LensManager.isLayerEnabled("tmt-geo-labels-layer")` after each. If the labels go
+off on the Warrior too, or stay on for the Scout, this cause is wrong or incomplete.
+
+**Fix, once watched:** at layer registration, add `tmt-geo-labels-layer` to `allowedLayers` on the unit lenses read
+from `LensManager.lenses` at runtime (founder, settler, trade, continent, discovery), skipping any lens that's missing,
+so whatever lenses other mods register or change are left alone. Leave the diplomacy and cinematic lenses as they are.
+
+**Watched, usual set, 2026-10-16 (block 1 L1):** labels switched on with `toggleLayer`; `UI.Player.selectUnit` then
+`deselectAllUnits`, readings 1.8 s after each. Warrior: `fxs-default-lens`, labels on, no lens event. Scout:
+`fxs-discovery-lens`, labels off (layer- `tmt-geo-labels-layer`, layer+ `fxs-discovery-layer`). Settler:
+`fxs-settler-lens`, off. Founder: `fxs-founder-lens`, off. Each deselect went back to `fxs-default-lens` with layer+
+`tmt-geo-labels-layer`. Captures `L1-gl-usual-1`..`8` in `working_screenshots/watch2-block1/` (the Tonle Sap River
+label shows with the Warrior and is gone with the Scout).
+
+**Watched, Geographic Labels alone, 2026-10-16 (block 1 V4, run `2026-10-16T18-30-41`):** the same readings and the
+same lens and layer events. Warrior: default lens, labels stay. Scout: discovery lens, off. Settler: settler lens, off.
+Founder: founder lens, off. Each deselect went back to the default lens with the labels on. Captures
+`V4-gl-alone-*` in `working_screenshots/watch2-block1/`. So the cause is watched on both sides, and the fix
+(`allowedLayers` on the unit lenses) can go ahead.
+
+**Fix built, 2026-10-16, not watched yet:** `ui/geo-labels-lenses.js` adds the layer to `allowedLayers` on the five
+unit lenses found in `LensManager.lenses`, right after the layer registers and again each time the labels are drawn
+on. Checked against 1.5.0 `setActiveLens`: an enabled layer survives when the new lens lists it in `allowedLayers`
+and blends, and none of the five sets `blendEnabledLayersOnTransition = false` (only the default lens does). The UI log
+line `labels allowed on unit lenses: ...` names the lenses it reached. `tests/geo-labels-lenses.test.mjs` runs the
+same rule in a fake lens manager. One side effect follows the base game's caching: the settler, trade and continent
+lenses remember the layers that were on when they were last left, so labels switched off on the default lens after a
+Settler visit come back on the next Settler selection and go off again on deselect, as the hex grid already does.
+Still to watch: the same five selections in a lab game, labels on throughout, with Geographic Labels alone and with
+the usual set.
