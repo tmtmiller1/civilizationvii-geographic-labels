@@ -155,3 +155,15 @@ lenses remember the layers that were on when they were last left, so labels swit
 Settler visit come back on the next Settler selection and go off again on deselect, as the hex grid already does.
 Still to watch: the same five selections in a lab game, labels on throughout, with Geographic Labels alone and with
 the usual set.
+
+**Watched, usual set, 2026-10-16 (watch run 2, block 2 G1, run `2026-10-17T03-09-55`):** the Settler visit with the
+labels turned off on the default lens in between: on while the Settler is selected, off again on deselect; the same
+with a Merchant (trade lens). As modelled. The same with Geographic Labels alone (block 2 G2).
+
+**Water-label calibration data, 2026-10-17 (watch run 2 block 2):** seeds 4242, 9001 and 1234, Antiquity, default map
+size, map revealed by script; usual set, and 4242 again with Geographic Labels alone (the same 156 labels). Seas
+1/3/2, gulfs 5/4/5, bays 1/1/2, sounds 9/6/6, fjords 1/0/2, inlets 4/1/2, archipelagos 0/0/2, lakes 9/8/10, reefs
+21/31/28, atolls 8/8/6. Every seed had one all-ocean area of 113-134 tiles with no label, and some 4-5 tile lakes
+were unlabelled beside others of the same size that had one. At the default zoom the sea and archipelago labels
+weren't drawn at their anchor tiles. Data and one capture per kind per seed in
+`working_screenshots/watch2-block2/gl-cal/`. The second map size and the proposed values are still to do.
