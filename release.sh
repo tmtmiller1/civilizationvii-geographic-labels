@@ -70,6 +70,7 @@ ALLOW="^${MOD_DIR}/(${MODINFO//./\\.}|README\\.md|LICENSE|CHANGELOG\\.md)$"
 ALLOW="$ALLOW"'|^'"$MOD_DIR"'/ui/.+\.(js|html|css)$'
 ALLOW="$ALLOW"'|^'"$MOD_DIR"'/images/.+\.(svg|png)$'
 ALLOW="$ALLOW"'|^'"$MOD_DIR"'/text/[a-z_]+/(ModText|PlaceText)\.xml$'
+ALLOW="$ALLOW"'|^'"$MOD_DIR"'/history-corrections/[a-z-]+-text\.xml$'
 UNEXPECTED="$(unzip -Z1 "$ZIP_PATH" | grep -vE '/$' | grep -vE "$ALLOW" || true)"
 if [ -n "$UNEXPECTED" ]; then
     echo "error: zip contains entries not on the allow-list:"; echo "$UNEXPECTED" | sed 's/^/    /'

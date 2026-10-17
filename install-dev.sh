@@ -16,6 +16,7 @@ sed -e 's/<Mod id="tmt-geographic-labels"/<Mod id="tmt-geographic-labels-dev"/' 
     "$HERE/geographic-labels.modinfo" > "$DEST/geographic-labels.modinfo"
 cp -R "$HERE/ui" "$DEST/"
 cp -R "$HERE/text" "$DEST/"
+cp -R "$HERE/history-corrections" "$DEST/"
 rm -f "$DEST/text/README.md"
 # <Replace> upserts, so the dev copy's LOC rows no longer collide with the Workshop
 # copy's identical <Row> inserts (UNIQUE constraint on LocalizedText.Language+Tag,
