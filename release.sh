@@ -107,8 +107,8 @@ DESC_SRC="docs/steam-workshop-description.md"
 DESCRIPTION=""
 [ -f "$DESC_SRC" ] && DESCRIPTION="$(sed -E "s/\\\\/\\\\\\\\/g; s/'/’/g; s/\"([^\"]*)\"/“\\1”/g" "$DESC_SRC")"
 
-# The VDF sets description + content + change note but not previewfile, so an
-# upload refreshes the Workshop page text without touching the preview image.
+# The VDF sets content + change note but not previewfile. The page description goes in only with
+# WITH_DESCRIPTION=1 (or on a first upload), so a normal release leaves the live page text alone.
 write_vdf() {
     local out="$1"
     { echo '"workshopitem"'; echo '{'; echo "    \"appid\"          \"$APPID\""; } > "$out"
@@ -116,7 +116,9 @@ write_vdf() {
     echo "    \"contentfolder\"  \"$ABS_CONTENT\"" >> "$out"
     echo "    \"visibility\"     \"0\"" >> "$out"
     echo "    \"title\"          \"$TITLE\"" >> "$out"
-    [ -n "$DESCRIPTION" ] && printf '    "description"    "%s"\n' "$DESCRIPTION" >> "$out"
+    if [ -n "$DESCRIPTION" ] && { [ "${WITH_DESCRIPTION:-0}" = "1" ] || [ -z "$PUBLISHED_FILE_ID" ]; }; then
+        printf '    "description"    "%s"\n' "$DESCRIPTION" >> "$out"
+    fi
     echo "    \"changenote\"     \"${CHANGENOTE}\"" >> "$out"
     echo '}' >> "$out"
 }
@@ -134,4 +136,4 @@ fi
 echo ""
 echo "── Upload (SteamCMD) ──"
 echo "  ~/steamcmd/steamcmd.sh +login <steamLogin> +workshop_build_item $(cd "$DIST_DIR" && pwd)/workshop_item.vdf +quit"
-echo "  (Updates content + page description + change note; leaves the preview image untouched.)"
+echo "  (Updates content + change note; the page description only with WITH_DESCRIPTION=1. Preview image untouched.)"
